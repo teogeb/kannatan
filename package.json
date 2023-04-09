@@ -1,0 +1,17 @@
+{
+  "name": "kannatan",
+  "version": "1.0.0",
+  "main": "server.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "lodash": "^4.17.21",
+    "nocache": "^3.0.4"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "description": ""
+}

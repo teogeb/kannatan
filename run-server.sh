@@ -1,0 +1,1 @@
+DEVELOPMENT_ENVIRONMENT=true node server.js
