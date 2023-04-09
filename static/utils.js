@@ -15,11 +15,6 @@ const PARTIES = {
     vihr: { name: 'Vihreät' }
 }
 
-const loadStatements = async () => {
-    const response = await fetch('/api/statements')
-    return await response.json()
-}
-
 const createStatementElement = (statement, onClick) => {
     const element = document.createElement('div')
     element.innerHTML = `
@@ -60,14 +55,25 @@ const showDialog = (header, text, buttonLabel, onSubmit) => {
     })
 }
 
-const apiRequest = async (endpoint, payload) => {
-    const options = (payload !== undefined) ? {
-        body: JSON.stringify({ ...payload, sessionId } ),
+const apiRequest = async (endpoint, payload = {}) => {
+    const options = {
+        body: JSON.stringify({ ...payload, sessionId: getSessionId() } ),
         method: 'POST',
         headers: {
             'content-type': 'application/json'
         }
-    } : undefined
+    }
     const response = await fetch(endpoint, options)
     return await response.json()
 }
+
+const getSessionId = () => {
+    const queryParams = new URLSearchParams(window.location.search)
+    const sessionId = queryParams.get('s')
+    if (sessionId !== null) {
+        return sessionId
+    } else {
+        return undefined
+    }
+}
+

@@ -1,6 +1,4 @@
-const ROUND_COUNT = 5
-
-const initCompareStatementsPage = (allStatements, pickedStatements, pickedTopParties) => {
+const initCompareStatementsPage = (compareStatements, pickedStatements) => {
 
     const showPageCompleteDialog = async (selectedStatements) => {
         const topParty = (await apiRequest('/api/statements/compare', {
@@ -21,29 +19,18 @@ const initCompareStatementsPage = (allStatements, pickedStatements, pickedTopPar
         <div class="progress-bar"></div>
     `
 
-    const minPreferredLevel = _.max(pickedStatements.map((s) => s.level)) + 1
-    let levels = _.sampleSize(_.range(minPreferredLevel, STATEMENTS_PER_PARTY), ROUND_COUNT)
-    if (levels.length < ROUND_COUNT) {
-        const pickedLevels = _.map(pickedStatements, 'level')
-        const fallback = _.sampleSize(_.without(_.range(STATEMENTS_PER_PARTY), pickedLevels), ROUND_COUNT - levels.length)
-        levels = _.shuffle(levels.concat(fallback))
-    }
-    const getRoundStatemements = (currentRound) => {
-        const levelStatements = allStatements.filter((s) => s.level === levels[currentRound])
-        return _.shuffle(levelStatements.filter((s) => pickedTopParties.includes(s.partyId)))
-    }
-
     const progressBar = rootElement.getElementsByClassName('progress-bar')[0]
     let selectedStatements = []
+    const roundCount = compareStatements.length
     const setStatementsElements = (currentRound) => {
         const observer = createStatementVisibilityObserver()
-        const statements = getRoundStatemements(currentRound)
+        const statements = compareStatements[currentRound]
         for (let i = 0; i < statements.length; i++) {
             const element = createStatementElement(statements[i], (statement, element) => {
                 if (!element.classList.contains('selected')) {
                     selectedStatements.push(statement)
                     element.classList.add('selected')
-                    if (currentRound === ROUND_COUNT - 1) {
+                    if (currentRound === roundCount - 1) {
                         showPageCompleteDialog(selectedStatements)
                     } else {
                         setTimeout(() => {
@@ -57,7 +44,7 @@ const initCompareStatementsPage = (allStatements, pickedStatements, pickedTopPar
             })
             rootElement.appendChild(element)
             observer.observe(element)
-            progressBar.innerHTML = `${currentRound + 1} / ${ROUND_COUNT}`
+            progressBar.innerHTML = `${currentRound + 1} / ${roundCount}`
         }
 
     }

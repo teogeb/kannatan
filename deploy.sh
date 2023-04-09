@@ -1,21 +1,3 @@
-#!/bin/bash
-
-read -p "Do you want deploy? (y/n) " yn
-
-case $yn in
-    y ) echo Deploying...;;
-    n ) echo Exiting...;
-        exit;;
-    * ) echo Invalid response;
-        exit 1;;
-esac
-
-scp server.js kannatan:app/server.js
-scp party.js kannatan:app/party.js
-scp utils.js kannatan:app/utils.js
-scp package.json kannatan:app/package.json
-scp index.html kannatan:app/index.html
-scp app.html kannatan:app/app.html
-scp about.html kannatan:app/about.html
-scp -r static/* kannatan:app/static/
-scp -r phrases/* kannatan:app/phrases/
+npm run build
+zip -j function.zip dist/index.mjs statements.json; aws lambda update-function-code --function-name 'kannatanfi-prod' --zip-file fileb://function.zip --profile $1 --region eu-west-1; rm function.zip
+aws s3 cp --recursive static/ s3://static.kannatan.fi/ --profile $1

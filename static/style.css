@@ -21,21 +21,21 @@ p {
     font-style: normal;
     font-weight: 900;
     font-display: swap;
-    src: url(/static/KFOlCnqEu92Fr1MmYUtvAw.ttf) format('truetype');
+    src: url(/KFOlCnqEu92Fr1MmYUtvAw.ttf) format('truetype');
 }
 @font-face {
     font-family: 'Ubuntu';
     font-style: normal;
     font-weight: 300;
     font-display: swap;
-    src: url(/static/4iCv6KVjbNBYlgoC1CzTtw.ttf) format('truetype');
+    src: url(/4iCv6KVjbNBYlgoC1CzTtw.ttf) format('truetype');
 }
 @font-face {
     font-family: 'Ubuntu';
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url(/static/4iCs6KVjbNBYlgo6eA.ttf) format('truetype');
+    src: url(/4iCs6KVjbNBYlgo6eA.ttf) format('truetype');
 }
 
 #root {

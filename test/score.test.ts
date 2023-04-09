@@ -1,12 +1,5 @@
-const { getPartyScores } = require('./utils')
-
-const expect = (actual, expected) => {
-    const e = JSON.stringify(expected, undefined, 4)
-    const a = JSON.stringify(actual, undefined, 4)
-    if (e !== a) {
-        throw new Error(`Mismatch ${a} should be ${e}`)
-    }
-}
+import { getPartyScores } from '../src/utils.js'
+import { expect, runTests } from './utils.js'
 
 const scoreTest1 = async () => {
     const actual = getPartyScores(['kesk-0', 'kesk-2', 'kesk-4', 'kesk-6', 'kesk-8', 'kesk-10', 'kesk-12', 'kesk-14', 'kesk-16', 'kesk-18'])
@@ -55,16 +48,4 @@ const scoreTest3 = async () => {
     }])
 }
 
-const main = async () => {
-    const tests = [scoreTest1, scoreTest2, scoreTest3]
-    for (const test of tests) {
-        try {
-            await test()
-            console.error(`\u2713 ${test.name}: success`)
-        } catch (e) {
-            console.error(`\u2717 ${test.name}: ${e.message}`)
-        }
-    }
-}
-
-main()
+runTests([scoreTest1, scoreTest2, scoreTest3])

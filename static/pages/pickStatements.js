@@ -1,8 +1,6 @@
 const MAX_SELECTION_COUNT = 10
-const SELECTABLE_LEVEL_COUNT = 5
-const MAX_SELECTABLE_LEVEL = 9
 
-const initPickStatementsPage = async (allStatements) => {
+const initPickStatementsPage = async () => {
 
     const createSelectionMarkerElement = (selectionCount) => {
         const element = document.createElement('div')
@@ -11,32 +9,18 @@ const initPickStatementsPage = async (allStatements) => {
         return element
     }
     
-    const showPageCompleteDialog = async (selectedStatements, selectableLevels) => {
+    const showPageCompleteDialog = async (selectedStatements) => {
         const numberWords = ['', 'yhden', 'kahden', 'kolmen', 'neljän', 'viiden', 'kuuden', 'seitsemän', 'kahdeksan', 'yhdeksän', 'kymmenen']
-        const partyIds = await apiRequest('/api/statements/pick', {
-            pickedStatementIds: _.map(selectedStatements, 'id'),
-            selectableLevels: selectableLevels
+        const pickResponse = await apiRequest('/api/statements/pick', {
+            pickedStatementIds: _.map(selectedStatements, 'id')
         })
-        const descriptionLines = partyIds.map((p) => PARTIES[p].name)
-        if (descriptionLines > 3) {
-            descriptionLines = ['Kolmen kärki:'].concat(_.slice(descriptionLines, 0, 3))
-        }
-        if (partyIds.length >= 2) {
-            showDialog(
-                `Kannatat ${numberWords[partyIds.length]} puolueen ajamia asioita`,
-                `${descriptionLines.join('<br/>')} <br/><br/> Valitaan niistä vielä paras sinulle!`,
-                'Jatka',
-                () => initCompareStatementsPage(allStatements, selectedStatements, partyIds.slice(0, 2))
-            )
-        } else {
-            const topParty = partyIds[0]
-            showDialog(
-                `Sinulle paras puolue on`,
-                `${PARTIES[topParty].name}`,
-                'Selvä!',
-                () => window.location.href = `/e/1/${topParty}`
-            )
-        }
+        const descriptionLines = pickResponse.topParties.map((p) => PARTIES[p].name)
+        showDialog(
+            `Kannatat ${numberWords[pickResponse.topParties.length]} puolueen ajamia asioita`,
+            `${descriptionLines.join('<br/>')} <br/><br/> Valitaan niistä vielä paras sinulle!`,
+            'Jatka',
+            () => initCompareStatementsPage(pickResponse.compareStatements, selectedStatements)
+        )
     }
     
     const rootElement = document.getElementById('root')
@@ -55,7 +39,7 @@ const initPickStatementsPage = async (allStatements) => {
                 selectedStatements.push(statement)
                 element.appendChild(createSelectionMarkerElement(selectedStatements.length))
                 if (selectedStatements.length === MAX_SELECTION_COUNT) {
-                    showPageCompleteDialog(selectedStatements, selectableLevels)
+                    showPageCompleteDialog(selectedStatements)
                 }
             } else {
                 _.pull(selectedStatements, statement)
@@ -63,8 +47,7 @@ const initPickStatementsPage = async (allStatements) => {
         }
     }
 
-    const selectableLevels = [0].concat(_.sampleSize(_.range(1, MAX_SELECTABLE_LEVEL + 1), SELECTABLE_LEVEL_COUNT - 1).sort())
-    const selectableStatements = allStatements.filter((s) => selectableLevels.includes(s.level))
+    const selectableStatements = (await apiRequest('/api/statements')).statements
     const observer = createStatementVisibilityObserver()
     for (let i = 0; i < selectableStatements.length; i++) {
         const element = createStatementElement(selectableStatements[i], onStatementClick)
