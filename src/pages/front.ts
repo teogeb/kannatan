@@ -25,7 +25,7 @@ export const createResponse = async () => {
             <link rel="preload" href="https://static.kannatan.fi/KFOlCnqEu92Fr1MmYUtvAw.ttf" as="font" crossorigin>
             <link rel="preload" href="https://static.kannatan.fi/4iCv6KVjbNBYlgoC1CzTtw.ttf" as="font" crossorigin>
             <link rel="preload" href="https://static.kannatan.fi/4iCs6KVjbNBYlgo6eA.ttf" as="font" crossorigin>
-            <link rel=“canonical” href="https://kannatan.fi/">
+            <link rel="canonical" href="https://kannatan.fi/">
         </head>
         <body>
             <div id="root">
