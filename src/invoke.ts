@@ -4,11 +4,13 @@ const main = async () => {
     const response = await handler({
         requestContext: {
             http: {
-                path: '/e/1/vihr'
+                path: process.argv[2]
             }
         }
     }, undefined as any, undefined as any)
-    console.log(JSON.stringify(response, undefined, 4))
+    const outputType = process.argv[3]
+    const output = (outputType === 'html') ? response.body : JSON.stringify(response, undefined, 4)
+    console.log(output)
 }
 
 main()
