@@ -10,7 +10,8 @@ export const createResponse = async () => {
                 '<script src="https://static.kannatan.fi/utils.js"></script>',
                 '<script src="https://static.kannatan.fi/pages/pickStatements.js"></script>',
                 '<script src="https://static.kannatan.fi/pages/compareStatements.js"></script>',
-                '<script defer src="https://static.kannatan.fi/app.js"></script>'
+                '<script defer src="https://static.kannatan.fi/app.js"></script>',
+                '<meta name="robots" content="noindex">'
             ]
         })}
         <body>
