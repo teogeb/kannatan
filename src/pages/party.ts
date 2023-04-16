@@ -1,4 +1,4 @@
-import { PARTIES, createHtmlResponse, createUrlQueryParams, getPartyStatements, createSessionId } from '../utils.js'
+import { PARTIES, createHtmlResponse, createUrlQueryParams, getPartyStatements, createSessionId, createHeadTag } from '../utils.js'
 
 const createHashtag = (partyId: string) => {
     return '#' + PARTIES[partyId].name.replace('&shy;', '').replace(' ', '').toLowerCase()
@@ -15,34 +15,24 @@ export const createResponse = async (pathParams: Record<string, string>) => {
             </div>
         </div>
     `)
+    const title = 'Kannatan vaalikone: ' + partyPlainName
     const html = `
         <!DOCTYPE html>
         <html lang="fi">
-        <head>
-            <title>Kannatan vaalikone: ${partyPlainName}</title>
-            <meta charset="UTF-8">
-            <meta name="description" content="Vaalikoneen tulossivu: ${partyPlainName}, eduskuntavaalit 2023">
-            <meta name="keywords" content="${partyPlainName.toLowerCase()}, vaalikone, eduskuntavaalit">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta property="og:title" content="Kannatan vaalikone: ${partyPlainName}">
-            <meta property="og:image" content="https://static.kannatan.fi/vote-box-border.png">
-            <meta property="og:image:type" content="image/png">
-            <meta property="og:image:width" content="1200">
-            <meta property="og:image:height" content="1200">
-            <meta name="twitter:card" content="summary_large_image">
-            <meta name="twitter:site" content="@kannatan_">
-            <meta name="twitter:title" content="Kannatan vaalikone: ${partyPlainName}">
-            <meta name="twitter:image" content="https://static.kannatan.fi/vote-box-border.png">
-            <link rel="stylesheet" href="https://static.kannatan.fi/style.css">
-            <script src="https://static.kannatan.fi/lodash.min.js"></script>
-            <script src="https://static.kannatan.fi/utils.js"></script>
-            <script defer src="https://static.kannatan.fi/pages/party.js"></script>
-            <link rel="icon" href="https://static.kannatan.fi/favicon.svg">
-            <link rel="preload" href="https://static.kannatan.fi/KFOlCnqEu92Fr1MmYUtvAw.ttf" as="font" crossorigin>
-            <link rel="preload" href="https://static.kannatan.fi/4iCv6KVjbNBYlgoC1CzTtw.ttf" as="font" crossorigin>
-            <link rel="preload" href="https://static.kannatan.fi/4iCs6KVjbNBYlgo6eA.ttf" as="font" crossorigin>
-        </head>
+        ${createHeadTag({
+            pageTitle: title,
+            socialMediaTitle: title,
+            description: 'Vaalikoneen tulossivu: ' + partyPlainName + ', eduskuntavaalit 2023',
+            keywords: partyPlainName.toLowerCase() + ', vaalikone, eduskuntavaalit',
+            additionalTags: [
+                '<script src="https://static.kannatan.fi/lodash.min.js"></script>',
+                '<script src="https://static.kannatan.fi/utils.js"></script>',
+                '<script defer src="https://static.kannatan.fi/pages/party.js"></script>',
+                '<link rel="preload" href="https://static.kannatan.fi/KFOlCnqEu92Fr1MmYUtvAw.ttf" as="font" crossorigin>',
+                '<link rel="preload" href="https://static.kannatan.fi/4iCv6KVjbNBYlgoC1CzTtw.ttf" as="font" crossorigin>',
+                '<link rel="preload" href="https://static.kannatan.fi/4iCs6KVjbNBYlgo6eA.ttf" as="font" crossorigin>'
+            ]
+        })}
         <body>
             <div id="root">
                 <img class="vote-box" src="https://static.kannatan.fi/vote-box.svg" alt="Äänetyslaatikko" >

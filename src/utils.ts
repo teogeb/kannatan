@@ -118,3 +118,38 @@ export const createSessionId = () => {
 export const createUrlQueryParams = (sessionId: string) => {
     return `?s=${sessionId}`
 }
+
+export const createHeadTag = (
+    opts: { pageTitle?: string, socialMediaTitle?: string, description?: string, keywords?: string, additionalTags?: string[] }
+) => {
+    const optsWithDefaults = {
+        pageTitle: 'Kannatan vaalikone',
+        socialMediaTitle: 'Kannatan: Helppo vaalikone',
+        description: 'Helppo vaalikone, eduskuntavaalit 2023',
+        keywords: 'kannatan, vaalikone, eduskuntavaalit, vaalit, puolue',
+        additionalTags: [],
+        ...opts
+    }
+    return `
+        <head>
+            <title>${optsWithDefaults.pageTitle}</title>
+            <meta charset="UTF-8">
+            <meta name="description" content="${optsWithDefaults.description}">
+            <meta name="keywords" content="${optsWithDefaults.keywords}">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta property="og:title" content="${optsWithDefaults.socialMediaTitle}">
+            <meta property="og:image" content="https://static.kannatan.fi/vote-box-border.png">
+            <meta property="og:image:type" content="image/png">
+            <meta property="og:image:width" content="1200">
+            <meta property="og:image:height" content="1200">
+            <meta name="twitter:card" content="summary_large_image">
+            <meta name="twitter:site" content="@kannatan_">
+            <meta name="twitter:title" content="${optsWithDefaults.socialMediaTitle}">
+            <meta name="twitter:image" content="https://static.kannatan.fi/vote-box-border.png">
+            <link rel="stylesheet" href="https://static.kannatan.fi/style.css">
+            <link rel="icon" href="https://static.kannatan.fi/favicon.svg">
+            ${optsWithDefaults.additionalTags.join('\n')}
+        </head>
+    `
+}
