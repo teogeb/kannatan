@@ -75,7 +75,7 @@ export const createRobotsTxtResponse = async () => {
 }
 
 export const createSiteMapResponse = async () => {
-    const lastModified = '2023-03-26T18:00:00+00:00'
+    const deploymentMetadata = JSON.parse(await fs.readFile('./deployment.json', 'utf-8'))
     const pages: Record<string, number> = {
         '': 1.0,
         'about': 0.2
@@ -85,7 +85,7 @@ export const createSiteMapResponse = async () => {
     })
     const urls = Object.keys(pages).map((pageId: string) => {
         const priority = pages[pageId].toFixed(1)
-        return `<url><loc>https://kannatan.fi/${pageId}</loc><lastmod>${lastModified}</lastmod><priority>${priority}</priority></url>`
+        return `<url><loc>https://kannatan.fi/${pageId}</loc><lastmod>${deploymentMetadata.date}</lastmod><priority>${priority}</priority></url>`
     })
     const body = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.join('')}</urlset>`
     return createResponse(body, 'application/xml')
