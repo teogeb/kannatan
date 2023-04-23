@@ -13,7 +13,7 @@ export const createResponse = async () => {
          })}
         <body>
             <div id="root">
-                <img class="vote-box" src="https://static.kannatan.fi/vote-box.svg" alt="Äänestyslaatikko">
+                <img class="vote-box" src="https://static.kannatan.fi/vote-box.svg" alt="">
                 <h1>Vaalikoneen toiminta</h1>
                 <div class="sub-header">Vaalikoneessa on 10 puoluetta, ja jokaiselta puolueelta on valittavana 20 lausetta.</div>
                 <div class="sub-header">Lauseet on poimittu vuoden 2023 vaaliohjelmista tai vastaavista puolueiden julkaisemista ohjelmista.</div>

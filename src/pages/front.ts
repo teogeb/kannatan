@@ -14,11 +14,11 @@ export const createResponse = async () => {
         })}
         <body>
             <div id="root">
-                <img class="vote-box" src="https://static.kannatan.fi/vote-box.svg" alt="Äänestyslaatikko">
+                <img class="vote-box" src="https://static.kannatan.fi/vote-box.svg" alt="">
                 <h1>Helppo vaalikone</h1>
                 <div class="sub-header">Valitse 10 + 5 asiaa, joita kannatat. Lauseet on poimittu puolueiden ohjelmista.</div>
                 <a href="/app${createUrlQueryParams(createSessionId())}"><div class="button">Aloita</div></a>
-                <a class="about" href="/about"><img src="https://static.kannatan.fi/question-mark.svg" alt="Kysymysmerkki"></a>
+                <a class="about" href="/about"><img src="https://static.kannatan.fi/question-mark.svg" alt="Vaalikoneen toiminta"></a>
             </div>
         </body>
         </html>
