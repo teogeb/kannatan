@@ -5,6 +5,7 @@ import { createResponse as createAboutPageResponse } from './pages/about.js'
 import { createResponse as createAppPageResponse } from './pages/app.js'
 import { createResponse as createFrontPageResponse } from './pages/front.js'
 import { createResponse as createPartyPageResponse } from './pages/party.js'
+import { createResponse as createBetaPageResponse } from './pages/beta.js'
 import { HTTP_STATUS_NOT_FOUND, createHtmlResponse, createRobotsTxtResponse, createSiteMapResponse } from './utils.js'
 
 interface HttpEvent {
@@ -32,7 +33,8 @@ const ROUTES: Record<string, (pathParams: Record<string, string>, sessionId: str
     '/about': createAboutPageResponse,
     '/api/(?<endpoint>.+)': createApiResponse,
     '/robots.txt': createRobotsTxtResponse,
-    '/sitemap.xml': createSiteMapResponse
+    '/sitemap.xml': createSiteMapResponse,
+    '/beta': createBetaPageResponse,
 }
 
 export const handler: Handler = async (event: HttpEvent) => {

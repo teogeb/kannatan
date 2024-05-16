@@ -120,7 +120,14 @@ export const createUrlQueryParams = (sessionId: string) => {
 }
 
 export const createHeadTag = (
-    opts: { pageTitle?: string, socialMediaTitle?: string, description?: string, keywords?: string, additionalTags?: string[] }
+    opts: { 
+        pageTitle?: string,
+        socialMediaTitle?: string,
+        description?: string,
+        keywords?: string,
+        additionalTags?: string[]
+        styleSheet?: string
+    }
 ) => {
     const optsWithDefaults = {
         pageTitle: 'Kannatan vaalikone',
@@ -128,6 +135,7 @@ export const createHeadTag = (
         description: 'Helppo vaalikone, eduskuntavaalit 2023',
         keywords: 'kannatan, vaalikone, eduskuntavaalit, vaalit, puolue',
         additionalTags: [],
+        styleSheet: 'https://static.kannatan.fi/style.css',
         ...opts
     }
     return `
@@ -147,7 +155,7 @@ export const createHeadTag = (
             <meta name="twitter:site" content="@kannatan_">
             <meta name="twitter:title" content="${optsWithDefaults.socialMediaTitle}">
             <meta name="twitter:image" content="https://static.kannatan.fi/vote-box-border.png">
-            <link rel="stylesheet" href="https://static.kannatan.fi/style.css">
+            <link rel="stylesheet" href="${optsWithDefaults.styleSheet}">'
             <link rel="icon" href="https://static.kannatan.fi/favicon.svg">
             ${optsWithDefaults.additionalTags.join('\n')}
         </head>
