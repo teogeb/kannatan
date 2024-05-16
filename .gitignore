@@ -1,6 +1,8 @@
+.DS_Store
 node_modules/
 tools/gif-creator/node_modules/
 tools/gif-creator/output/
 tools/gif-creator/avatars/
+tools/profile-generator/output/
 dist/
 deployment.json
