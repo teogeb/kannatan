@@ -2,6 +2,7 @@ import { OpenAI } from 'openai'
 import { TextContentBlock } from 'openai/resources/beta/threads/messages'
 import fs from 'fs/promises'
 import fetch from 'node-fetch'
+import sharp from 'sharp'
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -55,7 +56,7 @@ async function main() {
                 .pop()
             if (lastMessageForRun) {
                 const answer = (lastMessageForRun.content[0] as TextContentBlock).text.value
-                console.log(`Answer: ${answer} \n\n`);
+                console.log(`Answer: ${answer} \n\n`)
                 answers.push(answer)
             } else {
                 console.log('ERROR')
@@ -87,12 +88,20 @@ async function main() {
         }
         await fs.writeFile(`output/${fileId}.json`, JSON.stringify(profileDefinition, undefined, 4))
 
+        console.log('Fetch image')
         const url = imageResponse.data[0].url!
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Failed to fetch file: ${response.statusText}`);
         }
-        await fs.writeFile(`output/${fileId}.png`, Buffer.from(await response.arrayBuffer()))
+        const origFileName = `output/${fileId}-orig.png`
+        await fs.writeFile(origFileName, Buffer.from(await response.arrayBuffer()))
+
+        const greyscaleFileName = `output/${fileId}-greyscale.png`
+        console.log('Convert to greyscale')
+        await sharp(origFileName).greyscale().toFile(greyscaleFileName)
+
+        console.log('Profile image: ' + greyscaleFileName)
 
     } catch (error) {
         console.error(error);
