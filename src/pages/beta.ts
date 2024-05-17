@@ -9,6 +9,7 @@ export const createResponse = async () => {
                 '<link rel="preload" href="https://static.kannatan.fi/KFOlCnqEu92Fr1MmYUtvAw.ttf" as="font" crossorigin>',
                 '<link rel="preload" href="https://static.kannatan.fi/4iCv6KVjbNBYlgoC1CzTtw.ttf" as="font" crossorigin>',
                 '<link rel="preload" href="https://static.kannatan.fi/4iCs6KVjbNBYlgo6eA.ttf" as="font" crossorigin>',
+                '<script defer src="https://static.kannatan.fi/lodash.min.js"></script>',
                 '<script defer src="https://static.kannatan.fi/beta/index.js"></script>',
                 '<meta name="robots" content="noindex">',
                 '<link rel="canonical" href="https://kannatan.fi/beta">'
