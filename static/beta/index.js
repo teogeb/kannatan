@@ -12,7 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="speech-bubble">
                 <div class="statement"></div>
             </div>
-            <div class="picture-container"></div>
+            <div class="picture-container">
+                <div class="controls">
+                    <div>&#9001;</div>
+                    <div>&#9002;</div>
+                </div>
+            </div>
         </div>
     `
     const persons = _.shuffle([
@@ -548,8 +553,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const profile = document.getElementsByClassName('profile')[0]
     const pictureContainer = document.getElementsByClassName('picture-container')[0]
+    const carouselControls = document.getElementsByClassName('picture-container')[0].getElementsByClassName('controls')[0]
     const speechBubble = document.getElementsByClassName('speech-bubble')[0]
+    let index = 0
 
+    const getPersonIndex = (increment) => {
+        const result = index + increment
+        if (result === -1) {
+            return persons.length -1
+        } else if (result === persons.length) {
+            return 0
+        } else {
+            return result
+        }
+    }
+ 
     const createPictureElement = (person) => {
         const element = document.createElement('img')
         element.src = getStaticFilePath(person.picture)
@@ -562,30 +580,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-    let index = -1;
-    const setProfile = async (selected) => {
-        index++
-        const person = persons[index % persons.length]
+    const setProfile = async (indexIncrement) => {
+        profile.classList.remove('selected')
+        index = getPersonIndex(indexIncrement)
+        const person = persons[index]
         if (index > 0) {
-            if (selected) {
-                profile.classList.add('selected')
-                const selectionAnimation = profile.animate([
-                    { transform: 'translateX(0px) translateY(0px)' },
-                    { transform: 'translateX(-2px) translateY(-2px)' },
-                    { transform: 'translateX(2px) translateY(2px)' },
-                    { transform: 'translateX(-2px) translateY(0px)' },
-                    { transform: 'translateX(2px) translateY(2px)' },
-                    { transform: 'translateX(0px) translateY(0px)' }
-                ],{
-                    duration: 400
-                })
-                await selectionAnimation.finished
-                await wait(800)
-                profile.classList.remove('selected')
-            }
             setStatementText('')
             const newPicture = createPictureElement(person)
-            pictureContainer.appendChild(newPicture)
+            pictureContainer.insertBefore(newPicture, carouselControls);
             const changePictureAnimation = newPicture.animate([
                 { opacity: 0 },
                 { opacity: 1 }
@@ -593,17 +595,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 duration: 400
             })
             await changePictureAnimation.finished
-            pictureContainer.childNodes[0].remove()
+            pictureContainer.getElementsByTagName('img')[0].remove()
             setStatementText(person.statement)
         } else {
-            pictureContainer.appendChild(createPictureElement(person))
+            pictureContainer.insertBefore(createPictureElement(person), carouselControls);
             setStatementText(person.statement)
         }
-        const nextPerson = persons[(index + 1) % persons.length]
+        const nextPerson = persons[getPersonIndex(1)]
         new Image().src = getStaticFilePath(nextPerson.picture)
     }
 
-    setProfile()
+    setProfile(0)
+
+    const selectProfile = async () => {
+        profile.classList.add('selected')
+        profile.animate([
+            { transform: 'translateX(0px) translateY(0px)' },
+            { transform: 'translateX(-2px) translateY(-2px)' },
+            { transform: 'translateX(2px) translateY(2px)' },
+            { transform: 'translateX(-2px) translateY(0px)' },
+            { transform: 'translateX(2px) translateY(2px)' },
+            { transform: 'translateX(0px) translateY(0px)' }
+        ],{
+            duration: 400
+        })
+    }
 
     // Get a reference to the element you want to detect swipes on
     const swipeElement = document.getElementsByClassName('profile')[0]
@@ -625,22 +641,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to handle the end of a touch
     function handleTouchEnd(event) {
+        const MIN_DIFF = 10
         const touch = event.changedTouches[0];
         endX = touch.clientX;
         endY = touch.clientY;
 
         const diffX = endX - startX;
         const diffY = endY - startY;
+        if (Math.abs(diffX) < MIN_DIFF && Math.abs(diffY) < MIN_DIFF) {
+            const x = event.changedTouches[0].clientX
+            if (x <= (swipeElement.offsetWidth / 3)) {
+                setProfile(-1)
+            } else if (x >= (swipeElement.offsetWidth * 2/3)) {
+                setProfile(1)
+            } else {
+                selectProfile()
+            }
+            return
+        }
 
         // Determine the swipe direction
         if (Math.abs(diffX) > Math.abs(diffY)) {
             // Horizontal swipe
             if (diffX > 0) {
                 console.log('Swiped right');
-                setProfile(true)
+                setProfile(-1)
             } else {
                 console.log('Swiped left');
-                setProfile()
+                setProfile(1)
             }
         } else {
             // Vertical swipe

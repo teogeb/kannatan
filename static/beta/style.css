@@ -112,3 +112,35 @@ a {
     grid-row: 1;
     grid-column: 1;
 }
+
+.picture-container .controls {
+    width: 100%;
+    height: 100%;
+    border-radius: 3rem;
+    grid-row: 1;
+    grid-column: 1;
+    z-index: 1;
+    color: #bd0081;
+    font-size: 2rem;
+}
+
+.picture-container .controls {
+    width: 100%;
+    height: 100%;
+    grid-row: 1;
+    grid-column: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #bd0081;
+    font-size: 3rem;
+}
+
+.picture-container .controls div:first-child {
+    margin-left: 1rem;
+}
+
+.picture-container .controls div:last-child {
+    margin-right: 1rem;
+}
+
