@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    const MAX_SELECTION_COUNT = 5
+    const selectedProfiles = []
+
     const getStaticFilePath = (fileName) => {
         const prefix = (window.location.href.includes('localhost'))
             ? `/tools/profile-generator/output/`
@@ -521,12 +524,14 @@ document.addEventListener('DOMContentLoaded', () => {
                   <div class="navigate-to-next no-select">&#9002;</div>
               </div>
           </div>
+          <div class="progress-indicator"></div>
       </div>`
 
     const profile = document.getElementsByClassName('profile')[0]
     const pictureContainer = document.getElementsByClassName('picture-container')[0]
     const carouselControls = document.getElementsByClassName('picture-container')[0].getElementsByClassName('controls')[0]
     const speechBubble = document.getElementsByClassName('speech-bubble')[0]
+    const progressIndicator = document.getElementsByClassName('progress-indicator')[0]
     let index = 0
 
     const getPersonIndex = (increment) => {
@@ -548,6 +553,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const setStatementText = (text) => {
         speechBubble.getElementsByClassName('statement')[0].textContent = text
+    }
+
+    const updateProgressIndicator = () => {
+        progressIndicator.innerHTML = `${selectedProfiles.length}/${MAX_SELECTION_COUNT}`
     }
 
     const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -578,13 +587,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     setProfile(0)
+    updateProgressIndicator()
 
     const selectProfile = async () => {
         if (profile.classList.contains('selected')) {
           return
         }
+        selectedProfiles.push(persons[index])
+        updateProgressIndicator()
         profile.classList.add('selected')
-        profile.animate([
+        const animation = profile.animate([
             { transform: 'translateX(0px) translateY(0px)' },
             { transform: 'translateX(-2px) translateY(-2px)' },
             { transform: 'translateX(2px) translateY(2px)' },
@@ -594,6 +606,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ],{
             duration: 400
         })
+        await animation.finished
     }
 
     // https://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript

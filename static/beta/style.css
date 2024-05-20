@@ -162,3 +162,10 @@ a {
 .picture-container .controls .select-profile {
     flex-grow: 1;
 }
+
+.progress-indicator {
+    color: white;
+    font-size: 3rem;
+    display: flex;
+    justify-content: center;
+}
