@@ -103,6 +103,13 @@ a {
     padding-left: 3rem;
     padding-right: 3rem;
 }
+.profile.selected .speech-bubble:hover {
+    background-color: #fe01ae !important;
+    cursor: pointer;
+}
+.profile.selected .speech-bubble:hover:after {
+    border-top-color: #fe01ae !important;
+}
 @media (orientation: landscape) {
     .speech-bubble .statement {
         font-size: 1.6rem;

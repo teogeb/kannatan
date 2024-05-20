@@ -13,22 +13,37 @@ const showDialog = (header, text, buttonLabel, onSubmit) => {
 }
 
 const PARTIES = {
-  kd: 'Kristillisdemokraatit',
-  kesk: 'Keskusta',
-  kok: 'Kokoomus',
-  lib: 'Liberaalipuolue',
-  nyt: 'Liike Nyt',
-  ps: 'Perussuomalaiset',
-  rkp: 'RKP',
-  sdp: 'SDP',
-  vas: 'Vasemmistoliitto',
-  vihr: 'Vihreät'
+  kd: { nominative: 'Kristillisdemokraatit', partitive: 'Kristillisdemokraatteja' },
+  kesk: { nominative: 'Keskusta', partitive: 'Keskustaa' },
+  kok: { nominative: 'Kokoomus', partitive: 'Kokoomusta' },
+  lib: { nominative: 'Liberaalipuolue', partitive: 'Liberaalipuoluetta' },
+  nyt: { nominative: 'Liike Nyt', partitive: 'Liike Nyt -puoluetta' },
+  ps: { nominative: 'Perussuomalaiset', partitive: 'Perussuomalaisia' },
+  rkp: { nominative: 'RKP', partitive: 'RKP:tä' },
+  sdp: { nominative: 'SDP', partitive: 'SDP:tä' },
+  vas: { nominative: 'Vasemmistoliitto', partitive: 'Vasemmistoliittoa' },
+  vihr: { nominative: 'Vihreät', partitive: 'Vihreitä' }
+}
+
+const createAdmirationPhrase = (partyId) => {
+    const nominative = PARTIES[partyId].nominative
+    const partitive = PARTIES[partyId].partitive
+    const admirations = [
+        `Kannatan ${partitive}.`,
+        `Omaa arvomaailmaani edustaa parhaiten ${nominative}.`,
+        `Harkitsen että äänestäisin ${partitive}.`,
+        `${nominative} edistää minulle tärkeitä asioita.`
+    ]
+    const questions = [
+        'Haluatko tietää miksi?',
+        'Haluatko että kerron tarkemmin?',
+        'Voin kertoa tarkemmin, jos haluat?',
+        'Kiinnostaako perustelut?'
+    ]
+    return `${_.sample(admirations)} ${_.sample(questions)}`
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-
-    const MAX_SELECTION_COUNT = 10
-    const selectedProfiles = []
 
     const getStaticFilePath = (fileName) => {
         const prefix = (window.location.href.includes('localhost'))
@@ -539,6 +554,7 @@ document.addEventListener('DOMContentLoaded', () => {
           "party": "vihr"
         }
     ])
+
     document.getElementById('root').innerHTML = `
       <div class="profile">
           <div class="speech-bubble">
@@ -551,7 +567,6 @@ document.addEventListener('DOMContentLoaded', () => {
                   <div class="navigate-to-next no-select">&#9002;</div>
               </div>
           </div>
-          <div class="progress-indicator"></div>
       </div>
       <div id="dialog">
       </div>`
@@ -560,21 +575,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pictureContainer = document.getElementsByClassName('picture-container')[0]
     const carouselControls = document.getElementsByClassName('picture-container')[0].getElementsByClassName('controls')[0]
     const speechBubble = document.getElementsByClassName('speech-bubble')[0]
-    const progressIndicator = document.getElementsByClassName('progress-indicator')[0]
     let index = 0
-
-    const showResults = () => {
-        profile.classList.add('dimmed')
-        const selections = selectedProfiles.map((p) => p.party)
-        const parties = _.sortBy(
-          _.uniq(selections), 
-          (p) => -selections.filter((s) => s === p).length
-        ).map((p) => PARTIES[p])
-        const text = `Kannatat ehkä jotakin näistä:<br/>${parties.join('<br/>')}`
-        showDialog('TULOS', text, 'Tee uudestaan', () => {
-            window.location.reload()
-        })
-    }
 
     const getPersonIndex = (increment) => {
         const result = index + increment
@@ -593,12 +594,26 @@ document.addEventListener('DOMContentLoaded', () => {
         return element
     }
 
+    let statementTextTimer = undefined
     const setStatementText = (text) => {
-        speechBubble.getElementsByClassName('statement')[0].textContent = text
-    }
-
-    const updateProgressIndicator = () => {
-        progressIndicator.innerHTML = `Valittu: ${selectedProfiles.length}/${MAX_SELECTION_COUNT}`
+        if (statementTextTimer !== undefined) {
+            clearInterval(statementTextTimer)
+        }
+        const target = speechBubble.getElementsByClassName('statement')[0]
+        if (text !== '') {
+          let len = 0
+          statementTextTimer = setInterval(() => {
+              const increment = (Math.random() < 0.5) ? 2 : 3
+              len = Math.min(len + increment, text.length)
+              target.textContent = text.substring(0, len)
+              console.log(increment + ' ' + new Date().toISOString() + ' ' + text.substring(0, len))
+              if (len === text.length) {
+                  clearInterval(statementTextTimer)
+              }
+          }, 80)
+        } else {
+          target.textContent = ''
+        }
     }
 
     const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -629,14 +644,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     setProfile(0)
-    updateProgressIndicator()
 
     const selectProfile = async () => {
         if (profile.classList.contains('selected')) {
           return
         }
-        selectedProfiles.push(persons[index])
-        updateProgressIndicator()
+        setStatementText('')
         profile.classList.add('selected')
         const animation = profile.animate([
             { transform: 'translateX(0px) translateY(0px)' },
@@ -649,9 +662,7 @@ document.addEventListener('DOMContentLoaded', () => {
             duration: 400
         })
         await animation.finished
-        if (selectedProfiles.length === MAX_SELECTION_COUNT) {
-          showResults()
-        }
+        setStatementText(createAdmirationPhrase(persons[index].party))
     }
 
     // https://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-jascript
