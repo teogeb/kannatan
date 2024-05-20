@@ -141,6 +141,12 @@ a {
     z-index: 1;
 }
 
+.picture-container .controls .navigate-to-prev:hover,
+.picture-container .controls .navigate-to-next:hover {
+    color: #fe01ae;
+    font-weight: 600;
+}
+
 .picture-container .controls .navigate-to-prev {
     display: flex;
     justify-content: start;
