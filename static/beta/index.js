@@ -6,20 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
             : 'https://static.kannatan.fi/beta/profiles/'
         return `${prefix}${fileName}`
     }
-
-    document.getElementById('root').innerHTML = `
-        <div class="profile">
-            <div class="speech-bubble">
-                <div class="statement"></div>
-            </div>
-            <div class="picture-container">
-                <div class="controls">
-                    <div>&#9001;</div>
-                    <div>&#9002;</div>
-                </div>
-            </div>
-        </div>
-    `
+  
     const persons = _.shuffle([
         {
           "statement": "Elän uskossa, perheessä, yhteisössä ja luontoa arvostaen.",
@@ -522,34 +509,19 @@ document.addEventListener('DOMContentLoaded', () => {
           "party": "vihr"
         }
     ])
-    /*const persons = [{
-        statement: 'Yksilönvapaus, yrittäjyys ja vähäinen valtion puuttuminen ovat tärkeitä.',
-        image: 'lib-1715545416.png'
-    }, {
-        statement: 'Elämme ympäristön ehdoilla, jokainen teko luo kestävää tulevaisuutta.',
-        image: 'virh-1715640851.png'
-    }, {
-        statement: 'Kielten tasa-arvo ja kulttuurien rikkaus ovat sydämeni asioita.',
-        image: 'rkp-1715642415.png'
-    }, {
-        statement: 'Koulutuksen ja terveydenhuollon laatuun sijoittaminen on tärkeää.',
-        image: 'kok-1715642909.png'
-    }, {
-        statement: 'Oikeudenmukaisuus ja tasa-arvo muodostavat yhteiskuntamme perustan.',
-        image: 'sdp-1715643055.png'
-    }, {
-        statement: 'Yhteisön vahvuus ja perinteiden vaaliminen ovat sydämeni ytimessä.',
-        image: 'ps-1715643253.png'
-    }, {
-        statement: 'Suojelen ympäristöä ja edistän yhteisöllisyyttä Suomen maaseudulla.',
-        image: 'kesk-1715643393.png'
-    }, {
-        statement: 'Oikeudenmukaisuus ja tasavertaisuus ovat perusta paremmalle yhteiskunnalle.',
-        image: 'vas-1715643587.png'
-    }, {
-        statement: 'Avoin hallinto ja kansalaisten osallistuminen ovat demokratian ydin.',
-        image: 'nyt-1715643737.png'
-    }]*/
+    document.getElementById('root').innerHTML = `
+      <div class="profile">
+          <div class="speech-bubble">
+              <div class="statement"></div>
+          </div>
+          <div class="picture-container">
+              <div class="controls">
+                  <div class="navigate-to-prev no-select">&#9001;</div>
+                  <div class="select-profile no-select"></div>
+                  <div class="navigate-to-next no-select">&#9002;</div>
+              </div>
+          </div>
+      </div>`
 
     const profile = document.getElementsByClassName('profile')[0]
     const pictureContainer = document.getElementsByClassName('picture-container')[0]
@@ -608,6 +580,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setProfile(0)
 
     const selectProfile = async () => {
+        if (profile.classList.contains('selected')) {
+          return
+        }
         profile.classList.add('selected')
         profile.animate([
             { transform: 'translateX(0px) translateY(0px)' },
@@ -621,67 +596,72 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
-    // Get a reference to the element you want to detect swipes on
-    const swipeElement = document.getElementsByClassName('profile')[0]
-
-    let startX, startY, endX, endY;
-
-    // Function to handle the start of a touch
-    function handleTouchStart(event) {
-        const touch = event.touches[0];
-        startX = touch.clientX;
-        startY = touch.clientY;
+    // https://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript
+    if(window.matchMedia("(pointer: coarse)").matches) {
+      // touchscreen
+      const swipeElement = document.getElementsByClassName('profile')[0]
+      let startX, startY, endX, endY;
+      function handleTouchStart(event) {
+          const touch = event.touches[0];
+          startX = touch.clientX;
+          startY = touch.clientY;
+      }
+      function handleTouchMove(event) {
+          // Prevent scrolling on touch
+          event.preventDefault();
+      }
+      function handleTouchEnd(event) {
+          const MIN_DIFF = 10
+          const touch = event.changedTouches[0];
+          endX = touch.clientX;
+          endY = touch.clientY;
+          const diffX = endX - startX;
+          const diffY = endY - startY;
+          if (Math.abs(diffX) < MIN_DIFF && Math.abs(diffY) < MIN_DIFF) {
+              const x = event.changedTouches[0].clientX
+              if (x <= (swipeElement.offsetWidth / 3)) {
+                  setProfile(-1)
+              } else if (x >= (swipeElement.offsetWidth * 2/3)) {
+                  setProfile(1)
+              } else {
+                  selectProfile()
+              }
+              return
+          }
+          if (Math.abs(diffX) > Math.abs(diffY)) {
+              // Horizontal swipe
+              if (diffX > 0) {
+                  console.log('Swiped right');
+                  setProfile(-1)
+              } else {
+                  console.log('Swiped left');
+                  setProfile(1)
+              }
+          } else {
+              // Vertical swipe
+              if (diffY > 0) {
+                  console.log('Swiped down');
+              } else {
+                  console.log('Swiped up');
+              }
+          }
+      }
+      swipeElement.addEventListener('touchstart', handleTouchStart, { passive: false });
+      swipeElement.addEventListener('touchmove', handleTouchMove, { passive: false });
+      swipeElement.addEventListener('touchend', handleTouchEnd);
+    } else {
+      document.getElementsByClassName('navigate-to-prev')[0].addEventListener('click', (event) => {
+        setProfile(-1)
+        event.preventDefault()
+      })
+      document.getElementsByClassName('navigate-to-next')[0].addEventListener('click', (event) => {
+        setProfile(1)
+        event.preventDefault()
+      })
+      document.getElementsByClassName('select-profile')[0].addEventListener('click', (event) => {
+        console.log('HELLO')
+        selectProfile()
+        event.preventDefault()
+      })
     }
-
-    // Function to handle the end of a touch
-    function handleTouchMove(event) {
-        // Prevent scrolling on touch
-        event.preventDefault();
-    }
-
-    // Function to handle the end of a touch
-    function handleTouchEnd(event) {
-        const MIN_DIFF = 10
-        const touch = event.changedTouches[0];
-        endX = touch.clientX;
-        endY = touch.clientY;
-
-        const diffX = endX - startX;
-        const diffY = endY - startY;
-        if (Math.abs(diffX) < MIN_DIFF && Math.abs(diffY) < MIN_DIFF) {
-            const x = event.changedTouches[0].clientX
-            if (x <= (swipeElement.offsetWidth / 3)) {
-                setProfile(-1)
-            } else if (x >= (swipeElement.offsetWidth * 2/3)) {
-                setProfile(1)
-            } else {
-                selectProfile()
-            }
-            return
-        }
-
-        // Determine the swipe direction
-        if (Math.abs(diffX) > Math.abs(diffY)) {
-            // Horizontal swipe
-            if (diffX > 0) {
-                console.log('Swiped right');
-                setProfile(-1)
-            } else {
-                console.log('Swiped left');
-                setProfile(1)
-            }
-        } else {
-            // Vertical swipe
-            if (diffY > 0) {
-                console.log('Swiped down');
-            } else {
-                console.log('Swiped up');
-            }
-        }
-    }
-
-    // Attach the event listeners
-    swipeElement.addEventListener('touchstart', handleTouchStart, { passive: false });
-    swipeElement.addEventListener('touchmove', handleTouchMove, { passive: false });
-    swipeElement.addEventListener('touchend', handleTouchEnd);
 })
