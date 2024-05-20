@@ -1,6 +1,33 @@
+const showDialog = (header, text, buttonLabel, onSubmit) => {
+  const element = document.getElementById('dialog')
+  element.innerHTML = `
+      <h1>${header}</h1>
+      <p>${text}</p>
+      <div class="button">${buttonLabel}</div>`
+  element.classList.add('visible')
+  element.getElementsByClassName('button')[0].addEventListener('click', () => {
+      element.classList.remove('visible')
+      element.innerHTML = ''
+      onSubmit()
+  })
+}
+
+const PARTIES = {
+  kd: 'Kristillisdemokraatit',
+  kesk: 'Keskusta',
+  kok: 'Kokoomus',
+  lib: 'Liberaalipuolue',
+  nyt: 'Liike Nyt',
+  ps: 'Perussuomalaiset',
+  rkp: 'RKP',
+  sdp: 'SDP',
+  vas: 'Vasemmistoliitto',
+  vihr: 'Vihreät'
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
-    const MAX_SELECTION_COUNT = 5
+    const MAX_SELECTION_COUNT = 10
     const selectedProfiles = []
 
     const getStaticFilePath = (fileName) => {
@@ -525,6 +552,8 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
           </div>
           <div class="progress-indicator"></div>
+      </div>
+      <div id="dialog">
       </div>`
 
     const profile = document.getElementsByClassName('profile')[0]
@@ -533,6 +562,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const speechBubble = document.getElementsByClassName('speech-bubble')[0]
     const progressIndicator = document.getElementsByClassName('progress-indicator')[0]
     let index = 0
+
+    const showResults = () => {
+        profile.classList.add('dimmed')
+        const selections = selectedProfiles.map((p) => p.party)
+        const parties = _.sortBy(
+          _.uniq(selections), 
+          (p) => -selections.filter((s) => s === p).length
+        ).map((p) => PARTIES[p])
+        const text = `Kannatat ehkä jotakin näistä:<br/>${parties.join('<br/>')}`
+        showDialog('TULOS', text, 'Tee uudestaan', () => {
+            window.location.reload()
+        })
+    }
 
     const getPersonIndex = (increment) => {
         const result = index + increment
@@ -556,7 +598,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const updateProgressIndicator = () => {
-        progressIndicator.innerHTML = `${selectedProfiles.length}/${MAX_SELECTION_COUNT}`
+        progressIndicator.innerHTML = `Valittu: ${selectedProfiles.length}/${MAX_SELECTION_COUNT}`
     }
 
     const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -607,9 +649,12 @@ document.addEventListener('DOMContentLoaded', () => {
             duration: 400
         })
         await animation.finished
+        if (selectedProfiles.length === MAX_SELECTION_COUNT) {
+          showResults()
+        }
     }
 
-    // https://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript
+    // https://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-jascript
     if(window.matchMedia("(pointer: coarse)").matches) {
       // touchscreen
       const swipeElement = document.getElementsByClassName('profile')[0]
@@ -672,7 +717,6 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault()
       })
       document.getElementsByClassName('select-profile')[0].addEventListener('click', (event) => {
-        console.log('HELLO')
         selectProfile()
         event.preventDefault()
       })

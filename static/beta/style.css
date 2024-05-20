@@ -165,7 +165,78 @@ a {
 
 .progress-indicator {
     color: white;
-    font-size: 3rem;
+    font-size: 2rem;
     display: flex;
     justify-content: center;
+}
+
+
+/* Dialog */
+
+
+.button {
+    background-color: #bd0081;
+    border: none;
+    color: white;
+    padding: 1rem 2rem;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    cursor: pointer;
+}
+#dialog {
+    position: fixed;
+    top: 30vh;
+    left: 15vw;
+    right: 15vw;
+    background: white;
+    z-index: 2;
+    border-radius: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    font-size: 1.2rem;
+}
+@media screen and (min-width: 1200px) {
+    #dialog {
+        border-radius: 1rem;
+        font-size: 1.6rem;
+        gap: 2rem;
+        padding: 2rem;
+    }
+}
+#dialog:not(.visible) {
+    display: none
+}
+#dialog.visible {
+    animation-name: dialog-show-animation;
+    animation-duration: 0.4s;
+    animation-iteration-count: 1;
+}
+@keyframes dialog-show-animation {
+    0% { transform: translateY(100vw); }
+    100% { transform: translateY(0); }
+}
+
+#dialog h1 {
+    font-size: 1.8rem;
+    color: black;
+    text-align: center;
+}
+@media screen and (min-width: 1200px) {
+    #dialog h1 {
+        font-size: 3rem;
+    }
+}
+#dialog p {
+    color: black;
+    text-align: center;
+}
+.profile.dimmed {
+    opacity: 0.4;
 }
