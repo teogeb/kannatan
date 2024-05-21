@@ -8,25 +8,26 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 })
 
-export const PARTIES: Record<string, string> = {
-    kd: 'Kristillisdemokraatit',
-    kesk: 'Keskusta',
-    kok: 'Kokoomus',
-    lib: 'Liberaalipuolue',
-    nyt: 'Liike Nyt',
-    ps: 'Perussuomalaiset',
-    rkp: 'RKP',
-    sdp: 'SDP',
-    vas: 'Vasemmistoliitto',
-    vihr: 'Vihreät'
-}
+const PARTIES: Record<string, { nominative: string, partitive: string }> = {
+    kd: { nominative: 'Kristillisdemokraatit', partitive: 'Kristillisdemokraatteja' },
+    kesk: { nominative: 'Keskusta', partitive: 'Keskustaa' },
+    kok: { nominative: 'Kokoomus', partitive: 'Kokoomusta' },
+    lib: { nominative: 'Liberaalipuolue', partitive: 'Liberaalipuoluetta' },
+    nyt: { nominative: 'Liike Nyt', partitive: 'Liike Nyt -puoluetta' },
+    ps: { nominative: 'Perussuomalaiset', partitive: 'Perussuomalaisia' },
+    rkp: { nominative: 'RKP', partitive: 'RKP:tä' },
+    sdp: { nominative: 'SDP', partitive: 'SDP:tä' },
+    vas: { nominative: 'Vasemmistoliitto', partitive: 'Vasemmistoliittoa' },
+    vihr: { nominative: 'Vihreät', partitive: 'Vihreitä' }
+  }
 
 const partyId = process.argv[2]
 
 const ASSISTANT_ID = 'asst_F4AKHftKwd4nDNwrTLHIafP1'
 const QUESTIONS = [
-    `Describe a scene where a person who admires the values Finnish party ${PARTIES[partyId]} is joyfully having good time in Finland. Describe the looks of the person and an action he/she might be doing.`,
-    'Give a short 10 word sentence how that person would summarize some of his/her values in Finnish. Make the sentence personal.'
+    `Describe a scene where a person who admires the values Finnish party ${PARTIES[partyId].nominative} is joyfully having good time in Finland. Describe the looks of the person and an action he/she might be doing.`,
+    'Give a short 10 word sentence how that person would summarize some of his/her values in Finnish. Make the sentence personal.',
+    `Kerro kahden lauseen perustelu, miksi tämä henkilö voisi äänestää ${PARTIES[partyId].partitive}. Kerro perustelu minä-muotoisina lauseina.`
 ]
 
 async function main() {
@@ -83,6 +84,7 @@ async function main() {
             created: imageResponse.created,
             scene: answers[0],
             statement: answers[1],
+            reason: answers[2],
             image: imageResponse.data[0],
             questions: QUESTIONS
         }
