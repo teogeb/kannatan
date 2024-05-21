@@ -26,6 +26,10 @@ p {
     margin: 0
 }
 
+.hidden {
+    display: none !important;
+}
+
 @font-face {
     font-family: 'Roboto';
     font-style: normal;
@@ -184,6 +188,30 @@ a {
 }
 
 
+
+.conversation img {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+}
+
+.conversation p {
+    color: white;
+}
+
+.conversation .back-to-main {
+    margin-top: 2rem;
+    color: #bd0081;
+    font-size: 2rem;
+}
+.conversation .back-to-main:hover {
+    color: #fe01ae;
+    font-weight: 600;
+}
+
+
+
 /* Dialog */
 
 
@@ -224,7 +252,7 @@ a {
     }
 }
 #dialog:not(.visible) {
-    display: none
+    display: none;
 }
 #dialog.visible {
     animation-name: dialog-show-animation;

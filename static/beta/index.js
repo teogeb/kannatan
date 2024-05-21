@@ -197,6 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const carouselControls = document.getElementsByClassName('picture-container')[0].getElementsByClassName('controls')[0]
     const speechBubble = document.getElementsByClassName('speech-bubble')[0]
     let index = 0
+    let isProfileSelected = false
 
     const getPersonIndex = (increment) => {
         const result = index + increment
@@ -227,7 +228,6 @@ document.addEventListener('DOMContentLoaded', () => {
               const increment = (Math.random() < 0.5) ? 2 : 3
               len = Math.min(len + increment, text.length)
               target.textContent = text.substring(0, len)
-              console.log(increment + ' ' + new Date().toISOString() + ' ' + text.substring(0, len))
               if (len === text.length) {
                   clearInterval(statementTextTimer)
               }
@@ -241,6 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const setProfile = async (indexIncrement) => {
         profile.classList.remove('selected')
+        isProfileSelected = false
         index = getPersonIndex(indexIncrement)
         const person = persons[index]
         if (index > 0) {
@@ -267,9 +268,10 @@ document.addEventListener('DOMContentLoaded', () => {
     setProfile(0)
 
     const selectProfile = async () => {
-        if (profile.classList.contains('selected')) {
+        if (isProfileSelected) {
           return
         }
+        isProfileSelected = true
         setStatementText('')
         profile.classList.add('selected')
         const animation = profile.animate([
@@ -289,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // https://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-jascript
     if(window.matchMedia("(pointer: coarse)").matches) {
       // touchscreen
-      const swipeElement = document.getElementsByClassName('profile')[0]
+      const swipeElement = pictureContainer
       let startX, startY, endX, endY;
       function handleTouchStart(event) {
           const touch = event.touches[0];
@@ -353,4 +355,23 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault()
       })
     }
+    speechBubble.addEventListener('click', () => {
+      if (isProfileSelected) {
+        speechBubble.classList.add('hidden')
+        pictureContainer.classList.add('hidden')
+        const element = document.createElement('div')
+        element.classList.add('conversation')
+        element.innerHTML = `
+            <img src="${getStaticFilePath(persons[index].picture)}"></img>
+            <p>${persons[index].reason}</p>
+            <div class="back-to-main no-select">&#9001;</div>
+        `
+        profile.appendChild(element)
+        element.getElementsByClassName('back-to-main')[0].addEventListener('click', () => {
+          speechBubble.classList.remove('hidden')
+          pictureContainer.classList.remove('hidden')
+          element.remove()
+        })
+      }
+    })
 })
