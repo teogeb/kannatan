@@ -26,7 +26,7 @@ const partyId = process.argv[2]
 const ASSISTANT_ID = 'asst_F4AKHftKwd4nDNwrTLHIafP1'
 const QUESTIONS = [
     `Describe a scene where a person who admires the values Finnish party ${PARTIES[partyId].nominative} is joyfully having good time in Finland. Describe the looks of the person and an action he/she might be doing.`,
-    'Give a short 10 word sentence how that person would summarize some of his/her values in Finnish. Make the sentence personal.',
+    'Give a short 10 word sentence how that person would summarize some of his/her values in Finnish. Make the sentence personal, detailed and explicit.',
     `Kerro kahden lauseen perustelu, miksi tämä henkilö voisi äänestää ${PARTIES[partyId].partitive}. Kerro perustelu minä-muotoisina lauseina.`
 ]
 
@@ -70,9 +70,9 @@ async function main() {
             Person of in the picture is a citizen of Finland. The person looks towards the camera.
             ${answers[0]}
         `
-        const imageResponse = await openai.images.generate({ 
+        const imageResponse = await openai.images.generate({
             prompt: IMAGE_PROMPT,
-            model: 'dall-e-3', 
+            model: 'dall-e-3',
             size: '1024x1024',
         })
 
