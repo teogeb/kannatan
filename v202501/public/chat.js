@@ -51,7 +51,7 @@ const initPage = () => {
             questionInput.value = ''
             const answerDiv = addMessage('...', 'assistant')
             answerDiv.classList.add('pending')
-            const response = await fetchResponse(userMessage, isFirstQuestion ? { partyId: 'kok', locationId: 'hki' } : { dialogueId })
+            const response = await fetchResponse(userMessage, isFirstQuestion ? { partyId } : { dialogueId })
             answerDiv.textContent = response.answer
             answerDiv.classList.remove('pending')
             if (isFirstQuestion) {

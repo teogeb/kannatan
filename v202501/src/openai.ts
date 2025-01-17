@@ -1,6 +1,6 @@
 import { OpenAI } from 'openai';
 
-export const createInitialPrompt = (partyId: string, locationId: string) => {
+export const createInitialPrompt = (partyId: string) => {
     const partyGenetives: Record<string, any> = {
         kd: 'Kristillisdemokraattien',
         kesk: 'Keskustan',
@@ -20,8 +20,6 @@ export const createInitialPrompt = (partyId: string, locationId: string) => {
     Olet suomalainen ${partyGenetives[partyId]} poliitikko. Sinulta voi kysyä poliittisia näkemyksiä. Sinun näkemyksesi vastaavat puolueen linjaa stereotyyppisesti. Vastaat kysymyksiin noin 20 sanalla ja helposti ymmärrettävällä kielellä. Vältät vastauksissa liian tarkkoja yksityiskohtia. Vastaa minämuodossa. Jos aiheeseen liittyy kaupunki- tai kuntatason asioita, käsittele vastauksessasi myös niitä.
 
     Anna sellainen vastaus, joka on enemmän ${partyGenetives[partyId]} mukainen kuin muoden suomalaisten puolueiden mukainen. Älä vastaa sellaisia asioita, jotka kaikki poliitikot kannattavat.
-{}
-    Kysymysten esittäjä asuu ${locatives[locationId]}.
     `
 }
 

@@ -17,7 +17,7 @@ const log = (message: string) => {
 
 const dialogues: Map<string, Dialogue> = new Map()
 
-const createDialogue = (partyId: string, locationId: string): Dialogue => {
+const createDialogue = (partyId: string): Dialogue => {
     const id = uuidv4()
     log(`- create dialogue: ${id}`)
     return {
@@ -25,7 +25,7 @@ const createDialogue = (partyId: string, locationId: string): Dialogue => {
         messages: [
             { 
                 role: 'system', 
-                content: createInitialPrompt(partyId, locationId)
+                content: createInitialPrompt(partyId)
             }
         ]
     }
@@ -75,7 +75,7 @@ app.post('/api/dialogue', async (req, res) => {
         log(`- user agent: ${userAgent}, URL: ${url}`)
         log('- input: ' + JSON.stringify(req.body))
         const existingDialogue = (req.body.dialogueId !== undefined) ? dialogues.get(req.body.dialogueId) : undefined
-        const dialogue = existingDialogue ?? createDialogue(req.body.partyId, req.body.locationId)
+        const dialogue = existingDialogue ?? createDialogue(req.body.partyId)
         dialogue.messages.push({
             role: 'user',
             content: req.body.question
