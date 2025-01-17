@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLI</title>
+</head>
+<body>
+    <form id="dataForm">
+        <select id="partyId">
+            <option value="kd">Kristillisdemokraatit</option>
+            <option value="kesk">Keskusta</option>
+            <option value="kok">Kokoomus</option>
+            <option value="ps">Perussuomalaiset</option>
+            <option value="rkp">RKP</option>
+            <option value="sdp">SDP</option>
+            <option value="vas">Vasemmistoliitto</option>
+            <option value="vihr">Vihreät</option>
+        </select>
+        <select id="locationId">
+            <option value="hki">Helsinki!</option>
+            <option value="tre">Tampere</option>
+            <option value="jkl">Jyväskylä</option>
+        </select>
+        <p></p>
+        <textarea id="question" name="textArea" rows="4" cols="50" required></textarea>
+        <input type="hidden" id="sessionId" name="textField" required>
+        <p></p>
+        <button type="button" id="sendButton">Lähetä</button>
+        <p id="answer"></p>
+    </form>
+
+    <script>
+        const sendData = async () => {
+            const question = document.getElementById('question').value
+            const sessionId = document.getElementById('sessionId').value
+            const partyId = document.getElementById('partyId').value
+            const locationId = document.getElementById('locationId').value
+            document.getElementById('answer').innerText = '...'
+            try {
+                let body = {
+                    question
+                }
+                if (sessionId !== '') {
+                    body = {
+                        ...body,
+                        sessionId
+                    }
+                } else {
+                    body = {
+                        ...body,
+                        partyId,
+                        locationId
+                    }
+                }
+                const response = await fetch('/api', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(body)
+                });
+                if (response.ok) {
+                    const { answer, sessionId } = JSON.parse(await response.text())
+                    document.getElementById('answer').innerText = answer
+                    document.getElementById('sessionId').value = sessionId
+                } else {
+                    alert('Failed to send data. Please try again.')
+                }
+            } catch (error) {
+                console.error('Error sending data:', error);
+                alert('An error occurred while sending data.')
+            }
+        }
+        document.getElementById('sendButton').addEventListener('click', () => sendData())
+        document.getElementById('question').addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault()  // Prevent default form submission
+                sendData()
+            }
+        })
+        document.getElementById('partyId').addEventListener('change', (event) => {
+            const sessionId = document.getElementById('sessionId').value = ''
+        })
+        document.getElementById('locationId').addEventListener('change', (event) => {
+            const sessionId = document.getElementById('sessionId').value = ''
+        })
+    </script>
+</body>
+</html>

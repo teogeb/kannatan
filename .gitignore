@@ -1,5 +1,6 @@
 .DS_Store
 node_modules/
+v202501/node_modules/
 tools/gif-creator/node_modules/
 tools/gif-creator/output/
 tools/gif-creator/avatars/
