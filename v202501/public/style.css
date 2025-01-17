@@ -82,7 +82,7 @@ a {
     display: flex;
     flex-direction: column;
     height: 90svh;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 @media (min-width: 1024px) and (pointer: fine) {
     .chat {
