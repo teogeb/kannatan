@@ -33,22 +33,29 @@ const createSession = (partyId: string, locationId: string): Session => {
 
 app.use(express.json())
 app.use((req, res, next) => {  // TODO not needed in production
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     next()
-});
+})
+
+app.use((req, res, next) => {
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate')
+    res.set('Pragma', 'no-cache')
+    res.set('Expires', '0')
+    next()
+})
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))
 })
 
 app.post('/api', async (req, res) => {
     try {
         log('Request')
-        const userAgent = req.get('User-Agent');
-        const url = req.originalUrl;
-        log(`- user agent: ${userAgent}, URL: ${url}`);
+        const userAgent = req.get('User-Agent')
+        const url = req.originalUrl
+        log(`- user agent: ${userAgent}, URL: ${url}`)
         log('- input: ' + JSON.stringify(req.body))
         const existingSession = (req.body.sessionId !== undefined) ? sessions.get(req.body.sessionId) : undefined
         const session = existingSession ?? createSession(req.body.partyId, req.body.locationId)
