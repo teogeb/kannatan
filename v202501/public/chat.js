@@ -18,8 +18,8 @@ const PARTY_NAMES = {
     'kok': 'Kokoomusta',
     'ps': 'Perussuomalaisia',
     'rkp': 'RKP:ta',
-    'sdp': 'Sosiaalidemokraatteja',
-    'vas': 'Vasemmistoliitto',
+    'sdp': 'SDP:tä',
+    'vas': 'Vasemmistoliittoa',
     'vihr': 'Vihreitä'
 }
 
