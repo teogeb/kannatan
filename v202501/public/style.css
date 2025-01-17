@@ -80,11 +80,13 @@ a {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: 80vh;
+    height: 90vh;
+    margin-bottom: 5rem;
 }
 @media (orientation: landscape) {
     .chat {
         max-width: 60vw;
+        height: 80vh;
     }
 }
 .dialogue {
@@ -97,7 +99,12 @@ a {
     padding: 1rem 2rem;
     border-radius: 20px;
     max-width: 80%;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+}
+@media (orientation: landscape) {
+    .dialogue p {
+        font-size: 1.5rem;
+    }
 }
 .dialogue p.user {
     background-color: #007bff;
@@ -120,11 +127,17 @@ a {
 .inputContainer input {
     flex-grow: 1;
     flex-shrink: 1;
+    min-width: 0;
     padding: 1rem 2rem;
     border: 1px solid #ddd;
     border-radius: 20px;
     outline: none;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+}
+@media (orientation: landscape) {
+    .inputContainer input {
+        font-size: 1.5rem;
+    }
 }
 .inputContainer button {
     flex-grow: 0;
@@ -135,7 +148,12 @@ a {
     border: none;
     border-radius: 20px;
     cursor: pointer;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+}
+@media (orientation: landscape) {
+    .inputContainer button {
+        font-size: 1.5rem;
+    }
 }
 .inputContainer button:hover {
     background-color:#0091ff;
