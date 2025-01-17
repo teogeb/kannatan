@@ -83,7 +83,7 @@ a {
     height: 90vh;
     margin-bottom: 5rem;
 }
-@media (orientation: landscape) {
+@media (min-width: 1024px) and (pointer: fine) {
     .chat {
         max-width: 60vw;
         height: 80vh;
@@ -101,7 +101,7 @@ a {
     max-width: 80%;
     font-size: 1.2rem;
 }
-@media (orientation: landscape) {
+@media (min-width: 1024px) and (pointer: fine) {
     .dialogue p {
         font-size: 1.5rem;
     }
@@ -134,7 +134,7 @@ a {
     outline: none;
     font-size: 1.2rem;
 }
-@media (orientation: landscape) {
+@media (min-width: 1024px) and (pointer: fine) {
     .inputContainer input {
         font-size: 1.5rem;
     }
@@ -150,7 +150,7 @@ a {
     cursor: pointer;
     font-size: 1.2rem;
 }
-@media (orientation: landscape) {
+@media (min-width: 1024px) and (pointer: fine) {
     .inputContainer button {
         font-size: 1.5rem;
     }
