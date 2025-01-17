@@ -64,6 +64,14 @@ a {
     text-decoration: none;
 }
 
+#root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    height: 100%;
+}
+
 .chat {
     width: 100%;
     margin: 20px auto;
