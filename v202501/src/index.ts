@@ -49,7 +49,17 @@ app.use((req, res, next) => {
 const staticFiles = {
     '/': 'index.html',
     '/index.js': 'index.js',
-    '/style.css': 'style.css'
+    '/chat': 'chat.html',
+    '/chat.js': 'chat.js',
+    '/style.css': 'style.css',
+    '/images/kd-1716250767.png': 'kd-1716250767.png',
+    '/images/kesk-1715643393.png': 'kesk-1715643393.png',
+    '/images/kok-1715642909.png': 'kok-1715642909.png',
+    '/images/ps-1716251177.png': 'ps-1716251177.png',
+    '/images/rkp-1715642415.png': 'rkp-1715642415.png',
+    '/images/sdp-1715643055.png': 'sdp-1715643055.png',
+    '/images/vas-1716252125.png': 'vas-1716252125.png',
+    '/images/vihr-1716252407.png': 'vihr-1716252407.png'
 }
 for (const [urlPath, fileName] of Object.entries(staticFiles)) {
     app.get(urlPath, (req, res) => {

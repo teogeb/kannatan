@@ -12,7 +12,20 @@ const fetchResponse = async (question, metadata) => {
     return JSON.parse(await response.text())
 }
 
+const PARTY_NAMES = {
+    'kd': 'Kristillisdemokraatteja',
+    'kesk': 'Keskustaa',
+    'kok': 'Kokoomusta',
+    'ps': 'Perussuomalaisia',
+    'rkp': 'RKP:ta',
+    'sdp': 'Sosiaalidemokraatteja',
+    'vas': 'Vasemmistoliitto',
+    'vihr': 'Vihreitä'
+}
 const initPage = () => {
+
+    const partyId = new URLSearchParams(window.location.search).get('partyId')
+    console.log(partyId)
 
     const dialogueContainer = document.getElementById('dialogue')
     const questionInput = document.getElementById('question')
@@ -28,7 +41,7 @@ const initPage = () => {
         return messageDiv
     }
 
-    addMessage('Olen tekoälyn luoma virtuaaliehdokas. Edustan TODO. Mistä juteltaisiin?', 'bot')
+    addMessage(`Olen tekoälyn luoma virtuaaliehdokas. Edustan ${PARTY_NAMES[partyId]}. Mistä juteltaisiin?`, 'bot')
 
     const sendQuestion = async () => {
         const userMessage = questionInput.value.trim()

@@ -8,51 +8,22 @@
     <link rel="preload" href="https://static.kannatan.fi/KFOlCnqEu92Fr1MmYUtvAw.ttf" as="font" crossorigin>
     <link rel="preload" href="https://static.kannatan.fi/4iCv6KVjbNBYlgoC1CzTtw.ttf" as="font" crossorigin>
     <link rel="preload" href="https://static.kannatan.fi/4iCs6KVjbNBYlgo6eA.ttf" as="font" crossorigin>
-    <script defer src="https://static.kannatan.fi/lodash.min.js"></script>
-    <script defer src="/index.js"></script>
     <link rel="stylesheet" href="/style.css">
     <link rel="icon" href="https://static.kannatan.fi/favicon.svg">
     <meta name="robots" content="noindex">
 </head>
 <body>
     <div id="root">
-        <div class="chat">
-            <div id="dialogue" class="dialogue"></div>
-            <div class="inputContainer">
-                <input id="question" type="text" placeholder="Kirjoita viesti..." />
-                <button id="sendButton">Kysy</button>
-            </div>
+        <h3>Valitse tekoälyn tekemä virtuaaliehdokas</h3>
+        <div class="partySelect">
+            <div class="party"><a href="/chat?partyId=kd"><img src="/images/kd-1716250767.png"></a></div>
+            <div class="party"><a href="/chat?partyId=kesk"><img src="/images/kesk-1715643393.png"></a></div>
+            <div class="party"><a href="/chat?partyId=kok"><img src="/images/kok-1715642909.png"></a></div>
+            <div class="party"><a href="/chat?partyId=ps"><img src="/images/ps-1716251177.png"></a></div>
+            <div class="party"><a href="/chat?partyId=rkp"><img src="/images/rkp-1715642415.png"></a></div>
+            <div class="party"><a href="/chat?partyId=sdp"><img src="/images/sdp-1715643055.png"></a></div>
+            <div class="party"><a href="/chat?partyId=vas"><img src="/images/vas-1716252125.png"></a></div>
+            <div class="party"><a href="/chat?partyId=vihr"><img src="/images/vihr-1716252407.png"></a></div>
         </div>
     </div>
-    <!--<div id="root">
-        <div id="chat">
-            <form id="form">
-                <select id="partyId">
-                    <option value="kok">Kokoomus</option>
-                    <option value="sdp">SDP</option>
-                    <option value="kesk">Keskusta</option>
-                    <option value="ps">Perussuomalaiset</option>
-                    <option value="vihr">Vihreät</option>
-                    <option value="vas">Vasemmistoliitto</option>
-                    <option value="rkp">RKP</option>
-                    <option value="kd">Kristillisdemokraatit</option>
-                </select>
-                <select id="locationId">
-                    <option value="jkl">Jyväskylä</option>
-                    <option value="tre">Tampere</option>
-                    <option value="hki">Helsinki</option>
-                </select>
-                <h3>Hei!</h3>
-                <p></p>
-                <p></p>
-                <div id="dialogue">
-                    <p class="assistant">Olen tekoälyn luoma virtuaaliehdokas. Edustan TODO. Mistä juteltaisiin?</p>
-                    <p class="assistant">TODO</p>
-                </div>
-                <textarea id="question" name="textArea" rows="4" cols="50" required></textarea>
-                <input type="hidden" id="sessionId" name="textField" required>
-                <p></p>
-            </form>
-        </div>-->
 </body>
-</html>
