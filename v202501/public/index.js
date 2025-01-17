@@ -49,74 +49,42 @@ const sendData = async () => {
 
 const initPage = () => {
 
-    const chatBox = document.getElementById('dialogue');
-    const chatInput = document.getElementById('chat-input');
-    const sendButton = document.getElementById('send-button');
+    const dialogueContainer = document.getElementById('dialogue');
+    const questionInput = document.getElementById('question');
+    const sendButton = document.getElementById('sendButton');
 
-    // Function to create a message bubble
-    function addMessage(text, sender = 'user') {
+    function addMessage(text, sender) {
         const messageDiv = document.createElement('p');
         messageDiv.classList.add(sender === 'user' ? 'user' : 'bot');
         messageDiv.textContent = text;
-        chatBox.appendChild(messageDiv);
-        chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
+        dialogueContainer.appendChild(messageDiv);
+        dialogueContainer.scrollTop = dialogueContainer.scrollHeight;
     }
 
-    // Simulate bot response
     function getBotResponse(userMessage) {
-        return `You said: "${userMessage}". How can I assist further?`; // Replace with actual AI response
+        return 'TODO'
     }
 
-    setTimeout(() => {
-        addMessage('Foo', 'bot');
-    }, 500);
+    addMessage('Olen tekoälyn luoma virtuaaliehdokas. Edustan TODO. Mistä juteltaisiin?', 'bot')
 
-    setTimeout(() => {
-        addMessage('Bar', 'bot');
-    }, 1000);
-
-    // Handle send button click
-    sendButton.addEventListener('click', () => {
-        const userMessage = chatInput.value.trim();
+    const sendQuestion = () => {
+        const userMessage = questionInput.value.trim();
         if (userMessage) {
             addMessage(userMessage, 'user');
-            chatInput.value = '';
-            // Simulate a bot response
+            questionInput.value = '';
             setTimeout(() => {
                 const botResponse = getBotResponse(userMessage);
                 addMessage(botResponse, 'bot');
             }, 500);
         }
-    });
+    }
 
-    // Handle Enter key in the input
-    chatInput.addEventListener('keydown', (e) => {
+    sendButton.addEventListener('click', () => sendQuestion())
+    questionInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
-            sendButton.click();
-        }
-    });
-
-    /*const questionElement = document.getElementById('question')
-    const dialogueElement = document.getElementById('dialogue')
-    questionElement.addEventListener('keydown', async (event) => {
-        if (event.key === 'Enter') {
-            event.preventDefault()  // Prevent default form submission
-            const { answer, sessionId } = await sendQuestion()
-            console.log(answer)
-            questionElement.value = ''
-            const answerElement = document.createElement('p')
-            answerElement.className = 'assistant'
-            answerElement.textContent = answer
-            dialogueElement.appendChild(answerElement)
-            dialogueElement.scrollTop = dialogueElement.scrollHeight
+            sendQuestion()
         }
     })
-    document.getElementById('partyId').addEventListener('change', (event) => {
-        document.getElementById('sessionId').value = ''
-    })
-    document.getElementById('locationId').addEventListener('change', (event) => {
-        document.getElementById('sessionId').value = ''
-    })*/
 }
 
 
