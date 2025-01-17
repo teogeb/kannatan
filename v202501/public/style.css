@@ -1,5 +1,5 @@
 body, html {
-    height: 98vh;
+    height: 98svh;
     margin: 0;
     background: #222222;
     font-family: 'Ubuntu', Tahoma, Verdana, sans-serif;
@@ -80,13 +80,13 @@ a {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: 90vh;
-    margin-bottom: 5rem;
+    height: 90svh;
+    margin-bottom: 2rem;
 }
 @media (min-width: 1024px) and (pointer: fine) {
     .chat {
         max-width: 60vw;
-        height: 80vh;
+        height: 80svh;
     }
 }
 .dialogue {
