@@ -7,6 +7,7 @@ body, html {
     overflow-x: hidden;
     font-size: 1em;
     color: white;
+    font-size: 16px;
 }
 
 .no-select {
@@ -27,7 +28,7 @@ p {
 }
 
 h3 {
-    font-size: 1.5em;
+    font-size: 1.5rem;
     color: yellow;
     font-family: 'Roboto', Tahoma, Verdana, sans-serif;
     font-weight: 900;
