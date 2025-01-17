@@ -3,22 +3,15 @@ import { createHeadTag, createHtmlResponse } from '../utils.js'
 export const createResponse = async () => {
     const html = `
         <!DOCTYPE html>
-        <html lang="fi">
-        ${createHeadTag({
-            additionalTags: [
-                '<link rel="preload" href="https://static.kannatan.fi/KFOlCnqEu92Fr1MmYUtvAw.ttf" as="font" crossorigin>',
-                '<link rel="preload" href="https://static.kannatan.fi/4iCv6KVjbNBYlgoC1CzTtw.ttf" as="font" crossorigin>',
-                '<link rel="preload" href="https://static.kannatan.fi/4iCs6KVjbNBYlgo6eA.ttf" as="font" crossorigin>',
-                '<script defer src="https://static.kannatan.fi/lodash.min.js"></script>',
-                '<script defer src="https://static.kannatan.fi/beta/index.js"></script>',
-                '<meta name="robots" content="noindex">',
-                '<link rel="canonical" href="https://kannatan.fi/beta">'
-            ],
-            styleSheet: 'https://static.kannatan.fi/beta/style.css'
-        })}
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="refresh" content="0;url=https://beta.kannatan.fi">
+            <title>Redirecting...</title>
+        </head>
         <body>
-            <div id="root">
-            </div>
+            <p>If you are not redirected, <a href="https://beta.kannatan.fi">click here</a>.</p>
         </body>
         </html>
     `
