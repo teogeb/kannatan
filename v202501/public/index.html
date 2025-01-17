@@ -3,88 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Kannatan beta</title>
+    <link rel="preload" href="https://static.kannatan.fi/KFOlCnqEu92Fr1MmYUtvAw.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://static.kannatan.fi/4iCv6KVjbNBYlgoC1CzTtw.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://static.kannatan.fi/4iCs6KVjbNBYlgo6eA.ttf" as="font" crossorigin>
+    <script defer src="https://static.kannatan.fi/lodash.min.js"></script>
+    <script defer src="/index.js"></script>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" href="https://static.kannatan.fi/favicon.svg">
+    <meta name="robots" content="noindex">
 </head>
 <body>
-    <form id="dataForm">
-        <select id="partyId">
-            <option value="kd">Kristillisdemokraatit</option>
-            <option value="kesk">Keskusta</option>
-            <option value="kok">Kokoomus</option>
-            <option value="ps">Perussuomalaiset</option>
-            <option value="rkp">RKP</option>
-            <option value="sdp">SDP</option>
-            <option value="vas">Vasemmistoliitto</option>
-            <option value="vihr">Vihreät</option>
-        </select>
-        <select id="locationId">
-            <option value="hki">Helsinki</option>
-            <option value="tre">Tampere</option>
-            <option value="jkl">Jyväskylä</option>
-        </select>
-        <p></p>
-        <textarea id="question" name="textArea" rows="4" cols="50" required></textarea>
-        <input type="hidden" id="sessionId" name="textField" required>
-        <p></p>
-        <button type="button" id="sendButton">Lähetä</button>
-        <p id="answer"></p>
-    </form>
-
-    <script>
-        const sendData = async () => {
-            const question = document.getElementById('question').value
-            const sessionId = document.getElementById('sessionId').value
-            const partyId = document.getElementById('partyId').value
-            const locationId = document.getElementById('locationId').value
-            document.getElementById('answer').innerText = '...'
-            try {
-                let body = {
-                    question
-                }
-                if (sessionId !== '') {
-                    body = {
-                        ...body,
-                        sessionId
-                    }
-                } else {
-                    body = {
-                        ...body,
-                        partyId,
-                        locationId
-                    }
-                }
-                const response = await fetch('/api', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(body)
-                });
-                if (response.ok) {
-                    const { answer, sessionId } = JSON.parse(await response.text())
-                    document.getElementById('answer').innerText = answer
-                    document.getElementById('sessionId').value = sessionId
-                } else {
-                    alert('Failed to send data. Please try again.')
-                }
-            } catch (error) {
-                console.error('Error sending data:', error);
-                alert('An error occurred while sending data.')
-            }
-        }
-        document.getElementById('sendButton').addEventListener('click', () => sendData())
-        document.getElementById('question').addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault()  // Prevent default form submission
-                sendData()
-            }
-        })
-        document.getElementById('partyId').addEventListener('change', (event) => {
-            const sessionId = document.getElementById('sessionId').value = ''
-        })
-        document.getElementById('locationId').addEventListener('change', (event) => {
-            const sessionId = document.getElementById('sessionId').value = ''
-        })
-    </script>
+    <div class="root">
+        <div id="dialogue" class="dialogue"></div>
+        <div class="input-container">
+            <input id="chat-input" type="text" placeholder="Kirjoita viesti..." />
+            <button id="send-button">Kysy</button>
+        </div>
+    </div>
+    <!--<div id="root">
+        <div id="chat">
+            <form id="form">
+                <select id="partyId">
+                    <option value="kok">Kokoomus</option>
+                    <option value="sdp">SDP</option>
+                    <option value="kesk">Keskusta</option>
+                    <option value="ps">Perussuomalaiset</option>
+                    <option value="vihr">Vihreät</option>
+                    <option value="vas">Vasemmistoliitto</option>
+                    <option value="rkp">RKP</option>
+                    <option value="kd">Kristillisdemokraatit</option>
+                </select>
+                <select id="locationId">
+                    <option value="jkl">Jyväskylä</option>
+                    <option value="tre">Tampere</option>
+                    <option value="hki">Helsinki</option>
+                </select>
+                <h3>Hei!</h3>
+                <p></p>
+                <p></p>
+                <div id="dialogue">
+                    <p class="assistant">Olen tekoälyn luoma virtuaaliehdokas. Edustan TODO. Mistä juteltaisiin?</p>
+                    <p class="assistant">TODO</p>
+                </div>
+                <textarea id="question" name="textArea" rows="4" cols="50" required></textarea>
+                <input type="hidden" id="sessionId" name="textField" required>
+                <p></p>
+            </form>
+        </div>-->
 </body>
 </html>

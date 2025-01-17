@@ -46,9 +46,16 @@ app.use((req, res, next) => {
     next()
 })
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))
-})
+const staticFiles = {
+    '/': 'index.html',
+    '/index.js': 'index.js',
+    '/style.css': 'style.css'
+}
+for (const [urlPath, fileName] of Object.entries(staticFiles)) {
+    app.get(urlPath, (req, res) => {
+        res.sendFile(path.join(__dirname, '..', 'public', fileName))
+    })    
+}
 
 app.post('/api', async (req, res) => {
     try {
