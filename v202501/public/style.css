@@ -108,6 +108,9 @@ a {
     color: black;
     align-self: flex-start;
 }
+.dialogue p.pending {
+    opacity: 0.5;
+}
 .input-container {
     display: flex;
     padding: 10px;
