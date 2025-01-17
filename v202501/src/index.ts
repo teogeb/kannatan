@@ -6,7 +6,7 @@ import path from 'path'
 const app = express()
 const PORT = 8080
 
-interface Session {
+interface Dialogue {
     id: string
     messages: Message[]
 }
@@ -15,11 +15,11 @@ const log = (message: string) => {
     console.log(new Date().toISOString() + '  ' + message)
 }
 
-const sessions: Map<string, Session> = new Map()
+const dialogues: Map<string, Dialogue> = new Map()
 
-const createSession = (partyId: string, locationId: string): Session => {
+const createDialogue = (partyId: string, locationId: string): Dialogue => {
     const id = uuidv4()
-    log(`- create session: ${id}`)
+    log(`- create dialogue: ${id}`)
     return {
         id,
         messages: [
@@ -57,28 +57,28 @@ for (const [urlPath, fileName] of Object.entries(staticFiles)) {
     })    
 }
 
-app.post('/api', async (req, res) => {
+app.post('/api/dialogue', async (req, res) => {
     try {
         log('Request')
         const userAgent = req.get('User-Agent')
         const url = req.originalUrl
         log(`- user agent: ${userAgent}, URL: ${url}`)
         log('- input: ' + JSON.stringify(req.body))
-        const existingSession = (req.body.sessionId !== undefined) ? sessions.get(req.body.sessionId) : undefined
-        const session = existingSession ?? createSession(req.body.partyId, req.body.locationId)
-        session.messages.push({
+        const existingDialogue = (req.body.dialogueId !== undefined) ? dialogues.get(req.body.dialogueId) : undefined
+        const dialogue = existingDialogue ?? createDialogue(req.body.partyId, req.body.locationId)
+        dialogue.messages.push({
             role: 'user',
             content: req.body.question
         })
-        const answer = await getAnswer(session.messages)
+        const answer = await getAnswer(dialogue.messages)
         log('- answer: ' + answer)
-        session.messages.push({
+        dialogue.messages.push({
             role: 'system',
             content: answer
         })
-        sessions.set(session.id, session)
+        dialogues.set(dialogue.id, dialogue)
 
-        res.json({ answer, sessionId: session.id })
+        res.json({ answer, dialogueId: dialogue.id })
     } catch (e: any) {
         log(e.message)
         console.log(e)
