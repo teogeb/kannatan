@@ -22,11 +22,23 @@ const PARTY_NAMES = {
     'vas': 'Vasemmistoliitto',
     'vihr': 'Vihreitä'
 }
+
+const PROFILE_IMAGES_URLS = {
+    'kd': '/images/kd-1716250767.png',
+    'kesk': '/images/kesk-1715643393.png',
+    'kok': '/images/kok-1715642909.png',
+    'ps': '/images/ps-1716251177.png',
+    'rkp': '/images/rkp-1715642415.png',
+    'sdp': '/images/sdp-1715643055.png',
+    'vas': '/images/vas-1716252125.png',
+    'vihr': '/images/vihr-1716252407.png'
+}
+
 const initPage = () => {
 
     const partyId = new URLSearchParams(window.location.search).get('partyId')
-    console.log(partyId)
 
+    const profileImageElement = document.getElementById('profileImage')
     const dialogueContainer = document.getElementById('dialogue')
     const questionInput = document.getElementById('question')
     const sendButton = document.getElementById('sendButton')
@@ -40,6 +52,8 @@ const initPage = () => {
         dialogueContainer.scrollTop = dialogueContainer.scrollHeight
         return messageDiv
     }
+
+    profileImageElement.src = PROFILE_IMAGES_URLS[partyId]
 
     addMessage(`Olen tekoälyn luoma virtuaaliehdokas. Edustan ${PARTY_NAMES[partyId]}. Mistä juteltaisiin?`, 'bot')
 
