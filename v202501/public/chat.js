@@ -25,12 +25,12 @@ const PARTY_NAMES = {
 
 const PROFILE_IMAGES_URLS = {
     'kd': '/images/kd-1716250767.png',
-    'kesk': '/images/kesk-1715643393.png',
+    'kesk': '/images/kesk-1715643393-2.png',
     'kok': '/images/kok-1715642909.png',
     'ps': '/images/ps-1716251177.png',
     'rkp': '/images/rkp-1715642415.png',
     'sdp': '/images/sdp-1715643055.png',
-    'vas': '/images/vas-1716252125.png',
+    'vas': '/images/vas-1716252125-2.png',
     'vihr': '/images/vihr-1716252407.png'
 }
 
