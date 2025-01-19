@@ -26,12 +26,27 @@ p {
     margin: 0
 }
 
+a {
+    text-decoration: none;
+    outline: none;
+    box-shadow: none;
+    border: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+a img {
+    display: block;
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+
 h3 {
     font-size: 1.5rem;
     color: yellow;
     font-family: 'Roboto', Tahoma, Verdana, sans-serif;
     font-weight: 900;
-    text-align: center; 
+    text-align: center;
 }
 
 .hidden {
@@ -175,13 +190,13 @@ a {
 .partySelect {
     width: 70vw;
     display: grid;
-    grid-template-columns: repeat(2, 1fr); 
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
 }
 @media (min-width: 1024px) and (pointer: fine)  {
     .partySelect  {
         width: 60vw;
-        grid-template-columns: repeat(4, 1fr); 
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 .partySelect div {
