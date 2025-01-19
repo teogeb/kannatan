@@ -104,7 +104,7 @@ a {
     display: flex;
     flex-direction: column;
     height: 100svh;
-    margin-bottom: 1rem;
+    margin-bottom: 0rem;
 }
 @media (min-width: 1024px) and (pointer: fine) {
     .chat {
@@ -127,7 +127,7 @@ a {
 }
 .dialogue {
     flex: 1;
-    padding: 1rem;
+    padding: 1rem 0rem 1rem 1rem;
     overflow-y: auto;
 }
 .dialogue p {
