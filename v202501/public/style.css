@@ -1,5 +1,5 @@
 body, html {
-    height: 98svh;
+    height: 100svh;
     margin: 0;
     background: #222222;
     font-family: 'Ubuntu', Tahoma, Verdana, sans-serif;
@@ -86,27 +86,30 @@ a {
 
 #root {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
     height: 100%;
 }
 
+#root.frontPage {
+    justify-content: center;
+    align-items: center;
+}
+
 .chat {
     width: 100%;
-    margin: 20px auto;
+    margin: 0px auto;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: 90svh;
+    height: 100svh;
     margin-bottom: 1rem;
 }
 @media (min-width: 1024px) and (pointer: fine) {
     .chat {
         max-width: 60vw;
-        height: 80svh;
+        height: 95svh;
     }
 }
 .chat img {
@@ -154,8 +157,8 @@ a {
 }
 .inputContainer {
     display: flex;
-    padding: 1rem;
-    gap: 2em;
+    padding: 1rem 1rem 0.1rem 1rem;
+    gap: 1.5em;
 }
 .inputContainer input {
     flex-grow: 1;
@@ -175,7 +178,7 @@ a {
 .inputContainer button {
     flex-grow: 0;
     flex-shrink: 0;
-    padding: 1rem 2rem;
+    padding: 1rem 1.5rem;
     background-color: #9000ff;
     color: white;
     border: none;
@@ -187,9 +190,9 @@ a {
     .inputContainer button {
         font-size: 1.2rem;
     }
-}
-.inputContainer button:hover {
-    background-color:magenta;
+    .inputContainer button:hover {
+        background-color:magenta;
+    }
 }
 
 .partySelect {
