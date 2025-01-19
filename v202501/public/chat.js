@@ -55,7 +55,7 @@ const initPage = () => {
 
     profileImageElement.src = PROFILE_IMAGES_URLS[partyId]
 
-    addMessage(`Olen tekoälyn luoma virtuaaliehdokas. Edustan ${PARTY_NAMES[partyId]}. Mistä juteltaisiin?`, 'bot')
+    addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas. Edustan ${PARTY_NAMES[partyId]}. Mistä juteltaisiin?`, 'bot')
 
     const sendQuestion = async () => {
         const userMessage = questionInput.value.trim()
