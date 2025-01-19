@@ -48,6 +48,11 @@ h3 {
     font-weight: 900;
     text-align: center;
 }
+@media (min-width: 1024px) and (pointer: fine) {
+    h3 {
+        font-size: 2rem;
+    }
+}
 
 .hidden {
     display: none !important;
