@@ -229,3 +229,8 @@ a {
     filter: grayscale(0%) sepia(30%) hue-rotate(200deg) saturate(120%);
     cursor: pointer;
 }
+
+#profileImage:hover {
+    filter: grayscale(0%) sepia(30%) hue-rotate(200deg) saturate(120%);
+    cursor: pointer;
+}
