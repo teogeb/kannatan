@@ -130,6 +130,10 @@ a {
     padding: 1rem 0rem 0rem 1rem;
     overflow-y: auto;
     scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+}
+.dialogue::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge, etc. */
 }
 .dialogue p {
     margin-top: 0.5rem;
