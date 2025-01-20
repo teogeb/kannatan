@@ -44,6 +44,13 @@ const initPage = () => {
     const sendButton = document.getElementById('sendButton')
     let dialogueId = undefined
 
+    function scrollToDialogueBottom() {
+        dialogueContainer.scrollTo({
+            top: dialogueContainer.scrollHeight,
+            behavior: 'smooth'
+        });
+    }
+
     function addMessage(text, sender) {
         const messageDiv = document.createElement('p')
         messageDiv.classList.add(sender === 'user' ? 'user' : 'bot')
@@ -71,7 +78,7 @@ const initPage = () => {
             if (isFirstQuestion) {
                 dialogueId = response.dialogueId
             }
-            dialogueContainer.scrollTop = dialogueContainer.scrollHeight
+            scrollToDialogueBottom()
         }
     }
 
@@ -80,6 +87,9 @@ const initPage = () => {
         if (e.key === 'Enter') {
             sendQuestion()
         }
+    })
+    window.addEventListener('resize', () => {
+        scrollToDialogueBottom()
     })
 }
 
