@@ -87,7 +87,7 @@ app.post('/api/dialogue', async (req, res) => {
         const answer = await getAnswer(dialogue.messages)
         log('- answer: ' + answer)
         dialogue.messages.push({
-            role: 'system',
+            role: 'assistant',
             content: answer
         })
         dialogues.set(dialogue.id, dialogue)

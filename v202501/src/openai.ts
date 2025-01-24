@@ -24,7 +24,7 @@ export const createInitialPrompt = (partyId: string) => {
 }
 
 export interface Message {
-    role: 'system' | 'user'
+    role: 'system' | 'assistant' | 'user'
     content: string
 }
 
