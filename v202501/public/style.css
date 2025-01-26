@@ -1,7 +1,7 @@
 body, html {
     height: 100svh;
     margin: 0;
-    background: #222222;
+    background: #350a47;
     font-family: 'Ubuntu', Tahoma, Verdana, sans-serif;
     font-weight: 400;
     overflow-x: hidden;
@@ -193,7 +193,7 @@ a {
 
 h3 {
     font-size: 1.5rem;
-    color: #bb00ff;
+    color: #ffa200;
     font-family: 'Roboto', Tahoma, Verdana, sans-serif;
     font-weight: 900;
     text-align: center;
@@ -209,7 +209,7 @@ h3 {
     height: 72svh;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 0.5rem;
 }
 @media (min-width: 1024px) and (pointer: fine)  {
     .partySelect  {
