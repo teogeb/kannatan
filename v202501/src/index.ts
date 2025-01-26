@@ -31,6 +31,9 @@ const createDialogue = (partyId: string): Dialogue => {
     }
 }
 
+// this is needed to get client IP address as deployment is behind a proxy (the AWS Application Load Balancer)
+app.set('trust proxy', true)
+
 app.use(express.json())
 app.use((req, res, next) => {  // TODO not needed in production
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -76,7 +79,8 @@ app.post('/api/dialogue', async (req, res) => {
         log('Request')
         const userAgent = req.get('User-Agent')
         const url = req.originalUrl
-        log(`- user agent: ${userAgent}, URL: ${url}`)
+        const ipAddress = req.ip
+        log(`- request: ${JSON.stringify({ url, userAgent, ipAddress })}`)
         log('- input: ' + JSON.stringify(req.body))
         const existingDialogue = (req.body.dialogueId !== undefined) ? dialogues.get(req.body.dialogueId) : undefined
         const dialogue = existingDialogue ?? createDialogue(req.body.partyId)

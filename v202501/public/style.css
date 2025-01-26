@@ -145,6 +145,7 @@ a {
 @media (min-width: 1024px) and (pointer: fine) {
     .dialogue p {
         font-size: 1.2rem;
+        font-weight: 300;
     }
 }
 .dialogue p.user {
@@ -177,7 +178,9 @@ a {
 }
 @media (min-width: 1024px) and (pointer: fine) {
     .inputContainer input {
+        font-family: 'Ubuntu', Tahoma, Verdana, sans-serif;
         font-size: 1.2rem;
+        font-weight: 300;
     }
 }
 .inputContainer button {
