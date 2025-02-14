@@ -74,9 +74,8 @@ for (const [urlPath, fileName] of Object.entries(staticFiles)) {
     })    
 }
 
-app.post('/api/dialogue', async (req, res) => {
+app.post('/api/chat', async (req, res) => {
     try {
-        log('Request')
         const userAgent = req.get('User-Agent')
         const url = req.originalUrl
         const ipAddress = req.ip

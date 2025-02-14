@@ -1,5 +1,5 @@
 const fetchResponse = async (question, metadata) => {
-    const response = await fetch('/api/dialogue', {
+    const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
