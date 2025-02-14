@@ -27,7 +27,7 @@ const openai = new OpenAI()
 
 export const getAnswer = async (messages: Message[]) => {
     const completion: OpenAI.ChatCompletion = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4o',
         messages
     })
     return completion.choices[0].message.content!
