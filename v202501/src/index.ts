@@ -6,7 +6,7 @@ import path from 'path'
 const app = express()
 const PORT = 8080
 
-interface Dialogue {
+interface Conversation {
     id: string
     messages: Message[]
 }
@@ -15,11 +15,11 @@ const log = (message: string) => {
     console.log(new Date().toISOString() + '  ' + message)
 }
 
-const dialogues: Map<string, Dialogue> = new Map()
+const conversations: Map<string, Conversation> = new Map()
 
-const createDialogue = (partyId: string): Dialogue => {
+const createConversation = (partyId: string): Conversation => {
     const id = uuidv4()
-    log(`- create dialogue: ${id}`)
+    log(`- create conversation: ${id}`)
     return {
         id,
         messages: [
@@ -81,21 +81,21 @@ app.post('/api/chat', async (req, res) => {
         const ipAddress = req.ip
         log(`- request: ${JSON.stringify({ url, userAgent, ipAddress })}`)
         log('- input: ' + JSON.stringify(req.body))
-        const existingDialogue = (req.body.dialogueId !== undefined) ? dialogues.get(req.body.dialogueId) : undefined
-        const dialogue = existingDialogue ?? createDialogue(req.body.partyId)
-        dialogue.messages.push({
+        const existingConversation = (req.body.conversationId !== undefined) ? conversations.get(req.body.conversationId) : undefined
+        const conversation = existingConversation ?? createConversation(req.body.partyId)
+        conversation.messages.push({
             role: 'user',
             content: req.body.question
         })
-        const answer = await getAnswer(dialogue.messages)
+        const answer = await getAnswer(conversation.messages)
         log('- answer: ' + answer)
-        dialogue.messages.push({
+        conversation.messages.push({
             role: 'assistant',
             content: answer
         })
-        dialogues.set(dialogue.id, dialogue)
+        conversations.set(conversation.id, conversation)
 
-        res.json({ answer, dialogueId: dialogue.id })
+        res.json({ answer, conversationId: conversation.id })
     } catch (e: any) {
         log(e.message)
         console.log(e)

@@ -39,14 +39,14 @@ const initPage = () => {
     const partyId = new URLSearchParams(window.location.search).get('partyId')
 
     const profileImageElement = document.getElementById('profileImage')
-    const dialogueContainer = document.getElementById('dialogue')
+    const conversationContainer = document.getElementById('conversation')
     const questionInput = document.getElementById('question')
     const sendButton = document.getElementById('sendButton')
-    let dialogueId = undefined
+    let conversationId = undefined
 
-    function scrollToDialogueBottom() {
-        dialogueContainer.scrollTo({
-            top: dialogueContainer.scrollHeight,
+    function scrollToConversationBottom() {
+        conversationContainer.scrollTo({
+            top: conversationContainer.scrollHeight,
             behavior: 'smooth'
         });
     }
@@ -55,8 +55,8 @@ const initPage = () => {
         const messageDiv = document.createElement('p')
         messageDiv.classList.add(sender === 'user' ? 'user' : 'bot')
         messageDiv.textContent = text
-        dialogueContainer.appendChild(messageDiv)
-        dialogueContainer.scrollTop = dialogueContainer.scrollHeight
+        conversationContainer.appendChild(messageDiv)
+        conversationContainer.scrollTop = conversationContainer.scrollHeight
         return messageDiv
     }
 
@@ -67,18 +67,18 @@ const initPage = () => {
     const sendQuestion = async () => {
         const userMessage = questionInput.value.trim()
         if (userMessage) {
-            const isFirstQuestion = (dialogueId === undefined)
+            const isFirstQuestion = (conversationId === undefined)
             addMessage(userMessage, 'user')
             questionInput.value = ''
             const answerDiv = addMessage('...', 'assistant')
             answerDiv.classList.add('pending')
-            const response = await fetchResponse(userMessage, isFirstQuestion ? { partyId } : { dialogueId })
+            const response = await fetchResponse(userMessage, isFirstQuestion ? { partyId } : { conversationId })
             answerDiv.textContent = response.answer
             answerDiv.classList.remove('pending')
             if (isFirstQuestion) {
-                dialogueId = response.dialogueId
+                conversationId = response.conversationId
             }
-            scrollToDialogueBottom()
+            scrollToConversationBottom()
         }
     }
 
@@ -89,7 +89,7 @@ const initPage = () => {
         }
     })
     window.addEventListener('resize', () => {
-        scrollToDialogueBottom()
+        scrollToConversationBottom()
     })
 }
 
