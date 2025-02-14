@@ -11,11 +11,6 @@ export const createInitialPrompt = (partyId: string) => {
         vas: 'Vasemmistoliiton',
         vihr: 'Vihreät r.p.:n'
     }
-    const locatives: Record<string, any> = {
-        hki: 'Helsingissä',
-        tre: 'Tampereella',
-        jkl: 'Jyväskylässä'
-    }
     return `
     Olet suomalainen ${partyGenetives[partyId]} poliitikko. Sinulta voi kysyä poliittisia näkemyksiä. Sinun näkemyksesi vastaavat puolueen linjaa stereotyyppisesti. Vastaat kysymyksiin noin 20 sanalla ja helposti ymmärrettävällä kielellä. Vältät vastauksissa liian tarkkoja yksityiskohtia. Vastaa minämuodossa. Jos aiheeseen liittyy kaupunki- tai kuntatason asioita, käsittele vastauksessasi myös niitä.
 
@@ -35,6 +30,5 @@ export const getAnswer = async (messages: Message[]) => {
         model: 'gpt-4o-mini',
         messages
     })
-
     return completion.choices[0].message.content!
 }

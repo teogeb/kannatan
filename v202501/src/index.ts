@@ -35,7 +35,7 @@ const createDialogue = (partyId: string): Dialogue => {
 app.set('trust proxy', true)
 
 app.use(express.json())
-app.use((req, res, next) => {  // TODO not needed in production
+app.use((_req, res, next) => {  // TODO not needed in production
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
@@ -69,7 +69,7 @@ const staticFiles = {
     '/images/vihr-1716252407.png': 'vihr-1716252407.png'
 }
 for (const [urlPath, fileName] of Object.entries(staticFiles)) {
-    app.get(urlPath, (req, res) => {
+    app.get(urlPath, (_req, res) => {
         res.sendFile(path.join(__dirname, '..', 'public', fileName))
     })    
 }
@@ -103,7 +103,7 @@ app.post('/api/dialogue', async (req, res) => {
         res.json({ error: 'Error' })
     }
 })
-app.get('/healthcheck', (req, res) => {
+app.get('/healthcheck', (_req, res) => {
     log('Healthcheck')
     res.send('OK')
 })
