@@ -1,34 +1,20 @@
 import express from 'express'
-import { v4 as uuidv4 } from 'uuid'
-import { getAnswer, createInitialPrompt, Message } from './openai'
 import path from 'path'
+import { OpenAI } from 'openai';
 
 const app = express()
 const PORT = 8080
 
-interface Conversation {
-    id: string
-    messages: Message[]
-}
+export const openai = new OpenAI()
 
 const log = (message: string) => {
     console.log(new Date().toISOString() + '  ' + message)
 }
 
-const conversations: Map<string, Conversation> = new Map()
-
-const createConversation = (partyId: string): Conversation => {
-    const id = uuidv4()
-    log(`- create conversation: ${id}`)
-    return {
-        id,
-        messages: [
-            { 
-                role: 'system', 
-                content: createInitialPrompt(partyId)
-            }
-        ]
-    }
+const createThread = async (partyId: string) => {
+    const thread = await openai.beta.threads.create()
+    log(`💬 Created thread: ${thread.id}`)
+    return thread.id
 }
 
 // this is needed to get client IP address as deployment is behind a proxy (the AWS Application Load Balancer)
@@ -81,21 +67,40 @@ app.post('/api/chat', async (req, res) => {
         const ipAddress = req.ip
         log(`- request: ${JSON.stringify({ url, userAgent, ipAddress })}`)
         log('- input: ' + JSON.stringify(req.body))
-        const existingConversation = (req.body.conversationId !== undefined) ? conversations.get(req.body.conversationId) : undefined
-        const conversation = existingConversation ?? createConversation(req.body.partyId)
-        conversation.messages.push({
-            role: 'user',
-            content: req.body.question
-        })
-        const answer = await getAnswer(conversation.messages)
-        log('- answer: ' + answer)
-        conversation.messages.push({
-            role: 'assistant',
-            content: answer
-        })
-        conversations.set(conversation.id, conversation)
 
-        res.json({ answer, conversationId: conversation.id })
+        const threadId = await (req.body.threadId ?? createThread(req.body.partyId))
+
+        await openai.beta.threads.messages.create(
+            threadId,
+            {
+              role: 'user',
+              content: req.body.question
+            }
+        );
+
+        // Run assistant
+        console.log('⏳ Running assistant...')
+        const run = await openai.beta.threads.runs.create(threadId, {
+            assistant_id: 'asst_X5sEJ23Ge9x2IP0GYmrsqZE0' // Vihreä puolue
+        })
+
+        // Poll for completion
+        let runStatus
+        do {
+            await new Promise((resolve) => setTimeout(resolve, 2000)) // Wait 2 sec
+            runStatus = await openai.beta.threads.runs.retrieve(threadId, run.id)
+            console.log(`🔄 Assistant is processing... (Status: ${runStatus.status})`)
+        } while (runStatus.status !== 'completed')
+
+        // Fetch the assistant's response
+        const messages = await openai.beta.threads.messages.list(threadId)
+        const lastMessage = messages.data.find(msg => msg.role === "assistant")?.content?.find(c => "text" in c)?.text?.value || "No response received."
+
+        console.log('\n📄 *OpenAI Summary:*\n')
+        console.log(lastMessage || 'No response received.')
+
+        res.json({ answer: lastMessage, threadId: threadId })
+
     } catch (e: any) {
         log(e.message)
         console.log(e)

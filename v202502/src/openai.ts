@@ -1,4 +1,5 @@
 import { OpenAI } from 'openai';
+import { openai } from './index';
 
 export const createInitialPrompt = (partyId: string) => {
     const partyGenetives: Record<string, any> = {
@@ -22,8 +23,6 @@ export interface Message {
     role: 'system' | 'assistant' | 'user'
     content: string
 }
-
-const openai = new OpenAI()
 
 export const getAnswer = async (messages: Message[]) => {
     const completion: OpenAI.ChatCompletion = await openai.chat.completions.create({

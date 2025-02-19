@@ -42,7 +42,7 @@ const initPage = () => {
     const conversationContainer = document.getElementById('conversation')
     const questionInput = document.getElementById('question')
     const sendButton = document.getElementById('sendButton')
-    let conversationId = undefined
+    let threadId = undefined
 
     function scrollToConversationBottom() {
         conversationContainer.scrollTo({
@@ -65,18 +65,19 @@ const initPage = () => {
     addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas. Edustan ${PARTY_NAMES[partyId]}. Mistä juteltaisiin?`, 'bot')
 
     const sendQuestion = async () => {
+        console.log(`sendQuestion called, threadId: ${threadId}`)
         const userMessage = questionInput.value.trim()
         if (userMessage) {
-            const isFirstQuestion = (conversationId === undefined)
+            const isFirstQuestion = (threadId === undefined)
             addMessage(userMessage, 'user')
             questionInput.value = ''
             const answerDiv = addMessage('...', 'assistant')
             answerDiv.classList.add('pending')
-            const response = await fetchResponse(userMessage, isFirstQuestion ? { partyId } : { conversationId })
+            const response = await fetchResponse(userMessage, isFirstQuestion ? { partyId } : { threadId })
             answerDiv.textContent = response.answer
             answerDiv.classList.remove('pending')
             if (isFirstQuestion) {
-                conversationId = response.conversationId
+                threadId = response.threadId
             }
             scrollToConversationBottom()
         }
