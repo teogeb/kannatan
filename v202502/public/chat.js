@@ -12,6 +12,16 @@ const fetchResponse = async (question, metadata) => {
     return JSON.parse(await response.text())
 }
 
+const deleteThread = async (threadId) => {
+    await fetch('/api/deleteThread', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ threadId })
+    })
+}
+
 const PARTY_NAMES = {
     'kd': 'Kristillisdemokraatteja',
     'kesk': 'Keskustaa',
@@ -65,7 +75,6 @@ const initPage = () => {
     addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas. Edustan ${PARTY_NAMES[partyId]}. Mistä juteltaisiin?`, 'bot')
 
     const sendQuestion = async () => {
-        console.log(`sendQuestion called, threadId: ${threadId}`)
         const userMessage = questionInput.value.trim()
         if (userMessage) {
             const isFirstQuestion = (threadId === undefined)
@@ -92,6 +101,10 @@ const initPage = () => {
     window.addEventListener('resize', () => {
         scrollToConversationBottom()
     })
+    window.addEventListener('beforeunload', () => {
+        if (threadId !== undefined)
+            deleteThread(threadId)
+     });
 }
 
 

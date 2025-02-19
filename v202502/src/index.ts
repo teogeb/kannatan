@@ -1,6 +1,6 @@
 import express from 'express'
 import path from 'path'
-import { OpenAI } from 'openai';
+import { OpenAI } from 'openai'
 
 const app = express()
 const PORT = 8080
@@ -73,10 +73,10 @@ app.post('/api/chat', async (req, res) => {
         await openai.beta.threads.messages.create(
             threadId,
             {
-              role: 'user',
-              content: req.body.question
+                role: 'user',
+                content: req.body.question
             }
-        );
+        )
 
         // Run assistant
         console.log('⏳ Running assistant...')
@@ -107,6 +107,18 @@ app.post('/api/chat', async (req, res) => {
         res.json({ error: 'Error' })
     }
 })
+app.post('/api/deleteThread', async (req, res) => {
+    try {
+        console.log(`🪡 Deleting thread ${req.body.threadId}...`)
+        const response = await openai.beta.threads.del(req.body.threadId)
+        console.log(response)
+    } catch (e: any) {
+        log(e.message)
+        console.log(e)
+        res.json({ error: 'Error' })
+    }
+})
+
 app.get('/healthcheck', (_req, res) => {
     log('Healthcheck')
     res.send('OK')
