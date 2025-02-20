@@ -92,14 +92,18 @@ app.post('/api/chat', async (req, res) => {
             console.log(`🔄 Assistant is processing... (Status: ${runStatus.status})`)
         } while (runStatus.status !== 'completed')
 
+        const removeSourceReferences = (text: string) => text.replace(/\u3010\d+:\d+\u2020source\u3011/g, '')
+        
         // Fetch the assistant's response
         const messages = await openai.beta.threads.messages.list(threadId)
-        const lastMessage = messages.data.find(msg => msg.role === "assistant")?.content?.find(c => "text" in c)?.text?.value || "No response received."
+        const lastMessage = messages.data.find(msg => msg.role === 'assistant')?.content?.find(c => 'text' in c)?.text?.value || 'No response received.'
+        const cleanedMessage = removeSourceReferences(lastMessage);
 
         console.log('\n📄 *OpenAI Summary:*\n')
-        console.log(lastMessage || 'No response received.')
+        console.log(`Last Message:\n${lastMessage}\n`)
+        console.log(`Cleaned Message:\n${cleanedMessage}\n`)
 
-        res.json({ answer: lastMessage, threadId: threadId })
+        res.json({ answer: cleanedMessage, threadId: threadId })
 
     } catch (e: any) {
         log(e.message)
