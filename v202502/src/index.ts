@@ -62,7 +62,7 @@ for (const [urlPath, fileName] of Object.entries(staticFiles)) {
 
 // Initialized with test assistant (Vihreät - Reilun vihreän muutoksen ohjelma).
 // Update assistant IDs with respective party assistants.
-const assistants: Record<string, string> = {
+const assistantIds: Record<string, string> = {
     kd:   'asst_X5sEJ23Ge9x2IP0GYmrsqZE0',
     kesk: 'asst_X5sEJ23Ge9x2IP0GYmrsqZE0',
     kok:  'asst_X5sEJ23Ge9x2IP0GYmrsqZE0',
@@ -94,7 +94,7 @@ app.post('/api/chat', async (req, res) => {
         // Run assistant
         console.log('⏳ Running assistant...')
         const run = await openai.beta.threads.runs.create(threadId, {
-            assistant_id: assistants[req.body.partyId],
+            assistant_id: assistantIds[req.body.partyId],
             tools: [{ type: 'file_search' }]
         })
 
