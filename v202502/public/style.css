@@ -228,7 +228,6 @@ h3 {
     width: 100%;
     padding-top: 100%;
     overflow: hidden;
-    background-color: #ddd;
     border-radius: 1rem;
 }
 .partySelect div img {
@@ -243,6 +242,11 @@ h3 {
 .partySelect div img:hover {
     filter: grayscale(0%) sepia(30%) hue-rotate(200deg) saturate(120%);
     cursor: pointer;
+}
+
+a.disabled {
+    pointer-events: none;
+    opacity: 0.2;
 }
 
 #profileImage:hover {
