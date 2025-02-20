@@ -60,7 +60,7 @@ for (const [urlPath, fileName] of Object.entries(staticFiles)) {
     })    
 }
 
-// Initialized with test assistant (Vihreät - Reilun vihreän muutoksen ohjelma).
+// Initialized with test assistant asst...qZE0 (Vihreät - Reilun vihreän muutoksen ohjelma).
 // Update assistant IDs with respective party assistants.
 const assistantIds: Record<string, string> = {
     kd:   'asst_X5sEJ23Ge9x2IP0GYmrsqZE0',
@@ -70,7 +70,7 @@ const assistantIds: Record<string, string> = {
     rkp:  'asst_X5sEJ23Ge9x2IP0GYmrsqZE0',
     sdp:  'asst_X5sEJ23Ge9x2IP0GYmrsqZE0',
     vas:  'asst_X5sEJ23Ge9x2IP0GYmrsqZE0',
-    vihr: 'asst_X5sEJ23Ge9x2IP0GYmrsqZE0'
+    vihr: 'asst_VwkrL1zu31gzwuqT7ybj2v5n'
 }
 
 app.post('/api/chat', async (req, res) => {
