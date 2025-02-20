@@ -81,7 +81,8 @@ app.post('/api/chat', async (req, res) => {
         // Run assistant
         console.log('⏳ Running assistant...')
         const run = await openai.beta.threads.runs.create(threadId, {
-            assistant_id: 'asst_X5sEJ23Ge9x2IP0GYmrsqZE0' // Vihreä puolue
+            assistant_id: 'asst_X5sEJ23Ge9x2IP0GYmrsqZE0', // Vihreä puolue
+            tools: [{ type: 'file_search' }]
         })
 
         // Poll for completion
