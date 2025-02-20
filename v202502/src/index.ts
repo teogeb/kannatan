@@ -11,7 +11,7 @@ const log = (message: string) => {
     console.log(new Date().toISOString() + '  ' + message)
 }
 
-const createThread = async (partyId: string) => {
+const createThread = async () => {
     const thread = await openai.beta.threads.create()
     log(`💬 Created thread: ${thread.id}`)
     return thread.id
@@ -60,6 +60,19 @@ for (const [urlPath, fileName] of Object.entries(staticFiles)) {
     })    
 }
 
+// Initialized with test assistant (Vihreät - Reilun vihreän muutoksen ohjelma).
+// Update assistant IDs with respective party assistants.
+const assistants: Record<string, string> = {
+    kd:   'asst_X5sEJ23Ge9x2IP0GYmrsqZE0',
+    kesk: 'asst_X5sEJ23Ge9x2IP0GYmrsqZE0',
+    kok:  'asst_X5sEJ23Ge9x2IP0GYmrsqZE0',
+    ps:   'asst_X5sEJ23Ge9x2IP0GYmrsqZE0',
+    rkp:  'asst_X5sEJ23Ge9x2IP0GYmrsqZE0',
+    sdp:  'asst_X5sEJ23Ge9x2IP0GYmrsqZE0',
+    vas:  'asst_X5sEJ23Ge9x2IP0GYmrsqZE0',
+    vihr: 'asst_X5sEJ23Ge9x2IP0GYmrsqZE0'
+}
+
 app.post('/api/chat', async (req, res) => {
     try {
         const userAgent = req.get('User-Agent')
@@ -68,7 +81,7 @@ app.post('/api/chat', async (req, res) => {
         log(`- request: ${JSON.stringify({ url, userAgent, ipAddress })}`)
         log('- input: ' + JSON.stringify(req.body))
 
-        const threadId = await (req.body.threadId ?? createThread(req.body.partyId))
+        const threadId = await (req.body.threadId ?? createThread())
 
         await openai.beta.threads.messages.create(
             threadId,
@@ -81,7 +94,7 @@ app.post('/api/chat', async (req, res) => {
         // Run assistant
         console.log('⏳ Running assistant...')
         const run = await openai.beta.threads.runs.create(threadId, {
-            assistant_id: 'asst_X5sEJ23Ge9x2IP0GYmrsqZE0', // Vihreä puolue
+            assistant_id: assistants[req.body.partyId],
             tools: [{ type: 'file_search' }]
         })
 
