@@ -13,7 +13,6 @@ const log = (message: string) => {
 
 const createThread = async () => {
     const thread = await openai.beta.threads.create()
-    log(`💬 Created thread: ${thread.id}`)
     return thread.id
 }
 
@@ -73,6 +72,8 @@ const assistantIds: Record<string, string> = {
     vihr: 'asst_VwkrL1zu31gzwuqT7ybj2v5n'
 }
 
+const removeSourceReferences = (plainAnswer: string) => plainAnswer.replace(/\u3010\d+:\d+\u2020source\u3011/g, '')
+
 app.post('/api/chat', async (req, res) => {
     try {
         const userAgent = req.get('User-Agent')
@@ -81,8 +82,9 @@ app.post('/api/chat', async (req, res) => {
         log(`- request: ${JSON.stringify({ url, userAgent, ipAddress })}`)
         log('- input: ' + JSON.stringify(req.body))
 
+        log('--- create thread')
         const threadId = await (req.body.threadId ?? createThread())
-
+        log('--- create message')
         await openai.beta.threads.messages.create(
             threadId,
             {
@@ -90,34 +92,24 @@ app.post('/api/chat', async (req, res) => {
                 content: req.body.question
             }
         )
-
-        // Run assistant
-        console.log('⏳ Running assistant...')
+        log('--- run assistant')
         const run = await openai.beta.threads.runs.create(threadId, {
             assistant_id: assistantIds[req.body.partyId],
-            tools: [{ type: 'file_search' }]
+            tools: [{ type: 'file_search' }],
+            stream: true
         })
 
-        // Poll for completion
-        let runStatus
-        do {
-            await new Promise((resolve) => setTimeout(resolve, 2000)) // Wait 2 sec
-            runStatus = await openai.beta.threads.runs.retrieve(threadId, run.id)
-            console.log(`🔄 Assistant is processing... (Status: ${runStatus.status})`)
-        } while (runStatus.status !== 'completed')
-
-        const removeSourceReferences = (text: string) => text.replace(/\u3010\d+:\d+\u2020source\u3011/g, '')
-        
-        // Fetch the assistant's response
-        const messages = await openai.beta.threads.messages.list(threadId)
-        const lastMessage = messages.data.find(msg => msg.role === 'assistant')?.content?.find(c => 'text' in c)?.text?.value || 'No response received.'
-        const cleanedMessage = removeSourceReferences(lastMessage);
-
-        console.log('\n📄 *OpenAI Summary:*\n')
-        console.log(`Last Message:\n${lastMessage}\n`)
-        console.log(`Cleaned Message:\n${cleanedMessage}\n`)
-
-        res.json({ answer: cleanedMessage, threadId: threadId })
+        let plainAnswer = ''
+        for await (const event of run) {
+            if (event.event === 'thread.message.delta') {
+                const delta = event.data.delta as any
+                const snippet = delta.content[0].text.value
+                plainAnswer += snippet
+                log('--- receive snippet: ' + snippet.length)
+            }
+        }
+        log('--- plainAnswer: ' + plainAnswer)
+        res.json({ answer: removeSourceReferences(plainAnswer), threadId: threadId })
 
     } catch (e: any) {
         log(e.message)
