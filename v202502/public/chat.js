@@ -33,6 +33,17 @@ const PARTY_NAMES = {
     'vihr': 'Vihreitä'
 }
 
+const SUGGESTIONS = {
+    'kd': [],
+    'kesk': [],
+    'kok': [],
+    'ps': [],
+    'rkp': [],
+    'sdp': [],
+    'vas': [],
+    'vihr': ['Ympäristönsuojelu', 'Sosiaalinen oikeudenmukaisuus', 'Kestävä kehitys']
+}
+
 const PROFILE_IMAGES_URLS = {
     'kd': '/images/kd-1716250767.png',
     'kesk': '/images/kesk-1715643393-2.png',
@@ -89,7 +100,8 @@ const initPage = () => {
 
     profileImageElement.src = PROFILE_IMAGES_URLS[partyId]
 
-    addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas. Edustan ${PARTY_NAMES[partyId]}. Mistä juteltaisiin?`, 'bot')
+    addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmaan liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'bot')
+    addSuggestions(SUGGESTIONS[partyId])
 
     const sendQuestion = async () => {
         const userMessage = questionInput.value.trim()
