@@ -159,7 +159,7 @@ app.post('/api/chat', async (req, res) => {
         }
         log('--- suggestions: ' + suggestions)
 
-        res.json({ answer: removeSourceReferences(plainAnswer), threadId: threadId })
+        res.json({ answer: removeSourceReferences(plainAnswer), suggestions: suggestions, threadId: threadId })
 
     } catch (e: any) {
         log(e.message)

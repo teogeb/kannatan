@@ -70,6 +70,23 @@ const initPage = () => {
         return messageDiv
     }
 
+    function handleBtnClick(text) {
+        questionInput.value = text
+        sendQuestion()
+    }
+
+    function addSuggestions(suggestions) {
+        const btnContainer = document.createElement('div')
+        btnContainer.classList.add('buttons')
+        for (let s of suggestions) {
+            const btn = document.createElement('button')
+            btn.textContent = s
+            btn.onclick = () => handleBtnClick(s)
+            btnContainer.appendChild(btn)
+        }
+        conversationContainer.appendChild(btnContainer)
+    }
+
     profileImageElement.src = PROFILE_IMAGES_URLS[partyId]
 
     addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas. Edustan ${PARTY_NAMES[partyId]}. Mistä juteltaisiin?`, 'bot')
@@ -88,6 +105,8 @@ const initPage = () => {
             if (isFirstQuestion) {
                 threadId = response.threadId
             }
+            const suggestions = response.suggestions
+            addSuggestions(suggestions)
             scrollToConversationBottom()
         }
     }
