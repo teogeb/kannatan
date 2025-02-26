@@ -1,15 +1,14 @@
 import express from 'express'
 import path from 'path'
-import { OpenAI } from 'openai'
-import fs from 'fs';
-import { Document, LlamaParseReader, MetadataMode, NodeWithScore, storageContextFromDefaults, VectorStoreIndex } from 'llamaindex';
-import { PDFReader } from "@llamaindex/readers/pdf";
+import { OpenAI } from "@llamaindex/openai";
+import { storageContextFromDefaults, VectorStoreIndex, Settings } from 'llamaindex';
 import { SimpleDirectoryReader } from "@llamaindex/readers/directory";
 
 const app = express()
 const PORT = 8080
 
-export const openai = new OpenAI()
+// import { OpenAI } from 'openai'
+// export const openai = new OpenAI()
 
 const log = (message: string) => {
     console.log(new Date().toISOString() + '  ' + message)
@@ -59,6 +58,27 @@ for (const [urlPath, fileName] of Object.entries(staticFiles)) {
 }
 
 
+Settings.llm = new OpenAI({
+    model: 'gpt-4o-mini',
+    temperature: 0.02,
+    topP: 0.02
+})
+
+async function getDocuments() {
+    const dataDir = 'data'
+    const documents = await new SimpleDirectoryReader().loadData({ directoryPath: dataDir })
+    return documents;
+}
+
+async function generateDatasource() {
+    console.log(`Generating storage context...`);
+    const persistDir = '.persistDir';
+    const storageContext = await storageContextFromDefaults({ persistDir })
+    const documents = await getDocuments();
+    const index = await VectorStoreIndex.fromDocuments(documents, { storageContext, });
+    return index
+}
+
 app.post('/api/chat', async (req, res) => {
     try {
         const userAgent = req.get('User-Agent')
@@ -66,39 +86,29 @@ app.post('/api/chat', async (req, res) => {
         const ipAddress = req.ip
         log(`- request: ${JSON.stringify({ url, userAgent, ipAddress })}`)
         log('- input: ' + JSON.stringify(req.body))
+
         /////////////////////
-        const STORAGE_DIR = './storage'
 
-        log('Create vector store index...')
-        const reader = new SimpleDirectoryReader();
-        const documents = await reader.loadData('data');
-        //const storageContext = await storageContextFromDefaults({ persistDir: "./storage" });
-        const index = await VectorStoreIndex.fromDocuments(documents)//, storageContext)
+        log('--- Generate datasource')
+        const index = await generateDatasource()
 
-        log('Init query engine...')
+        log('--- Init query engine...')
         const query_engine = index.asQueryEngine()
-        log('Get response...')
-        const response = await query_engine.query({ query: 'Mitkä ovat dokumentin keskeiset teemat?' })
-        console.log('\nResponse:\n' + JSON.stringify(response.message.content))
+        log('--- Get response...')
+        const response = await query_engine.query({ query: 'Mitkä ovat dokumentin keskeiset teemat? Vastaa noin kymmenellä sanalla' })
+        log('--- Response:\n' + JSON.stringify(response.message.content))
+
         /////////////////////
+
         res.json({ answer: 'abc kissa', suggestions: [], threadId: '' })
+
     } catch (e: any) {
         log(e.message)
         console.log(e)
         res.json({ error: 'Error' })
     }
 })
-app.post('/api/deleteThread', async (req, res) => {
-    try {
-        console.log(`🪡 Deleting thread ${req.body.threadId}...`)
-        const response = await openai.beta.threads.del(req.body.threadId)
-        console.log(response)
-    } catch (e: any) {
-        log(e.message)
-        console.log(e)
-        res.json({ error: 'Error' })
-    }
-})
+
 
 app.get('/healthcheck', (_req, res) => {
     log('Healthcheck')
