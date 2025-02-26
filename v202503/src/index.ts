@@ -220,14 +220,12 @@ app.post('/api/chat', async (req, res) => {
     }
 })
 
-app.post('/api/deleteConversation', async (req, res) => {
-    try {
-        conversations.delete(req.body.conversationId)
-        console.log(`Deleted conversation ${req.body.conversationId}...`)
-    } catch (e: any) {
-        log(e.message)
-        console.log(e)
-        res.json({ error: 'Error' })
+app.post('/api/deleteConversation', async (req, _res) => {
+    const success = conversations.delete(req.body.conversationId)
+    if (success) {
+        log(`Succesfully deleted conversation ${req.body.conversationId}`)
+    } else {
+        log(`Failed to delete conversation ${req.body.conversationId}`)
     }
 })
 
