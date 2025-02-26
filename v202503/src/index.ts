@@ -7,9 +7,6 @@ import { SimpleDirectoryReader } from "@llamaindex/readers/directory";
 const app = express()
 const PORT = 8080
 
-// import { OpenAI } from 'openai'
-// export const openai = new OpenAI()
-
 const log = (message: string) => {
     console.log(new Date().toISOString() + '  ' + message)
 }
@@ -57,7 +54,6 @@ for (const [urlPath, fileName] of Object.entries(staticFiles)) {
     })
 }
 
-
 Settings.llm = new OpenAI({
     model: 'gpt-4o-mini',
     temperature: 0.02,
@@ -65,16 +61,18 @@ Settings.llm = new OpenAI({
 })
 
 async function getDocuments() {
+    log(`Getting documents...`);
     const dataDir = 'data'
     const documents = await new SimpleDirectoryReader().loadData({ directoryPath: dataDir })
     return documents;
 }
 
 async function generateDatasource() {
-    console.log(`Generating storage context...`);
-    const persistDir = '.persistDir';
+    log(`Generating storage context...`);
+    const persistDir = 'store';
     const storageContext = await storageContextFromDefaults({ persistDir })
     const documents = await getDocuments();
+    log(`Creating vector store index...`);
     const index = await VectorStoreIndex.fromDocuments(documents, { storageContext, });
     return index
 }
@@ -87,20 +85,19 @@ app.post('/api/chat', async (req, res) => {
         log(`- request: ${JSON.stringify({ url, userAgent, ipAddress })}`)
         log('- input: ' + JSON.stringify(req.body))
 
-        /////////////////////
-
         log('--- Generate datasource')
         const index = await generateDatasource()
 
         log('--- Init query engine...')
         const query_engine = index.asQueryEngine()
+
         log('--- Get response...')
-        const response = await query_engine.query({ query: 'Mitkä ovat dokumentin keskeiset teemat? Vastaa noin kymmenellä sanalla' })
-        log('--- Response:\n' + JSON.stringify(response.message.content))
+        const start = Date.now()
+        const response = await query_engine.query({ query: req.body.question })
+        const end = Date.now()
+        log(`--- Response (took ${(end - start) / 1000}s):\n${response.message.content}`)
 
-        /////////////////////
-
-        res.json({ answer: 'abc kissa', suggestions: [], threadId: '' })
+        res.json({ answer: response.message.content, suggestions: [] })
 
     } catch (e: any) {
         log(e.message)
