@@ -95,6 +95,7 @@ app.post('/api/chat', async (req, res) => {
         log('--- run assistant')
         const run = await openai.beta.threads.runs.create(threadId, {
             assistant_id: assistantIds[req.body.partyId],
+            tool_choice: 'auto',
             tools: [{ type: 'file_search' }],
             stream: true
         })
