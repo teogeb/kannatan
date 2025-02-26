@@ -12,13 +12,13 @@ const fetchResponse = async (question, metadata) => {
     return JSON.parse(await response.text())
 }
 
-const deleteThread = async (threadId) => {
+const deleteThread = async (conversationId) => {
     await fetch('/api/deleteThread', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ threadId })
+        body: JSON.stringify({ conversationId })
     })
 }
 
@@ -63,7 +63,7 @@ const initPage = () => {
     const conversationContainer = document.getElementById('conversation')
     const questionInput = document.getElementById('question')
     const sendButton = document.getElementById('sendButton')
-    let threadId = undefined
+    let conversationId = undefined
 
     function scrollToConversationBottom() {
         conversationContainer.scrollTo({
@@ -106,16 +106,16 @@ const initPage = () => {
     const sendQuestion = async () => {
         const userMessage = questionInput.value.trim()
         if (userMessage) {
-            const isFirstQuestion = (threadId === undefined)
+            const isFirstQuestion = (conversationId === undefined)
             addMessage(userMessage, 'user')
             questionInput.value = ''
             const answerDiv = addMessage('...', 'assistant')
             answerDiv.classList.add('pending')
-            const response = await fetchResponse(userMessage, isFirstQuestion ? { partyId } : { partyId, threadId })
+            const response = await fetchResponse(userMessage, isFirstQuestion ? { partyId } : { partyId, conversationId })
             answerDiv.textContent = response.answer
             answerDiv.classList.remove('pending')
             if (isFirstQuestion) {
-                threadId = response.threadId
+                conversationId = response.conversationId
             }
             const suggestions = response.suggestions
             addSuggestions(suggestions)
@@ -133,8 +133,8 @@ const initPage = () => {
         scrollToConversationBottom()
     })
     window.addEventListener('beforeunload', () => {
-        if (threadId !== undefined)
-            deleteThread(threadId)
+        if (conversationId !== undefined)
+            deleteThread(conversationId)
      });
 }
 
