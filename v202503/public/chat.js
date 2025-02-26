@@ -13,7 +13,7 @@ const fetchResponse = async (question, metadata) => {
 }
 
 const deleteThread = async (conversationId) => {
-    await fetch('/api/deleteThread', {
+    await fetch('/api/deleteConversation', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
