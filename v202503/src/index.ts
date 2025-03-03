@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from 'uuid'
 import { OpenAI } from "openai"
 import { OpenAI as OpenAILlama } from "@llamaindex/openai"
 import { storageContextFromDefaults, VectorStoreIndex, Settings, ContextChatEngine } from 'llamaindex'
-import { SimpleDirectoryReader } from "@llamaindex/readers/directory"
 
 const app = express()
 const PORT = 8080
@@ -65,26 +64,12 @@ Settings.llm = new OpenAILlama({
     apiKey: process.env.OPENAI_API_KEY
 })
 
-async function getDocuments() {
-    log(`Getting documents...`)
-    const dataDir = 'data'
-    const documents = await new SimpleDirectoryReader().loadData({ directoryPath: dataDir })
-    documents.forEach(doc => {
-        if (doc.metadata) {
-            delete doc.metadata.file_path
-            delete doc.metadata.file_name
-        }
-    })
-    return documents
-}
-
-async function generateDatasource() {
+async function generateDatasource(): Promise<VectorStoreIndex> {
     log(`Generating storage context...`)
     const persistDir = 'store'
     const storageContext = await storageContextFromDefaults({ persistDir })
-    const documents = await getDocuments()
     log(`Creating vector store index...`)
-    const index = await VectorStoreIndex.fromDocuments(documents, { storageContext })
+    const index = await VectorStoreIndex.init({ storageContext })
     return index
 }
 
@@ -140,8 +125,8 @@ app.post('/api/chat', async (req, res) => {
 
         log('--- Generate datasource')
         const index = await generateDatasource()
-        
         const retriever = index.asRetriever()
+
         const chatEngine = new ContextChatEngine({ retriever })
         const stream = await chatEngine.chat({ message: req.body.question, stream: true, chatHistory: conversation.messages});
         
@@ -154,7 +139,7 @@ app.post('/api/chat', async (req, res) => {
         }
         const end = Date.now()
         console.log()
-        log(`--- Answering took ${(end - start) / 1000}s}`)
+        log(`--- Answering took ${(end - start) / 1000}s`)
 
         conversation.messages.push({
             role: 'assistant',
