@@ -35,13 +35,13 @@ const PARTY_NAMES = {
 
 const SUGGESTIONS = {
     'kd': [],
-    'kesk': [],
+    'kesk': ['Aluepolitiikka', 'Maatalous', 'Sosiaalipolitiikka', 'Yrittäjyys'],
     'kok': [],
-    'ps': [],
+    'ps': ['Maahanmuutto', 'Talous', 'Turvallisuus', 'Koulutus'],
     'rkp': [],
     'sdp': [],
     'vas': [],
-    'vihr': ['Ympäristönsuojelu', 'Sosiaalinen oikeudenmukaisuus', 'Kestävä kehitys']
+    'vihr': ['Ilmasto', 'Ihmisoikeudet', 'Koulutus', 'Talous']
 }
 
 const PROFILE_IMAGES_URLS = {

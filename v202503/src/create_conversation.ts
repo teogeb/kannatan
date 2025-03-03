@@ -20,7 +20,7 @@ export const createConversation = (partyId: string): Conversation => {
     rkp: 'Ruotsalaisen kansanpuolueen',
     sdp: 'Suomen sosialidemokraattisen puoleen',
     vas: 'Vasemmistoliiton',
-    vihr: 'Vihreät r.p.:n'
+    vihr: 'Vihreiden'
 }
     const id = uuidv4()
     log(`- create conversation: ${id}`)
