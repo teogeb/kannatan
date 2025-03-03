@@ -1,8 +1,8 @@
 import express from 'express'
 import path from 'path'
 import { v4 as uuidv4 } from 'uuid'
-import { OpenAI } from "openai"
-import { OpenAI as OpenAILlama } from "@llamaindex/openai"
+import { OpenAI } from 'openai'
+import { OpenAI as OpenAILlama } from '@llamaindex/openai'
 import { storageContextFromDefaults, VectorStoreIndex, Settings, ContextChatEngine } from 'llamaindex'
 
 const app = express()
@@ -64,9 +64,9 @@ Settings.llm = new OpenAILlama({
     apiKey: process.env.OPENAI_API_KEY
 })
 
-async function generateDatasource(): Promise<VectorStoreIndex> {
+async function generateDatasource(partyId: string): Promise<VectorStoreIndex> {
     log(`Generating storage context...`)
-    const persistDir = 'store'
+    const persistDir = `src/store_${partyId}`
     const storageContext = await storageContextFromDefaults({ persistDir })
     log(`Creating vector store index...`)
     const index = await VectorStoreIndex.init({ storageContext })
@@ -124,7 +124,7 @@ app.post('/api/chat', async (req, res) => {
         })
 
         log('--- Generate datasource')
-        const index = await generateDatasource()
+        const index = await generateDatasource(req.body.partyId)
         const retriever = index.asRetriever()
 
         const chatEngine = new ContextChatEngine({ retriever })
