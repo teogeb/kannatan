@@ -27,7 +27,7 @@ const generateStore = async (path, partyId) => {
         console.log(`'${persistDir}' already exists. Deleting it before generating new vector store...`)
         fs.rmSync(persistDir, { recursive: true, force: true })
     }
-    
+
     console.log(`Generating vector store to '${persistDir}'...`)
     const documents = await getDocuments(path)
     const storageContext = await storageContextFromDefaults({ persistDir })
@@ -41,12 +41,13 @@ const getInput = async (query) => {
 const start = async () => {
     try {
         const partyId = await getInput('\nEnter partyId (kd | kesk | kok | ps | rkp | sdp | vas | vihr):\n')
-        const path = await getInput('\nEnter (absolute) path to the folder containing party documents:\n')
+        const path = await getInput('\nEnter absolute path to the folder containing party documents:\n')
         rl.close()
-        
+
         console.log()
         await generateStore(path, partyId)
         console.log('Done')
+
     } catch (e) {
         console.error(e)
     }
