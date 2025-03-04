@@ -23,7 +23,8 @@ body, html {
 }
 
 p {
-    margin: 0
+    margin: 0;
+    white-space: pre-line;
 }
 
 a {
