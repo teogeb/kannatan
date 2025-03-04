@@ -106,6 +106,7 @@ a {
     width: 12vw;
     height: 12vw;
     border-radius: 0.5rem;
+
 }
 @media (min-width: 1024px) and (pointer: fine) {
     .chat img  {
@@ -116,7 +117,7 @@ a {
 }
 .conversation {
     flex: 1;
-    padding: 1rem 0rem 0rem 1rem;
+    margin-top: 1rem;
     overflow-y: auto;
     scroll-behavior: smooth;
     scrollbar-width: none; /* Firefox */
@@ -125,10 +126,10 @@ a {
     display: none; /* Chrome, Safari, Edge, etc. */
 }
 .conversation p {
-    margin-top: 0.5rem;
+    margin: 0.5rem 1.5rem 0 1.5rem;
     padding: 1rem 2rem;
     border-radius: 20px;
-    max-width: 80%;
+    /* max-width: 100%; */
     font-size: 1.1rem;
 }
 @media (min-width: 1024px) and (pointer: fine) {
@@ -140,12 +141,12 @@ a {
 .conversation p.user {
     background-color: #9000ff;
     color: white;
-    align-self: flex-end;
+    /* justify-self: flex-end; */
 }
 .conversation p.bot {
     background-color: #e9e9e9;
     color: black;
-    align-self: flex-start;
+    /* justify-self: flex-start; */
 }
 .conversation p.pending {
     opacity: 0.5;
@@ -282,27 +283,6 @@ h3 {
 .image-container:hover .party-logo {
     opacity: 1;
 }
-
-
-/* .partySelect div {
-    position: relative;
-    width: 100%;
-    padding-top: 100%;
-    overflow: hidden;
-}
-.partySelect div img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.partySelect div img:hover {
-    filter: grayscale(0%) sepia(30%) hue-rotate(200deg) saturate(120%);
-    cursor: pointer;
-} */
 
 a.disabled {
     pointer-events: none;
