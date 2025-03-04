@@ -11,9 +11,11 @@ export const generateSuggestions = async (answer: string) => {
         model: 'gpt-4o-mini',
         messages: [
         {role: 'user', content:`
-            Poimi seuraavasta tekstistä enintään neljä olennaisinta ehdotusta, jotka liittyvät keskusteltavaan aiheeseen. Jos tekstissä ei ole selkeitä ehdotuksia, palauta tyhjä lista. Vastaa vain listana ilman selityksiä.
+            Tehtäväsi on analysoida annettu teksti ja poimia siitä olennaiset ehdotukset listamuotoon. Ehdotukset ovat yleensä keskustelun jatkamiseksi tarjottuja aiheita tai kysymyksiä, jotka käyttäjä voisi valita vastaukseksi. Ehdotukset ovat yleensä tekstin lopussa.
             Palauta vastaus täsmälleen seuraavassa muodossa: ["ehdotus1", "ehdotus2", "ehdotus3", "ehdotus4"].
-            Ehdotuksia tulee olla maksimissaan neljä. Jokaisen ehdotuksen tulee olla vain maksimissaan kaksi sanaa. Jos olennaisia ehdotuksia on vähemmän kuin neljä, palauta vain ne.
+            Ehdotuksia tulee olla maksimissaan neljä. Jokaisen ehdotuksen tulee olla vain maksimissaan kolme sanaa. Ehdotusten tulee olla kieliopillisesti perusmuodossa.
+            Jos olennaisia ehdotuksia on vähemmän kuin neljä, palauta vain ne.
+            Mikäli selkeitä ehdotuksia ei ole, vastaa sopivalla ehdotuksella, jolla keskustelua voi jatkaa. Ehdotusten tulee olla siinä järjestyksessä, missä niistä on mainittu tekstissä.
 
             Tässä esimerkkejä teksteistä ja vastauksista:
                 • Teksti:
@@ -40,6 +42,46 @@ export const generateSuggestions = async (answer: string) => {
                 Vihreät edistävät tasa-arvoa ja yhdenvertaisuutta kaikilla elämänalueilla. Tavoitteena on purkaa eriarvoisuutta ja tukea erityisesti heikommassa asemassa olevia. Tasa-arvolain kokonaisuudistus ja palkkaohjelmat ovat keskeisiä toimenpiteitä. Mistä tarkemmin haluaisit keskustella tasa-arvon osalta? Voimme puhua esimerkiksi koulutuksesta, työelämästä tai sosiaalisista palveluista.
                 • Vastaus:
                 ["Koulutus", "Työelämä", "Sosiaaliset palvelut"]
+
+                • Teksti:
+                Perussuomalaiset kannattavat tiukkaa maahanmuuttopolitiikkaa ja haluavat vähentää maahanmuuttoa EU- ja ETA-maiden ulkopuolelta. Puolueen mukaan nykyinen maahanmuuttopolitiikka on epäonnistunut, ja se aiheuttaa taloudellisia ja inhimillisiä kustannuksia. Haluamme myös tukea vapaaehtoista maastamuuttoa ja helpottaa suomalaisten paluumuuttoa. Voimme keskustella tarkemmin maahanmuuttopolitiikan yksityiskohdista tai vapaaehtoisen maastamuuton tukemisesta.
+                • Vastaus:
+                ["Maahanmuuttopolitiikan yksityiskohdat", "Vapaaehtoinen maastamuutto"]
+
+                • Teksti:
+                Perussuomalaiset kannattavat vapaaehtoista maastamuuttoa ja sen tukemista, erityisesti integroitumishaluttomien maahanmuuttajien osalta. Tavoitteena on helpottaa paluuta omille kansalaisille. Voimme keskustella tarkemmin Tanskan ja Ruotsin käytännöistä tai maahanmuuton vaikutuksista Suomeen.
+                • Vastaus:
+                ["Maahanmuuttopolitiikan yksityiskohdat", "Vapaaehtoinen maastamuutto"]
+
+                • Teksti:
+                Vapaaehtoista maastamuuttoa, erityisesti integroitumishaluttomien maahanmuuttajien osalta, on tärkeää. Haluaisitko kuulla tarkemmin yksityiskohdista?
+                • Vastaus:
+                ["Haluan"]
+
+                • Teksti:
+                Perussuomalaiset vaativat maahanmuuton laadun ja määrän tehokasta hallintaa. Puolueen mukaan työperäistä maahanmuuttoa tulisi rajoittaa EU:n ulkopuolelta, ellei kyse ole koulutetuista henkilöistä. Kiinnostaako sinua tietää tarkemmin puolueen ehdotuksista tai sanktioista ulkomaalaisrikkomuksista?
+                • Vastaus:
+                ["Puolueen ehdotukset", "Sanktiot"]
+
+                • Teksti:
+                Perussuomalaisten näkemyksen mukaan maahanmuuttopolitiikkaa tulee tiukentaa. Puolue korostaa, että integraatio-ongelmat ovat olleet jatkuvia, ja maahanmuuton negatiivisia vaikutuksia on vähennettävä lainsäädännöllä. Haluatko tietää lisää puolueen ehdotuksista maahanmuuton tiukentamiseksi tai vapaaehtoisen maastamuuton tukemisesta?
+                • Vastaus:
+                ["Maahanmuuton tiukentaminen", "Maastamuutto"]
+
+                • Teksti:
+                Kolmas sektori tarjoaa mahdollisuuksia vertaistuelle ja yhteisöllisyydelle, mutta sen roolia on tarkasteltava kriittisesti. Tavoitteena on tarjota sellaista, mitä julkinen tai yksityinen sektori ei voi. Voitko kertoa tarkemmin, mitä haluaisit tietää kolmannesta sektorista? Voimme keskustella sen merkityksestä, haasteista tai Perussuomalaisten näkemyksistä asiassa.
+                • Vastaus:
+                ["Merkitykset", "Haasteet", "Perussuomalaisten näkemykset"]
+
+                • Teksti:
+                Perussuomalaisten mukaan maahanmuutto on aiheuttanut merkittäviä taloudellisia ja sosiaalisia haasteita. Maahanmuuttajat ovat yliedustettuina tulonsiirroissa, ja heidän sosiaalitukiriippuvuutensa on kasvanut. Puolueen ohjelmassa todetaan, että "maahanmuuttajat eivät ole suomalaisia eläkkeiden rahoittajia tai työvoimapulan paikkaajia". Voimme tarkastella tarkemmin maahanmuuton vaikutuksia julkiseen talouteen tai keskustella siitä, miten puolue ehdottaa maahanmuuton laadun parantamista.
+                • Vastaus:
+                ["Julkinen talous", "Laadun parantaminen"]
+
+                • Teksti:
+                "Perussuomalaisten näkemyksen mukaan ikääntyviä työntekijöitä tulee arvostaa ja heidän työllisyyttään parantaa. Puolue korostaa, että ikääntyvät työntekijät ovat arvokasta työvoimaa, ja heidän osaamistaan tulisi hyödyntää. Työllisyyden parantamiseksi on tärkeää tarjota lisäkoulutusta ja muuttaa asenteita työpaikoilla. Voimme keskustella tarkemmin ikääntyvien työntekijöiden koulutuksesta tai työmarkkinoiden haasteista heidän osaltaan."
+                • Vastaus:
+                ["Ikääntyvien työntekijöiden koulutus", "Työmarkkinoiden haasteet"]
 
             Luo vastaus seuraavalle tekstille:
             ${answer}`
