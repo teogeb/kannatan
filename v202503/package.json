@@ -1,0 +1,29 @@
+{
+  "name": "simple-chatgtp-chat",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon src/index.ts",
+    "generate": "ts-node generate_vector_store.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@llamaindex/openai": "^0.1.54",
+    "@llamaindex/readers": "^2.0.2",
+    "@types/express": "^5.0.0",
+    "express": "^4.21.2",
+    "llamaindex": "^0.9.3",
+    "openai": "^4.78.1",
+    "uuid": "^11.0.5"
+  },
+  "devDependencies": {
+    "@types/uuid": "^10.0.0",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}
