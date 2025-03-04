@@ -129,7 +129,6 @@ a {
     margin: 0.5rem 1.5rem 0 1.5rem;
     padding: 1rem 2rem;
     border-radius: 20px;
-    /* max-width: 100%; */
     font-size: 1.1rem;
 }
 @media (min-width: 1024px) and (pointer: fine) {
@@ -141,12 +140,10 @@ a {
 .conversation p.user {
     background-color: #9000ff;
     color: white;
-    /* justify-self: flex-end; */
 }
 .conversation p.bot {
     background-color: #e9e9e9;
     color: black;
-    /* justify-self: flex-start; */
 }
 .conversation p.pending {
     opacity: 0.5;
