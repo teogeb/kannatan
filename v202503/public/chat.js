@@ -35,7 +35,7 @@ const PARTY_NAMES = {
 
 const SUGGESTIONS = {
     'kd': [],
-    'kesk': ['Aluepolitiikka', 'Maatalous', 'Sosiaalipolitiikka', 'Yrittäjyys'],
+    'kesk': ['Sosiaalipolitiikka', 'Koulutus', 'Perhepolitiikka', 'Yrittäjyys'],
     'kok': [],
     'ps': ['Maahanmuutto', 'Talous', 'Turvallisuus', 'Koulutus'],
     'rkp': [],
@@ -100,7 +100,7 @@ const initPage = () => {
 
     profileImageElement.src = PROFILE_IMAGES_URLS[partyId]
 
-    addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmaan liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'bot')
+    addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'bot')
     addSuggestions(SUGGESTIONS[partyId])
 
     const sendQuestion = async () => {
