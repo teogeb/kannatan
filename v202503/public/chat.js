@@ -84,6 +84,7 @@ const initPage = () => {
     function handleBtnClick(text) {
         questionInput.value = text
         sendQuestion()
+        questionInput.focus()
     }
 
     function addSuggestions(suggestions) {
