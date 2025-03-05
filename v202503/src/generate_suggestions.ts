@@ -4,7 +4,7 @@ import { log } from '.'
 
 const openai = new OpenAI()
 
-export const generateSuggestions = async (answer: string) => {
+export const generateSuggestions = async (answer: string): Promise<string[]> => {
     let suggestions = []
 
     const completion: OpenAI.ChatCompletion =  await openai.chat.completions.create({
