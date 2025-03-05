@@ -124,7 +124,6 @@ app.post('/api/chat', async (req, res) => {
         let answerAndSuggestions = ''
         for await (const chunk of stream) {
             answerAndSuggestions += chunk.message.content.toString()
-            process.stdout.write(chunk.message.content.toString());
         }
         const end = Date.now()
         log('Answer', conversation.id, { answerAndSuggestions, elapsedTime: ((end - start) / 1000) })
@@ -135,7 +134,6 @@ app.post('/api/chat', async (req, res) => {
             content: answer
         })
 
-        log('--- Generate suggestions')
         const suggestions = await generateSuggestions(answerAndSuggestions)
         log('Suggestions', conversation.id, suggestions)
 
