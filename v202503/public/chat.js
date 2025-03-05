@@ -86,7 +86,7 @@ const initPage = () => {
         questionInput.focus()
     }
 
-    function addSuggestions(suggestions, includeTellMore) {
+    function addSuggestions(suggestions, areInitialSuggestions) {
         const btnContainer = document.createElement('div')
         btnContainer.classList.add('buttons')
         let items = suggestions.map((s) => (
@@ -95,11 +95,20 @@ const initPage = () => {
                 message: s
             }
         ))
-        if (includeTellMore) {
-            items = [{
-                buttonTitle: 'Kerro lisää',
-                message: 'Kerro lisää tästä aiheesta'
-            }, ...items]
+        if (!areInitialSuggestions) {
+                items = [{
+                    buttonTitle: 'Kerro lisää',
+                    message: 'Kerro lisää tästä aiheesta'
+                },
+                ...items,
+                {
+                    buttonTitle: '\u{1F44D}',
+                    message: 'Olen samaa mieltä'  // TODO could tweak the phrasing?
+                },
+                {
+                    buttonTitle: '\u{1F44E}',
+                    message: 'En olen samaa mieltä'  // TODO could tweak the phrasing?
+                }]
         }
         for (let item of items) {
             const btn = document.createElement('button')
@@ -113,7 +122,7 @@ const initPage = () => {
     profileImageElement.src = PROFILE_IMAGES_URLS[partyId]
 
     addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'bot')
-    addSuggestions(SUGGESTIONS[partyId], false)
+    addSuggestions(SUGGESTIONS[partyId], true)
 
     const sendMessage = async (text) => {
         const isFirstQuestion = (conversationId === undefined)
@@ -127,7 +136,7 @@ const initPage = () => {
             conversationId = response.conversationId
         }
         const suggestions = response.suggestions
-        addSuggestions(suggestions, true)
+        addSuggestions(suggestions, false)
         scrollToConversationBottom()
     }
 
