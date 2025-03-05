@@ -1,7 +1,6 @@
 :root {
     --dark-purple: #480080;
     --purple: #9a00bd;
-    --light-purple: #d654f3;
     --light-gray:  #f7f7f7;
     --gray: #dddddd;
     --dark-gray: #bababa;
@@ -203,7 +202,7 @@ a {
 }
 
 .buttons button:hover {
-    background-color: var(--light-purple);
+    background-color: var(--light-gray);
 }
 
 @media (min-width: 1024px) and (pointer: fine) {

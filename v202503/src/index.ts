@@ -127,7 +127,7 @@ app.post('/api/chat', async (req, res) => {
             process.stdout.write(chunk.message.content.toString());
         }
         const end = Date.now()
-        log('Answer', conversation.id, { answer, elapsedTime: ((end - start) / 1000) })
+        log('Answer', conversation.id, { answerAndSuggestions, elapsedTime: ((end - start) / 1000) })
 
         const answer = withoutLastParagraph(answerAndSuggestions)
         conversation.messages.push({
@@ -137,7 +137,6 @@ app.post('/api/chat', async (req, res) => {
 
         log('--- Generate suggestions')
         const suggestions = await generateSuggestions(answerAndSuggestions)
-        const suggestions = await generateSuggestions(answer)
         log('Suggestions', conversation.id, suggestions)
 
         res.json({ answer: answer, conversationId: conversation.id, suggestions: suggestions })
