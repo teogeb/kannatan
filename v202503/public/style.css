@@ -270,6 +270,10 @@ h3 {
     height: 50%;
     object-fit: contain;
     opacity: 1.;
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 50%;
+    box-shadow: 0 0 10px 10px rgba(255, 255, 255, 0.75);
+    overflow: visible;
 }
 
 @media (min-width: 1024px) and (pointer: fine)  {
@@ -283,6 +287,9 @@ h3 {
         opacity: 0;
         padding: 10px;
         box-sizing: border-box;
+        background-color: white;
+        border-radius: 0;
+        box-shadow: none;
     }
 
     .img-container:hover .party-character {
