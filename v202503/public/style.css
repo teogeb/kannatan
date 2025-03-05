@@ -146,6 +146,7 @@ a {
     border-radius: 20px;
     font-size: 1.1rem;
     min-width: 80%;
+    max-width: 80%;
     align-self: center;
 }
 .conversation p.user {
@@ -317,7 +318,6 @@ h4 {
         height: 5.5rem;
     }
 }
-
 
 .mobileLineBreak {
     display: block;
