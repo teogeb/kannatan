@@ -79,6 +79,15 @@ async function generateDatasource(partyId: string): Promise<VectorStoreIndex> {
     return index
 }
 
+const withoutLastParagraph = (text: string): string => {
+    const linefeedPos = text.lastIndexOf('\n')
+    if (linefeedPos !== -1) {
+        return text.slice(0, linefeedPos).trim()
+    } else {
+        return text
+    }
+}
+
 const conversations: Map<string, Conversation> = new Map()
 
 app.post('/api/chat', async (req, res) => {
@@ -102,15 +111,16 @@ app.post('/api/chat', async (req, res) => {
         
         log('--- Generating answer')
         const start = Date.now()
-        let answer = ''
+        let answerAndSuggestions = ''
         for await (const chunk of stream) {
-            answer += chunk.message.content.toString()
+            answerAndSuggestions += chunk.message.content.toString()
             process.stdout.write(chunk.message.content.toString());
         }
         const end = Date.now()
         console.log()
         log(`--- Answering took ${(end - start) / 1000}s`)
 
+        const answer = withoutLastParagraph(answerAndSuggestions)
         conversation.messages.push({
             role: 'assistant',
             content: answer
@@ -118,7 +128,7 @@ app.post('/api/chat', async (req, res) => {
         conversations.set(conversation.id, conversation)
 
         log('--- Generate suggestions')
-        const suggestions = await generateSuggestions(answer)
+        const suggestions = await generateSuggestions(answerAndSuggestions)
 
         res.json({ answer: answer, conversationId: conversation.id, suggestions: suggestions })
 
