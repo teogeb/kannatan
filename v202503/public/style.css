@@ -143,12 +143,6 @@ a {
     border-radius: 20px;
     font-size: 1.1rem;
 }
-@media (min-width: 1024px) and (pointer: fine) {
-    .conversation p {
-        font-size: 1.2rem;
-        font-weight: 300;
-    }
-}
 .conversation p.user {
     background-color: var(--purple);
     color: var(--white);
@@ -159,10 +153,25 @@ a {
     color: var(--black);
     box-shadow: -3px 3px 3px var(--gray);
     outline: 0.5px solid var(--gray);
+    justify-self: flex-start;
 }
 
 .conversation p.pending {
     opacity: 0.5;
+}
+@media (min-width: 1024px) and (pointer: fine) {
+    .conversation p {
+        font-size: 1.2rem;
+        font-weight: 300;
+        max-width: 60%;
+    }
+    .conversation p.user {
+        justify-self: flex-end;
+        
+    }
+    .conversation p.bot {
+        justify-self: flex-start;
+    }
 }
 
 .buttons {
@@ -170,6 +179,7 @@ a {
     justify-content: center;
     flex-wrap: wrap;
     margin: 0.5rem 0 0.5rem 0;
+    width: 100%;
 }
 
 .buttons button {
@@ -178,14 +188,24 @@ a {
     border-radius: 20px;
     font-family: 'Ubuntu', Tahoma, Verdana, sans-serif;
     font-size: 1.1rem;
-    background-color: var(--purple);
-    color: var(--white);
-    box-shadow: -3px 3px 3px var(--dark-gray);
-    border: none;
+    background-color: var(--white);
+    color: var(--black);
+    box-shadow: -3px 3px 3px var(--gray);
+    border: 0.5px solid var(--gray);
     cursor: pointer;
-    font-weight: 300;
+    font-weight: 400;
 }
 
+@media (min-width: 1024px) and (pointer: fine) {
+    .buttons {
+        max-width: 75%;
+    }
+    .buttons button {
+        font-size: 1.2rem;
+        font-weight: 300;
+    }
+
+}
 .inputContainer {
     display: flex;
     padding: 1rem 1rem 0.5rem 1rem;
