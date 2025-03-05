@@ -39,6 +39,8 @@ const staticFiles = {
     '/index.js': 'index.js',
     '/chat': 'chat.html',
     '/chat.js': 'chat.js',
+    '/about': 'about.html',
+    '/about.js': 'about.js',
     '/style.css': 'style.css',
     '/images/kd-1716250767.png': 'images/kd-1716250767.png',
     '/images/kesk-1715643393-2.png': 'images/kesk-1715643393-2.png',
