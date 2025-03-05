@@ -94,6 +94,5 @@ export const generateSuggestions = async (answer: string) => {
         console.error(`Could not parse text to list:\n${e.message}`)
     }
 
-    log('--- suggestions: ' + suggestions)
     return suggestions
 }

@@ -4,13 +4,21 @@ import { OpenAI as OpenAILlama } from '@llamaindex/openai'
 import { storageContextFromDefaults, VectorStoreIndex, Settings, ContextChatEngine } from 'llamaindex'
 import { Conversation, createConversation } from './create_conversation'
 import { generateSuggestions } from './generate_suggestions'
+import { without } from 'lodash'
 
 const app = express()
 const PORT = 8080
 
-export const log = (message: string) => {
-    console.log(new Date().toISOString() + '  ' + message)
+export const log = (message: string, conversationId?: string, context?: any) => {
+    let parts = without([
+        new Date().toISOString(), 
+        (conversationId !== undefined) ? conversationId.substring(0, 6) : undefined,
+        message, 
+        (context !== undefined) ? ` ${JSON.stringify(context)}` : undefined
+    ], undefined)
+    console.log(parts.join('   '))
 }
+
 
 // this is needed to get client IP address as deployment is behind a proxy (the AWS Application Load Balancer)
 app.set('trust proxy', true)
@@ -73,13 +81,15 @@ const conversations: Map<string, Conversation> = new Map()
 
 app.post('/api/chat', async (req, res) => {
     try {
-        const userAgent = req.get('User-Agent')
-        const url = req.originalUrl
-        const ipAddress = req.ip
-        log(`- request: ${JSON.stringify({ url, userAgent, ipAddress })}`)
-        log('- input: ' + JSON.stringify(req.body))
         const existingConversation = (req.body.conversationId !== undefined) ? conversations.get(req.body.conversationId) : undefined
         const conversation = existingConversation ?? createConversation(req.body.partyId)
+        if (existingConversation === undefined) {
+            const userAgent = req.get('User-Agent')
+            const url = req.originalUrl
+            const ipAddress = req.ip
+            log('Start conversation', conversation.id, { url, userAgent, ipAddress })
+            conversations.set(conversation.id, conversation)
+        }
         conversation.messages.push({
             role: 'user',
             content: req.body.question
@@ -88,33 +98,29 @@ app.post('/api/chat', async (req, res) => {
         const index = await generateDatasource(req.body.partyId)
         const retriever = index.asRetriever()
         const chatEngine = new ContextChatEngine({ retriever })
-        const stream = await chatEngine.chat({ message: req.body.question, stream: true, chatHistory: conversation.messages});
+        const stream = await chatEngine.chat({ message: req.body.question, stream: true, chatHistory: conversation.messages })
         
-        log('--- Generating answer')
+        log('Question', conversation.id, { question: req.body.question })
         const start = Date.now()
         let answer = ''
         for await (const chunk of stream) {
             answer += chunk.message.content.toString()
-            process.stdout.write(chunk.message.content.toString());
         }
         const end = Date.now()
-        console.log()
-        log(`--- Answering took ${(end - start) / 1000}s`)
+        log('Answer', conversation.id, { answer, elapsedTime: ((end - start) / 1000) })
 
         conversation.messages.push({
             role: 'assistant',
             content: answer
         })
-        conversations.set(conversation.id, conversation)
 
-        log('--- Generate suggestions')
         const suggestions = await generateSuggestions(answer)
+        log('Suggestions', conversation.id, suggestions)
 
         res.json({ answer: answer, conversationId: conversation.id, suggestions: suggestions })
-
-    } catch (e: any) {
-        log(e.message)
-        console.log(e)
+    } catch (error: any) {
+        log(`Error: ${error.message}`, undefined, { error })
+        console.log(error)
         res.json({ error: 'Error' })
     }
 })

@@ -23,7 +23,6 @@ export const createConversation = (partyId: string): Conversation => {
     vihr: 'Vihreiden'
 }
     const id = uuidv4()
-    log(`- create conversation: ${id}`)
 
     return {
         id,
