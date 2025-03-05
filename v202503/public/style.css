@@ -129,6 +129,9 @@ a {
 }
 .conversation {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     margin-top: 1rem;
     overflow-y: auto;
     scroll-behavior: smooth;
@@ -153,7 +156,6 @@ a {
     color: var(--black);
     box-shadow: -3px 3px 3px var(--gray);
     outline: 0.5px solid var(--gray);
-    justify-self: flex-start;
 }
 
 .conversation p.pending {
@@ -166,11 +168,11 @@ a {
         max-width: 60%;
     }
     .conversation p.user {
-        justify-self: flex-end;
+        align-self: flex-end;
         
     }
     .conversation p.bot {
-        justify-self: flex-start;
+        align-self: flex-start;
     }
 }
 
