@@ -131,7 +131,7 @@ a {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-center;
     margin-top: 1rem;
     overflow-y: auto;
     scroll-behavior: smooth;
@@ -169,7 +169,6 @@ a {
     }
     .conversation p.user {
         align-self: flex-end;
-        
     }
     .conversation p.bot {
         align-self: flex-start;
