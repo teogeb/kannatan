@@ -252,7 +252,7 @@ h3 {
     border-radius: 1rem;
 }
 
-.image-container img {
+.img-container img {
     position: absolute;
     top: 0;
     left: 0;
@@ -267,19 +267,27 @@ h3 {
 
 .party-logo {
     object-fit: contain;
-    background-color: white;
-    opacity: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    opacity: 1.;
     box-sizing: border-box;
     padding: 10px;
 }
 
-.image-container:hover .party-character {
-    opacity: 0;
+@media (min-width: 1024px) and (pointer: fine)  {
+    .party-logo {
+        background-color: white;
+        opacity: 0;
+    }
+
+    .img-container:hover .party-character {
+        opacity: 0;
+    }
+    
+    .img-container:hover .party-logo {
+        opacity: 1;
+    }
 }
 
-.image-container:hover .party-logo {
-    opacity: 1;
-}
 
 a.disabled {
     pointer-events: none;
