@@ -34,13 +34,13 @@ const PARTY_NAMES = {
 }
 
 const SUGGESTIONS = {
-    'kd': [],
+    'kd': ['Perhepolitiikka', 'Talous', 'Sosiaalipalvelut', 'Turvallisuus'],
     'kesk': ['Sosiaalipolitiikka', 'Koulutus', 'Perhepolitiikka', 'Yrittäjyys'],
-    'kok': [],
+    'kok': ['Talous', 'Hyvinvointi', 'Kansainvälisyys', 'Yrittäjyys'],
     'ps': ['Maahanmuutto', 'Talous', 'Turvallisuus', 'Koulutus'],
-    'rkp': [],
-    'sdp': [],
-    'vas': [],
+    'rkp': ['Kaksikielisyys', 'Pohjoismaisuus', 'Talous', 'Koulutus'],
+    'sdp': ['Talous', 'Sosiaaliturva', 'Koulutus', 'Tasa-arvo'],
+    'vas': ['Oikeudenmukaisuus', 'Työelämä', 'Hyvinvointi', 'Ympäristönsuojelu'],
     'vihr': ['Ilmasto', 'Ihmisoikeudet', 'Koulutus', 'Talous']
 }
 
