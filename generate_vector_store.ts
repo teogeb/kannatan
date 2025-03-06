@@ -9,8 +9,8 @@ import path from 'path'
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
 
-const getDocuments = async (path) => {
-    const documents = await new SimpleDirectoryReader().loadData({ directoryPath: path })
+const getDocuments = async (documentPath) => {
+    const documents = await new SimpleDirectoryReader().loadData({ directoryPath: documentPath })
     documents.forEach(doc => {
         if (doc.metadata) {
             delete doc.metadata.file_path
@@ -20,7 +20,7 @@ const getDocuments = async (path) => {
     return documents
 }
 
-const generateStore = async (path, partyId) => {
+const generateStore = async (documentPath, partyId) => {
     const persistDir = `store/${partyId}`
 
     if (fs.existsSync(persistDir)) {
@@ -29,7 +29,7 @@ const generateStore = async (path, partyId) => {
     }
 
     console.log(`Generating vector store to '${persistDir}'...`)
-    const documents = await getDocuments(path)
+    const documents = await getDocuments(path.resolve(documentPath))
     const storageContext = await storageContextFromDefaults({ persistDir })
     await VectorStoreIndex.fromDocuments(documents, { storageContext })
 }
@@ -41,11 +41,11 @@ const getInput = async (query) => {
 const start = async () => {
     try {
         const partyId = await getInput('\nEnter partyId (kd | kesk | kok | ps | rkp | sdp | vas | vihr):\n')
-        const path = await getInput('\nEnter absolute path to the folder containing party documents:\n')
+        const documentPath = await getInput('\nEnter path to the folder containing party documents:\n')
         rl.close()
 
         console.log()
-        await generateStore(path, partyId)
+        await generateStore(documentPath, partyId)
         console.log('Done')
 
     } catch (e) {
