@@ -86,13 +86,25 @@ const initPage = () => {
         questionInput.focus()
     }
 
-    function addSuggestions(suggestions) {
+    function addSuggestions(suggestions, includeTellMore) {
         const btnContainer = document.createElement('div')
         btnContainer.classList.add('buttons')
-        for (let s of suggestions) {
+        let items = suggestions.map((s) => (
+            {
+                buttonTitle: s,
+                message: s
+            }
+        ))
+        if (includeTellMore) {
+            items = [{
+                buttonTitle: 'Kerro lisää',
+                message: 'Kerro lisää tästä aiheesta'
+            }, ...items]
+        }
+        for (let item of items) {
             const btn = document.createElement('button')
-            btn.textContent = s
-            btn.onclick = () => handleBtnClick(s)
+            btn.textContent = item.buttonTitle
+            btn.onclick = () => handleBtnClick(item.message)
             btnContainer.appendChild(btn)
         }
         conversationContainer.appendChild(btnContainer)
@@ -101,7 +113,7 @@ const initPage = () => {
     profileImageElement.src = PROFILE_IMAGES_URLS[partyId]
 
     addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'bot')
-    addSuggestions(SUGGESTIONS[partyId])
+    addSuggestions(SUGGESTIONS[partyId], false)
 
     const sendMessage = async (text) => {
         const isFirstQuestion = (conversationId === undefined)
@@ -115,7 +127,7 @@ const initPage = () => {
             conversationId = response.conversationId
         }
         const suggestions = response.suggestions
-        addSuggestions(suggestions)
+        addSuggestions(suggestions, true)
         scrollToConversationBottom()
     }
 
