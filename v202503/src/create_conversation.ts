@@ -9,6 +9,7 @@ export interface Conversation {
 interface Message {
     role: 'system' | 'assistant' | 'user'
     content: string
+    suggestions?: string[]
 }
 
 export const createConversation = (partyId: string): Conversation => {

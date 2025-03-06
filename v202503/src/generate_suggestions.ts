@@ -4,13 +4,15 @@ import { log } from '.'
 
 const openai = new OpenAI()
 
-export const generateSuggestions = async (answer: string) => {
+export const generateSuggestions = async (answer: string): Promise<string[]> => {
     let suggestions = []
 
     const completion: OpenAI.ChatCompletion =  await openai.chat.completions.create({
         model: 'gpt-4o-mini',
         messages: [
-        {role: 'user', content:`
+        {
+            role: 'system',
+            content: `
             Tehtäväsi on analysoida annettu teksti ja poimia siitä olennaiset ehdotukset listamuotoon. Ehdotukset ovat yleensä keskustelun jatkamiseksi tarjottuja aiheita tai kysymyksiä, jotka käyttäjä voisi valita vastaukseksi. Ehdotukset ovat yleensä tekstin lopussa.
             Palauta vastaus täsmälleen seuraavassa muodossa: ["ehdotus1", "ehdotus2", "ehdotus3", "ehdotus4"].
             Ehdotuksia tulee olla maksimissaan neljä. Jokaisen ehdotuksen tulee olla vain maksimissaan kolme sanaa. Ehdotusten tulee olla kieliopillisesti perusmuodossa.
@@ -81,10 +83,10 @@ export const generateSuggestions = async (answer: string) => {
                 • Teksti:
                 "Perussuomalaisten näkemyksen mukaan ikääntyviä työntekijöitä tulee arvostaa ja heidän työllisyyttään parantaa. Puolue korostaa, että ikääntyvät työntekijät ovat arvokasta työvoimaa, ja heidän osaamistaan tulisi hyödyntää. Työllisyyden parantamiseksi on tärkeää tarjota lisäkoulutusta ja muuttaa asenteita työpaikoilla. Voimme keskustella tarkemmin ikääntyvien työntekijöiden koulutuksesta tai työmarkkinoiden haasteista heidän osaltaan."
                 • Vastaus:
-                ["Ikääntyvien työntekijöiden koulutus", "Työmarkkinoiden haasteet"]
-
-            Luo vastaus seuraavalle tekstille:
-            ${answer}`
+                ["Ikääntyvien työntekijöiden koulutus", "Työmarkkinoiden haasteet"]`
+        }, {
+            role: 'user',
+            content: answer
         }],
     })
 

@@ -129,13 +129,18 @@ app.post('/api/chat', async (req, res) => {
         log('Answer', conversation.id, { answerAndSuggestions, elapsedTime: ((end - start) / 1000) })
 
         const answer = withoutLastParagraph(answerAndSuggestions)
+
+        let suggestions = await generateSuggestions(answerAndSuggestions)
+        const previousSuggestions = conversation.messages.map((m) => m.suggestions ?? []).flat()
+        const duplicateSuggestions = suggestions.filter((s) => previousSuggestions.includes(s))
+        suggestions = without(suggestions, ...duplicateSuggestions)
+        log('Suggestions', conversation.id, { suggestions, duplicates: duplicateSuggestions } )
+
         conversation.messages.push({
             role: 'assistant',
-            content: answer
+            content: answer,
+            suggestions
         })
-
-        const suggestions = await generateSuggestions(answerAndSuggestions)
-        log('Suggestions', conversation.id, suggestions)
 
         res.json({ answer: answer, conversationId: conversation.id, suggestions: suggestions })
     } catch (error: any) {
