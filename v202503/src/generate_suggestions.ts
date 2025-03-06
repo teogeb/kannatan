@@ -1,6 +1,5 @@
 
 import { OpenAI } from 'openai'
-import { log } from '.'
 
 const openai = new OpenAI()
 
