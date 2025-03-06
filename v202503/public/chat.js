@@ -107,13 +107,16 @@ const initPage = () => {
                 },
                 {
                     buttonTitle: '\u{1F44E}',
-                    message: 'En olen samaa mieltä'  // TODO could tweak the phrasing?
+                    message: 'En ole samaa mieltä'  // TODO could tweak the phrasing?
                 }]
         }
         for (let item of items) {
             const btn = document.createElement('button')
             btn.textContent = item.buttonTitle
-            btn.onclick = () => handleBtnClick(item.message)
+            btn.onclick = () => {
+                btn.classList.add('button-clicked')
+                handleBtnClick(item.message)
+            }
             btnContainer.appendChild(btn)
         }
         conversationContainer.appendChild(btnContainer)

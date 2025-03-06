@@ -206,6 +206,10 @@ a {
     background-color: var(--light-purple);
 }
 
+.buttons .button-clicked {
+    background-color: var(--light-purple);
+}
+
 @media (min-width: 1024px) and (pointer: fine) {
     .buttons {
         max-width: 75%;
