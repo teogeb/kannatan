@@ -82,7 +82,7 @@ const initPage = () => {
     }
 
     function handleBtnClick(text) {
-        sendMessage(text)
+        sendMessage(text, false)
         questionInput.focus()
     }
 
@@ -127,9 +127,11 @@ const initPage = () => {
     addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'bot')
     addSuggestions(SUGGESTIONS[partyId], true)
 
-    const sendMessage = async (text) => {
+    const sendMessage = async (text, showQuestion = true) => {
         const isFirstQuestion = (conversationId === undefined)
-        addMessage(text, 'user')
+        if (showQuestion) {
+            addMessage(text, 'user')
+        }
         const answerDiv = addMessage('...', 'assistant')
         answerDiv.classList.add('pending')
         const response = await fetchResponse(text, isFirstQuestion ? { partyId } : { partyId, conversationId })
