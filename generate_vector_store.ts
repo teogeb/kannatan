@@ -21,7 +21,7 @@ const getDocuments = async (path) => {
 }
 
 const generateStore = async (path, partyId) => {
-    const persistDir = `src/store_${partyId}`
+    const persistDir = `store/${partyId}`
 
     if (fs.existsSync(persistDir)) {
         console.log(`'${persistDir}' already exists. Deleting it before generating new vector store...`)
