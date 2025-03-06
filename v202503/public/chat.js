@@ -81,9 +81,20 @@ const initPage = () => {
         return messageDiv
     }
 
+    function isMobile() {
+        const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+        return regex.test(navigator.userAgent);
+    }
+
+    function focusQuestionInput() {
+        if (!isMobile()) {
+            questionInput.focus()
+        }
+    }
+
     function handleBtnClick(text) {
         sendMessage(text)
-        questionInput.focus()
+        focusQuestionInput()
     }
 
     function addSuggestions(suggestions, areInitialSuggestions) {
@@ -148,7 +159,10 @@ const initPage = () => {
         }
     }
 
-    sendButton.addEventListener('click', () => sendQuestion())
+    sendButton.addEventListener('click', () => {
+        sendQuestion()
+        focusQuestionInput()
+    })
     questionInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             sendQuestion()
