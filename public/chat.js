@@ -70,15 +70,19 @@ const initPage = () => {
     const sendButton = document.getElementById('sendButton')
     let conversationId = undefined
 
+    const focusQuestionInput = () => {
+        if (!isMobile()) {
+            questionInput.focus()
+        }
+    }
+
     const createButton = (title, onClick) => {
         const btn = document.createElement('div')
         btn.classList.add('button')
         btn.textContent = title
         btn.onclick = () => {
             btn.classList.add('selected')
-            if (!isMobile()) {
-                questionInput.focus()
-            }
+            focusQuestionInput()
             onClick()
         }
         return btn
