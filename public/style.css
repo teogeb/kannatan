@@ -173,10 +173,14 @@ a {
     align-self: end;
     justify-self: end;
     gap: 0.5rem;
-    margin-left: 0.5rem;
+    margin-left: -1rem;
 }
 .conversation .message.pending .thumbs {
     display: none;
+}
+.conversation .message .thumbs .button {
+    font-size: 1.2rem;
+    padding: 1rem 1rem;
 }
 .conversation .message.pending .content {
     opacity: 0.5;
@@ -201,6 +205,7 @@ a {
     }
     .conversation .message .thumbs {
         flex-direction: row;
+        margin-left: 0.5rem;
     }
 }
 
@@ -213,7 +218,7 @@ a {
 }
 
 .button {
-    padding: 1rem 1rem;
+    padding: 0.5rem 1rem;
     border-radius: 20px;
     font-family: 'Ubuntu', Tahoma, Verdana, sans-serif;
     font-size: 0.8rem;
@@ -240,6 +245,7 @@ a {
         max-width: 75%;
     }
     .button {
+        padding: 1rem 1rem;
         font-weight: 300;
     }
 
