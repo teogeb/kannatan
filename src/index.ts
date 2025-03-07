@@ -81,7 +81,7 @@ Settings.llm = new OpenAILlama({
 })
 
 async function generateDatasource(partyId: string): Promise<VectorStoreIndex> {
-    const persistDir = `src/store_${partyId}`
+    const persistDir = `./store/${partyId}`
     const storageContext = await storageContextFromDefaults({ persistDir })
     const index = await VectorStoreIndex.init({ storageContext })
     return index
