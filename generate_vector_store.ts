@@ -38,16 +38,26 @@ const getInput = async (query) => {
 
 const start = async () => {
     try {
-        const partyId = await getInput('\nEnter partyId (kd | kesk | kok | ps | rkp | sdp | vas | vihr):\n')
-        const documentPath = await getInput('\nEnter path to the folder containing party documents:\n')
-        rl.close()
+        const [,, partyIdArg, documentPathArg] = process.argv;
 
-        console.log()
-        await generateStore(documentPath, partyId)
-        console.log('Done')
+        if (partyIdArg && documentPathArg) {
+            rl.close()
+            console.log(`Using provided arguments: partyId='${partyIdArg}', documentPath='${documentPathArg}'`);
+            await generateStore(documentPathArg, partyIdArg);
+        } else {
+            const partyId = await getInput('\nEnter partyId (kd | kesk | kok | ps | rkp | sdp | vas | vihr):\n')
+            const documentPath = await getInput('\nEnter path to the folder containing party documents:\n')
+            rl.close()
+    
+            console.log()
+            await generateStore(documentPath, partyId)
+        }
 
+        console.log('Done');
+        process.exit(0)
     } catch (e) {
-        console.error(e)
+        console.error(e);
+        process.exit(1)
     }
 }
 
