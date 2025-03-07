@@ -55,6 +55,11 @@ const PROFILE_IMAGES_URLS = {
     'vihr': '/images/vihr-1716252407.png'
 }
 
+function isMobile() {
+    const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+    return regex.test(navigator.userAgent);
+}
+
 const initPage = () => {
 
     const partyId = new URLSearchParams(window.location.search).get('partyId')
@@ -65,6 +70,20 @@ const initPage = () => {
     const sendButton = document.getElementById('sendButton')
     let conversationId = undefined
 
+    const createButton = (title, onClick) => {
+        const btn = document.createElement('div')
+        btn.classList.add('button')
+        btn.textContent = title
+        btn.onclick = () => {
+            btn.classList.add('selected')
+            if (!isMobile()) {
+                questionInput.focus()
+            }
+            onClick()
+        }
+        return btn
+    }
+
     function scrollToConversationBottom() {
         conversationContainer.scrollTo({
             top: conversationContainer.scrollHeight,
@@ -72,29 +91,25 @@ const initPage = () => {
         });
     }
 
-    function addMessage(text, sender) {
-        const messageDiv = document.createElement('p')
-        messageDiv.classList.add(sender === 'user' ? 'user' : 'bot')
-        messageDiv.textContent = text
+    function addMessage(text, sender, includeThumbs) {
+        const messageDiv = document.createElement('div')
+        messageDiv.classList.add('message', sender)
+        const contentDiv = document.createElement('p')
+        contentDiv.classList.add('content')
+        contentDiv.textContent = text
+        messageDiv.appendChild(contentDiv)
+        if (includeThumbs) {
+            const thumbsDiv = document.createElement('div')
+            thumbsDiv.classList.add('thumbs')
+            // TODO use e.g. SVG so that we can have a separate hover color?
+            // TODO could tweak the phrasing of the messages these buttons send?
+            thumbsDiv.appendChild(createButton('\u{1F44D}', () => sendMessage('Olen samaa mieltä', false)))
+            thumbsDiv.appendChild(createButton('\u{1F44E}', () => sendMessage('En ole samaa mieltä', false)))
+            messageDiv.appendChild(thumbsDiv)
+        }
         conversationContainer.appendChild(messageDiv)
         conversationContainer.scrollTop = conversationContainer.scrollHeight
         return messageDiv
-    }
-
-    function isMobile() {
-        const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-        return regex.test(navigator.userAgent);
-    }
-
-    function focusQuestionInput() {
-        if (!isMobile()) {
-            questionInput.focus()
-        }
-    }
-
-    function handleBtnClick(text) {
-        sendMessage(text, false)
-        focusQuestionInput()
     }
 
     function addSuggestions(suggestions, areInitialSuggestions) {
@@ -107,27 +122,16 @@ const initPage = () => {
             }
         ))
         if (!areInitialSuggestions) {
-                items = [{
-                    buttonTitle: 'Kerro lisää',
-                    message: 'Kerro lisää tästä aiheesta'
-                },
-                ...items,
-                {
-                    buttonTitle: '\u{1F44D}',
-                    message: 'Olen samaa mieltä'  // TODO could tweak the phrasing?
-                },
-                {
-                    buttonTitle: '\u{1F44E}',
-                    message: 'En ole samaa mieltä'  // TODO could tweak the phrasing?
-                }]
+                items = [
+                    {
+                        buttonTitle: 'Kerro lisää',
+                        message: 'Kerro lisää tästä aiheesta'
+                    },
+                    ...items
+                ]
         }
         for (let item of items) {
-            const btn = document.createElement('button')
-            btn.textContent = item.buttonTitle
-            btn.onclick = () => {
-                btn.classList.add('button-clicked')
-                handleBtnClick(item.message)
-            }
+            const btn = createButton(item.buttonTitle, () => sendMessage(item.message, false))
             btnContainer.appendChild(btn)
         }
         conversationContainer.appendChild(btnContainer)
@@ -135,18 +139,18 @@ const initPage = () => {
 
     profileImageElement.src = PROFILE_IMAGES_URLS[partyId]
 
-    addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'bot')
+    addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'assistant', false) 
     addSuggestions(SUGGESTIONS[partyId], true)
 
     const sendMessage = async (text, showQuestion = true) => {
         const isFirstQuestion = (conversationId === undefined)
         if (showQuestion) {
-            addMessage(text, 'user')
+            addMessage(text, 'user', false)
         }
-        const answerDiv = addMessage('...', 'assistant')
+        const answerDiv = addMessage('...', 'assistant', true)
         answerDiv.classList.add('pending')
         const response = await fetchResponse(text, isFirstQuestion ? { partyId } : { partyId, conversationId })
-        answerDiv.textContent = response.answer
+        answerDiv.getElementsByTagName('p')[0].textContent = response.answer
         answerDiv.classList.remove('pending')
         if (isFirstQuestion) {
             conversationId = response.conversationId
