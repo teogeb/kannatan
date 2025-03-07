@@ -1,4 +1,10 @@
 const fetchResponse = async (question, metadata) => {
+    if (new URLSearchParams(window.location.search).get('mockData') === 'true') {  // TODO remove this
+        return {
+            answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere varius mattis. Aliquam erat volutpat. Etiam facilisis consectetur sem, eu pulvinar odio dignissim ut. Cras pulvinar diam magna, eget iaculis neque pretium nec',
+            suggestions: ['Suggestion 1', 'Suggestion 2']
+        }
+    }
     const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
