@@ -141,41 +141,52 @@ a {
 .conversation::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Edge, etc. */
 }
-.conversation p {
-    margin: 0.5rem 1.5rem 0.5rem 1.5rem;
-    padding: 1rem 2rem;
-    border-radius: 20px;
-    font-size: 1.1rem;
+.conversation .message {
+    display: flex;
+    flex-direction: row;
     min-width: 80%;
     max-width: 80%;
     align-self: center;
 }
-.conversation p.user {
+.conversation .message .content {
+    margin: 0.5rem 1.5rem 0.5rem 1.5rem;
+    padding: 1rem 2rem 1rem 2rem;
+    border-radius: 20px;
+    font-size: 1.1rem;
+}
+.conversation .message.user .content {
     background-color: var(--purple);
     color: var(--white);
     box-shadow: 3px 3px 3px var(--dark-gray);
 }
-.conversation p.assistant {
+.conversation .message.assistant .content {
     background-color: var(--white);
     color: var(--black);
     box-shadow: -3px 3px 3px var(--gray);
     outline: 0.5px solid var(--gray);
 }
-
-.conversation p.pending {
+.conversation .message .thumbs {
+    display: flex;
+    align-self: end;
+    justify-self: end;
+}
+.conversation .message.pending .thumbs {
+    display: none;
+}
+.conversation .message.pending .content {
     opacity: 0.5;
 }
 @media (min-width: 1024px) and (pointer: fine) {
-    .conversation p {
+    .conversation .message .content {
         font-size: 1.2rem;
         font-weight: 300;
         max-width: 60%;
         min-width: 5px;
     }
-    .conversation p.user {
+    .conversation .message.user .content {
         align-self: flex-end;
     }
-    .conversation p.assistant {
+    .conversation .message.assistant .content {
         align-self: flex-start;
     }
 }
@@ -188,7 +199,7 @@ a {
     width: 100%;
 }
 
-.buttons button {
+.button {
     margin: 0 0.5rem 0.5rem 0.5rem;
     padding: 1rem 1rem;
     border-radius: 20px;
@@ -202,12 +213,12 @@ a {
     font-weight: 400;
 }
 
-.buttons button:hover {
+.button:hover {
     background-color: var(--light-purple);
     color: var(--white);
 }
 
-.buttons .button-clicked {
+.button.selected {
     background-color: var(--purple);
     color: var(--white);
 }
@@ -216,7 +227,7 @@ a {
     .buttons {
         max-width: 75%;
     }
-    .buttons button {
+    .button {
         font-weight: 300;
     }
 
