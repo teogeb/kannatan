@@ -183,11 +183,8 @@ a {
         max-width: 60%;
         min-width: 5px;
     }
-    .conversation .message.user .content {
-        align-self: flex-end;
-    }
-    .conversation .message.assistant .content {
-        align-self: flex-start;
+    .conversation .message.user {
+        justify-content: flex-end;
     }
 }
 
