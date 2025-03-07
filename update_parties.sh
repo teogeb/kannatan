@@ -1,7 +1,7 @@
 #!/bin/bash
 
 partyIds=("kd" "kesk" "kok" "ps" "rkp" "sdp" "vas" "vihr")
-baseDir="../ohjelmat"
+baseDir="../partyFiles"
 
 for partyId in "${partyIds[@]}"; do
     printf "\n --- Running npm generate for Party ID: $partyId \n"
