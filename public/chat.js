@@ -122,9 +122,9 @@ const initPage = () => {
         return messageDiv
     }
 
-    function addSuggestions(suggestions, areInitialSuggestions) {
+    function createSuggestionButtons(suggestions, areInitialSuggestions) {
         const btnContainer = document.createElement('div')
-        btnContainer.classList.add('buttons')
+        btnContainer.classList.add('suggestions')
         let items = suggestions.map((s) => (
             {
                 buttonTitle: s,
@@ -144,29 +144,29 @@ const initPage = () => {
             const btn = createButton(item.buttonTitle, () => sendMessage(item.message, false))
             btnContainer.appendChild(btn)
         }
-        conversationContainer.appendChild(btnContainer)
+        return btnContainer
     }
 
     profileImageElement.src = PROFILE_IMAGES_URLS[partyId]
 
     addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'assistant', false) 
-    addSuggestions(SUGGESTIONS[partyId], true)
+    conversationContainer.appendChild(createSuggestionButtons(SUGGESTIONS[partyId], true))
 
     const sendMessage = async (text, showQuestion = true) => {
         const isFirstQuestion = (conversationId === undefined)
         if (showQuestion) {
             addMessage(text, 'user', false)
         }
-        const answerDiv = addMessage('...', 'assistant', true)
-        answerDiv.classList.add('pending')
+        const messageDiv = addMessage('...', 'assistant', true)
+        messageDiv.classList.add('pending')
         const response = await fetchResponse(text, isFirstQuestion ? { partyId } : { partyId, conversationId })
-        answerDiv.getElementsByTagName('p')[0].textContent = response.answer
-        answerDiv.classList.remove('pending')
+        messageDiv.getElementsByTagName('p')[0].textContent = response.answer
+        messageDiv.classList.remove('pending')
         if (isFirstQuestion) {
             conversationId = response.conversationId
         }
         const suggestions = response.suggestions
-        addSuggestions(suggestions, false)
+        conversationContainer.appendChild(createSuggestionButtons(suggestions, false))
         scrollToConversationBottom()
     }
 

@@ -188,7 +188,7 @@ a {
     }
 }
 
-.buttons {
+.suggestions {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -221,7 +221,7 @@ a {
 }
 
 @media (min-width: 1024px) and (pointer: fine) {
-    .buttons {
+    .suggestions {
         max-width: 75%;
     }
     .button {
