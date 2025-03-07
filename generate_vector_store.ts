@@ -12,10 +12,8 @@ const rl = readline.createInterface({ input: process.stdin, output: process.stdo
 const getDocuments = async (documentPath) => {
     const documents = await new SimpleDirectoryReader().loadData({ directoryPath: documentPath })
     documents.forEach(doc => {
-        if (doc.metadata) {
-            delete doc.metadata.file_path
-            delete doc.metadata.file_name
-        }
+        doc.id_ = path.basename(doc.id_)
+        doc.metadata.file_path = path.basename(doc.metadata.file_path)
     })
     return documents
 }
@@ -40,16 +38,24 @@ const getInput = async (query) => {
 
 const start = async () => {
     try {
-        const partyId = await getInput('\nEnter partyId (kd | kesk | kok | ps | rkp | sdp | vas | vihr):\n')
-        const documentPath = await getInput('\nEnter path to the folder containing party documents:\n')
-        rl.close()
+        const [,, partyIdArg, documentPathArg] = process.argv;
 
-        console.log()
-        await generateStore(documentPath, partyId)
-        console.log('Done')
+        if (partyIdArg && documentPathArg) {
+            console.log(`Using provided arguments: partyId='${partyIdArg}', documentPath='${documentPathArg}'`);
+            await generateStore(documentPathArg, partyIdArg);
+        } else {
+            const partyId = await getInput('\nEnter partyId (kd | kesk | kok | ps | rkp | sdp | vas | vihr):\n');
+            const documentPath = await getInput('\nEnter path to the folder containing party documents:\n');
+            await generateStore(documentPath, partyId);
+        }
 
+        console.log('Done');
+        process.exit(0);
     } catch (e) {
-        console.error(e)
+        console.error(e);
+        process.exit(1);
+    } finally {
+        rl.close();
     }
 }
 
