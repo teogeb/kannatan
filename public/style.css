@@ -115,7 +115,7 @@ a {
 }
 
 .chat img {
-    margin-left: 1.5rem;
+    margin-left: 0.5rem;
     width: 12vw;
     height: 12vw;
     border-radius: 0.5rem;
@@ -123,6 +123,7 @@ a {
 }
 @media (min-width: 1024px) and (pointer: fine) {
     .chat img  {
+        margin-left: 1.5rem;
         width: 8vw;
         height: 8vw;
         border-radius: 1rem;
@@ -144,10 +145,7 @@ a {
 .conversation .message {
     display: flex;
     flex-direction: column;
-    min-width: 80%;
-    max-width: 80%;
-    align-self: center;
-    margin: 0.5rem 1.5rem 0.5rem 1.5rem;
+    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 .conversation .message .contentAndThumbs {
     display: flex;
@@ -171,6 +169,7 @@ a {
 }
 .conversation .message .thumbs {
     display: flex;
+    flex-direction: column;
     align-self: end;
     justify-self: end;
     gap: 0.5rem;
@@ -183,6 +182,11 @@ a {
     opacity: 0.5;
 }
 @media (min-width: 1024px) and (pointer: fine) {
+    .conversation .message {
+        min-width: 80%;
+        max-width: 80%;
+        margin: 0.5rem 1.5rem 0.5rem 1.5rem;
+    }
     .conversation .message .content {
         font-size: 1.2rem;
         font-weight: 300;
@@ -194,6 +198,9 @@ a {
     }
     .conversation .message.user .contentAndThumbs {
         justify-content: flex-end;
+    }
+    .conversation .message .thumbs {
+        flex-direction: row;
     }
 }
 
