@@ -155,7 +155,7 @@ a {
     color: var(--white);
     box-shadow: 3px 3px 3px var(--dark-gray);
 }
-.conversation p.bot {
+.conversation p.assistant {
     background-color: var(--white);
     color: var(--black);
     box-shadow: -3px 3px 3px var(--gray);
@@ -175,7 +175,7 @@ a {
     .conversation p.user {
         align-self: flex-end;
     }
-    .conversation p.bot {
+    .conversation p.assistant {
         align-self: flex-start;
     }
 }

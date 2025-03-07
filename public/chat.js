@@ -74,7 +74,7 @@ const initPage = () => {
 
     function addMessage(text, sender) {
         const messageDiv = document.createElement('p')
-        messageDiv.classList.add(sender === 'user' ? 'user' : 'bot')
+        messageDiv.classList.add(sender)
         messageDiv.textContent = text
         conversationContainer.appendChild(messageDiv)
         conversationContainer.scrollTop = conversationContainer.scrollHeight
@@ -135,7 +135,7 @@ const initPage = () => {
 
     profileImageElement.src = PROFILE_IMAGES_URLS[partyId]
 
-    addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'bot')
+    addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'assistant')
     addSuggestions(SUGGESTIONS[partyId], true)
 
     const sendMessage = async (text, showQuestion = true) => {
