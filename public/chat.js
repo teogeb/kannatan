@@ -80,7 +80,7 @@ const initPage = () => {
 
     const partyId = new URLSearchParams(window.location.search).get('partyId')
 
-    const profileImageElement = document.getElementById('profileImage')
+    const profileImageElement = getChildElement('profileImage', document)
     const conversationContainer = document.getElementById('conversation')
     const questionInput = document.getElementById('question')
     const sendButton = document.getElementById('sendButton')

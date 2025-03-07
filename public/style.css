@@ -114,7 +114,7 @@ a {
     }
 }
 
-.chat img {
+.chat .profileImage {
     margin-left: 0.5rem;
     width: 12vw;
     height: 12vw;
@@ -122,7 +122,7 @@ a {
 
 }
 @media (min-width: 1024px) and (pointer: fine) {
-    .chat img  {
+    .chat .profileImage  {
         margin-left: 1.5rem;
         width: 8vw;
         height: 8vw;
