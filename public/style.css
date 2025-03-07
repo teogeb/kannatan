@@ -143,13 +143,17 @@ a {
 }
 .conversation .message {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     min-width: 80%;
     max-width: 80%;
     align-self: center;
+    margin: 0.5rem 1.5rem 0.5rem 1.5rem;
+}
+.conversation .message .contentAndThumbs {
+    display: flex;
+    flex-direction: row;
 }
 .conversation .message .content {
-    margin: 0.5rem 1.5rem 0.5rem 1.5rem;
     padding: 1rem 2rem 1rem 2rem;
     border-radius: 20px;
     font-size: 1.1rem;
@@ -169,6 +173,8 @@ a {
     display: flex;
     align-self: end;
     justify-self: end;
+    gap: 0.5rem;
+    margin-left: 0.5rem;
 }
 .conversation .message.pending .thumbs {
     display: none;
@@ -186,18 +192,20 @@ a {
     .conversation .message.user {
         justify-content: flex-end;
     }
+    .conversation .message.user .contentAndThumbs {
+        justify-content: flex-end;
+    }
 }
 
-.suggestions {
+.shortcuts {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
     margin: 0.5rem 0 0.5rem 0;
     width: 100%;
+    gap: 0.5rem;
 }
 
 .button {
-    margin: 0 0.5rem 0.5rem 0.5rem;
     padding: 1rem 1rem;
     border-radius: 20px;
     font-family: 'Ubuntu', Tahoma, Verdana, sans-serif;
@@ -221,7 +229,7 @@ a {
 }
 
 @media (min-width: 1024px) and (pointer: fine) {
-    .suggestions {
+    .shortcuts {
         max-width: 75%;
     }
     .button {

@@ -66,6 +66,16 @@ function isMobile() {
     return regex.test(navigator.userAgent);
 }
 
+const getChildElement = (className, container) => {
+    return container.getElementsByClassName(className)[0]
+}
+
+const appendChildren = (elements, target) => {
+    for (const element of elements) {
+        target.appendChild(element)
+    }
+}
+
 const initPage = () => {
 
     const partyId = new URLSearchParams(window.location.search).get('partyId')
@@ -104,10 +114,12 @@ const initPage = () => {
     function addMessage(text, sender, includeThumbs) {
         const messageDiv = document.createElement('div')
         messageDiv.classList.add('message', sender)
+        const contentAndThumbsDiv = document.createElement('div')
+        contentAndThumbsDiv.classList.add('contentAndThumbs')
         const contentDiv = document.createElement('p')
         contentDiv.classList.add('content')
         contentDiv.textContent = text
-        messageDiv.appendChild(contentDiv)
+        contentAndThumbsDiv.appendChild(contentDiv)
         if (includeThumbs) {
             const thumbsDiv = document.createElement('div')
             thumbsDiv.classList.add('thumbs')
@@ -115,8 +127,12 @@ const initPage = () => {
             // TODO could tweak the phrasing of the messages these buttons send?
             thumbsDiv.appendChild(createButton('\u{1F44D}', () => sendMessage('Olen samaa mieltä', false)))
             thumbsDiv.appendChild(createButton('\u{1F44E}', () => sendMessage('En ole samaa mieltä', false)))
-            messageDiv.appendChild(thumbsDiv)
+            contentAndThumbsDiv.appendChild(thumbsDiv)
         }
+        messageDiv.appendChild(contentAndThumbsDiv)
+        const shortcuts = document.createElement('div')
+        shortcuts.classList.add('shortcuts')
+        messageDiv.appendChild(shortcuts)
         conversationContainer.appendChild(messageDiv)
         conversationContainer.scrollTop = conversationContainer.scrollHeight
         return messageDiv
@@ -140,17 +156,16 @@ const initPage = () => {
                     ...items
                 ]
         }
-        for (let item of items) {
-            const btn = createButton(item.buttonTitle, () => sendMessage(item.message, false))
-            btnContainer.appendChild(btn)
-        }
-        return btnContainer
+        return items.map((item) => createButton(item.buttonTitle, () => sendMessage(item.message, false)))
     }
 
     profileImageElement.src = PROFILE_IMAGES_URLS[partyId]
 
-    addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'assistant', false) 
-    conversationContainer.appendChild(createSuggestionButtons(SUGGESTIONS[partyId], true))
+    const initialMessageDiv = addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'assistant', false) 
+    appendChildren(
+        createSuggestionButtons(SUGGESTIONS[partyId], true),
+        getChildElement('shortcuts', initialMessageDiv)
+    )    
 
     const sendMessage = async (text, showQuestion = true) => {
         const isFirstQuestion = (conversationId === undefined)
@@ -166,7 +181,10 @@ const initPage = () => {
             conversationId = response.conversationId
         }
         const suggestions = response.suggestions
-        conversationContainer.appendChild(createSuggestionButtons(suggestions, false))
+        appendChildren(
+            createSuggestionButtons(suggestions, false),
+            getChildElement('shortcuts', messageDiv)
+        )
         scrollToConversationBottom()
     }
 
