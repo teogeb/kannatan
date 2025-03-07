@@ -12,10 +12,8 @@ const rl = readline.createInterface({ input: process.stdin, output: process.stdo
 const getDocuments = async (documentPath) => {
     const documents = await new SimpleDirectoryReader().loadData({ directoryPath: documentPath })
     documents.forEach(doc => {
-        if (doc.metadata) {
-            delete doc.metadata.file_path
-            delete doc.metadata.file_name
-        }
+        doc.id_ = path.basename(doc.id_)
+        doc.metadata.file_path = path.basename(doc.metadata.file_path)
     })
     return documents
 }
