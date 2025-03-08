@@ -10,6 +10,7 @@
     <link rel="preload" href="https://static.kannatan.fi/KFOlCnqEu92Fr1MmYUtvAw.ttf" as="font" crossorigin>
     <link rel="preload" href="https://static.kannatan.fi/4iCv6KVjbNBYlgoC1CzTtw.ttf" as="font" crossorigin>
     <link rel="preload" href="https://static.kannatan.fi/4iCs6KVjbNBYlgo6eA.ttf" as="font" crossorigin>
+    <script defer src="/utils.js"></script>
     <script defer src="/about.js"></script>
     <link rel="stylesheet" href="/style.css">
     <link rel="icon" href="https://static.kannatan.fi/favicon.svg">
@@ -18,7 +19,7 @@
 
 <body>
     <div id="root">
-        <div class="about">
+        <div id="aboutPage">
             <img class="vote-box" src="https://static.kannatan.fi/vote-box.svg" alt="">
 
             <h3>Kannatan</h3>
@@ -44,7 +45,12 @@
                 kannatusta kevään 2025 alue- ja kuntavaaleissa.
             </div>
 
-            <div class="sub-header">Kuulemme mielellämme palautetta ja kehitysehdotuksia!<br><a href="mailto:info@kannatan.fi">info@kannatan.fi</a></div>
+            <div id="feedback">
+                <div class="sub-header">Kuulemme mielellämme palautetta ja kehitysehdotuksia!</div>
+                <textarea laceholder="Palaute"></textarea>
+                <button>Lähetä</button>
+                <div id="status" class="invisible">Kiitos palautteesta!</div>
+            </div>
 
             <div class="sub-header"><a href="/">Etusivulle</a></div>
 

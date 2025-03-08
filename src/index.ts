@@ -1,12 +1,14 @@
-import express from 'express'
-import path from 'path'
+import 'dotenv/config'
+
 import { OpenAI as OpenAILlama } from '@llamaindex/openai'
-import { storageContextFromDefaults, VectorStoreIndex, Settings, ContextChatEngine } from 'llamaindex'
+import express from 'express'
+import { ContextChatEngine, Settings, storageContextFromDefaults, VectorStoreIndex } from 'llamaindex'
+import { without } from 'lodash'
+import path from 'path'
 import { Conversation, createConversation } from './create_conversation'
 import { generateSuggestions } from './generate_suggestions'
-import { without } from 'lodash'
-import { log } from './utils'
 import { sendMessageToTelegramAdminGroup } from './telegramBot'
+import { log } from './utils'
 
 const app = express()
 const PORT = 8080
@@ -40,6 +42,7 @@ const staticFiles = {
     '/chat.js': 'chat.js',
     '/about': 'about.html',
     '/about.js': 'about.js',
+    '/utils.js': 'utils.js',
     '/style.css': 'style.css',
     '/images/kd-1716250767.png': 'images/kd-1716250767.png',
     '/images/kesk-1715643393-2.png': 'images/kesk-1715643393-2.png',
@@ -158,7 +161,9 @@ app.post('/api/feedback', async (req, res) => {
     const message = req.body.message
     log('Feedback message', undefined, { userAgent, ipAddress, message })
     await sendMessageToTelegramAdminGroup(message)
-    res.json({})
+    res.json({
+        status: 'success'
+    })
 })
 
 app.get('/healthcheck', (_req, res) => {
