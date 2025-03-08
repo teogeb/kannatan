@@ -224,6 +224,10 @@ a {
     gap: 0.5rem;
 }
 
+.shortcuts .button {
+    background-color: var(--gray)
+}
+
 .button {
     padding: 0.5rem 1rem;
     border-radius: 20px;
