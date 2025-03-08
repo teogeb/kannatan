@@ -5,20 +5,10 @@ import { storageContextFromDefaults, VectorStoreIndex, Settings, ContextChatEngi
 import { Conversation, createConversation } from './create_conversation'
 import { generateSuggestions } from './generate_suggestions'
 import { without } from 'lodash'
+import { log } from './utils'
 
 const app = express()
 const PORT = 8080
-
-export const log = (message: string, conversationId?: string, context?: any) => {
-    let parts = without([
-        new Date().toISOString(), 
-        (conversationId !== undefined) ? conversationId.substring(0, 6) : undefined,
-        message, 
-        (context !== undefined) ? ` ${JSON.stringify(context)}` : undefined
-    ], undefined)
-    console.log(parts.join('   '))
-}
-
 
 // this is needed to get client IP address as deployment is behind a proxy (the AWS Application Load Balancer)
 app.set('trust proxy', true)

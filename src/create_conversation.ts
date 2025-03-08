@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid'
-import { log } from '.'
 
 export interface Conversation {
     id: string
