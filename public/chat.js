@@ -85,6 +85,7 @@ const initPage = () => {
     const questionInput = document.getElementById('question')
     const sendButton = document.getElementById('sendButton')
     let conversationId = undefined
+    let latestUserAction = undefined
 
     const focusQuestionInput = () => {
         if (!isMobile()) {
@@ -137,8 +138,12 @@ const initPage = () => {
             thumbsDiv.classList.add('thumbs')
             // TODO use e.g. SVG so that we can have a separate hover color?
             // TODO could tweak the phrasing of the messages these buttons send?
-            thumbsDiv.appendChild(createImageButton('face-smile-solid', () => sendMessage('Olen samaa mieltä', false)))
-            thumbsDiv.appendChild(createImageButton('circle-xmark-solid', () => sendMessage('En ole samaa mieltä', false)))
+            const onThumbSelected = (text) => {
+                latestUserAction = 'THUMB'
+                sendMessage(text, false)
+            }
+            thumbsDiv.appendChild(createImageButton('face-smile-solid', () => onThumbSelected('Olen samaa mieltä')))
+            thumbsDiv.appendChild(createImageButton('circle-xmark-solid', () => onThumbSelected('En ole samaa mieltä')))
             contentAndThumbsDiv.appendChild(thumbsDiv)
         }
         messageDiv.appendChild(contentAndThumbsDiv)
@@ -160,15 +165,24 @@ const initPage = () => {
             }
         ))
         if (!areInitialSuggestions) {
-                items = [
-                    {
-                        buttonTitle: 'Kerro lisää',
-                        message: 'Kerro lisää tästä aiheesta'
-                    },
-                    ...items
-                ]
+            let extraShortcutCandidates  = [
+                { buttonTitle: 'Mitä muuta kannatat?', message: 'Mitä muuta kannatat?' }
+            ]
+            if (latestUserAction !== 'THUMB') {
+                extraShortcutCandidates.push(
+                    { buttonTitle: 'Kerro lisää', message: 'Kerro lisää tästä aiheesta' },
+                    { buttonTitle: 'Miksi?', message: 'Miksi?' }
+                )
+            }
+            items = [
+                _.sample(extraShortcutCandidates),  // TODO some better logic than just random (maybe on server-side?)
+                ...items
+            ]
         }
-        return items.map((item) => createButton(item.buttonTitle, () => sendMessage(item.message, false)))
+        return items.map((item) => createButton(item.buttonTitle, () => {
+            latestUserAction = 'SHORTCUT'
+            sendMessage(item.message, false)
+        }))
     }
 
     profileImageElement.src = PROFILE_IMAGES_URLS[partyId]
@@ -184,7 +198,7 @@ const initPage = () => {
         if (showQuestion) {
             addMessage(text, 'user', false)
         }
-        const messageDiv = addMessage('...', 'assistant', true)
+        const messageDiv = addMessage('...', 'assistant', (latestUserAction !== 'THUMB'))
         messageDiv.classList.add('pending')
         const response = await fetchResponse(text, isFirstQuestion ? { partyId } : { partyId, conversationId })
         messageDiv.getElementsByTagName('p')[0].textContent = response.answer
@@ -203,6 +217,7 @@ const initPage = () => {
     const sendQuestion = async () => {
         const question = questionInput.value.trim()
         if (question !== '') {
+            latestUserAction = 'ASK'
             questionInput.value = ''
             sendMessage(question)
         }
