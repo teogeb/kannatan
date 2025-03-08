@@ -1,24 +1,17 @@
-import express from 'express'
-import path from 'path'
+import 'dotenv/config'
+
 import { OpenAI as OpenAILlama } from '@llamaindex/openai'
-import { storageContextFromDefaults, VectorStoreIndex, Settings, ContextChatEngine } from 'llamaindex'
+import express from 'express'
+import { ContextChatEngine, Settings, storageContextFromDefaults, VectorStoreIndex } from 'llamaindex'
+import { without } from 'lodash'
+import path from 'path'
 import { Conversation, createConversation } from './create_conversation'
 import { generateSuggestions } from './generate_suggestions'
-import { without } from 'lodash'
+import { sendMessageToTelegramAdminGroup } from './telegramBot'
+import { log } from './utils'
 
 const app = express()
 const PORT = 8080
-
-export const log = (message: string, conversationId?: string, context?: any) => {
-    let parts = without([
-        new Date().toISOString(), 
-        (conversationId !== undefined) ? conversationId.substring(0, 6) : undefined,
-        message, 
-        (context !== undefined) ? ` ${JSON.stringify(context)}` : undefined
-    ], undefined)
-    console.log(parts.join('   '))
-}
-
 
 // this is needed to get client IP address as deployment is behind a proxy (the AWS Application Load Balancer)
 app.set('trust proxy', true)
@@ -49,6 +42,7 @@ const staticFiles = {
     '/chat.js': 'chat.js',
     '/about': 'about.html',
     '/about.js': 'about.js',
+    '/utils.js': 'utils.js',
     '/style.css': 'style.css',
     '/images/kd-1716250767.png': 'images/kd-1716250767.png',
     '/images/kesk-1715643393-2.png': 'images/kesk-1715643393-2.png',
@@ -159,6 +153,17 @@ app.post('/api/deleteConversation', async (req, _res) => {
     } else {
         log(`Failed to delete conversation ${req.body.conversationId}`)
     }
+})
+
+app.post('/api/feedback', async (req, res) => {
+    const userAgent = req.get('User-Agent')
+    const ipAddress = req.ip
+    const message = req.body.message
+    log('Feedback message', undefined, { userAgent, ipAddress, message })
+    await sendMessageToTelegramAdminGroup(message)
+    res.json({
+        status: 'success'
+    })
 })
 
 app.get('/healthcheck', (_req, res) => {
