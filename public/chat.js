@@ -80,7 +80,7 @@ const initPage = () => {
 
     const partyId = new URLSearchParams(window.location.search).get('partyId')
 
-    const profileImageElement = document.getElementById('profileImage')
+    const profileImageElement = getChildElement('profileImage', document)
     const conversationContainer = document.getElementById('conversation')
     const questionInput = document.getElementById('question')
     const sendButton = document.getElementById('sendButton')
@@ -96,6 +96,18 @@ const initPage = () => {
         const btn = document.createElement('div')
         btn.classList.add('button')
         btn.textContent = title
+        btn.onclick = () => {
+            btn.classList.add('selected')
+            focusQuestionInput()
+            onClick()
+        }
+        return btn
+    }
+
+    const createImageButton = (iconId, onClick) => {
+        const btn = document.createElement('div')
+        btn.classList.add('button')
+        btn.innerHTML = `<img src="/images/${iconId}.svg" class="icon"/>`
         btn.onclick = () => {
             btn.classList.add('selected')
             focusQuestionInput()
@@ -125,8 +137,8 @@ const initPage = () => {
             thumbsDiv.classList.add('thumbs')
             // TODO use e.g. SVG so that we can have a separate hover color?
             // TODO could tweak the phrasing of the messages these buttons send?
-            thumbsDiv.appendChild(createButton('\u{1F44D}', () => sendMessage('Olen samaa mieltä', false)))
-            thumbsDiv.appendChild(createButton('\u{1F44E}', () => sendMessage('En ole samaa mieltä', false)))
+            thumbsDiv.appendChild(createImageButton('face-smile-solid', () => sendMessage('Olen samaa mieltä', false)))
+            thumbsDiv.appendChild(createImageButton('circle-xmark-solid', () => sendMessage('En ole samaa mieltä', false)))
             contentAndThumbsDiv.appendChild(thumbsDiv)
         }
         messageDiv.appendChild(contentAndThumbsDiv)
