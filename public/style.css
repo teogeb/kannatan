@@ -262,7 +262,7 @@ a {
 }
 .inputContainer {
     display: flex;
-    padding: 1rem 1rem 0.5rem 1rem;
+    padding: 1rem 1rem 0.5rem 0rem;
     gap: 1.5em;
 }
 .inputContainer input {
@@ -274,6 +274,17 @@ a {
     border-radius: 20px;
     outline: none;
     font-size: 1.1rem;
+}
+.inputContainer .backLink {
+    color: var(--black);
+    padding-left: 1rem;
+    font-size: 1.2rem;
+    align-self: center;
+    margin-bottom: 0.2rem;
+}
+.inputContainer .backLink:hover {
+    color: var(--black);
+    font-weight: 900;
 }
 @media (min-width: 1024px) and (pointer: fine) {
     .inputContainer input {
