@@ -6,6 +6,7 @@ import { Conversation, createConversation } from './create_conversation'
 import { generateSuggestions } from './generate_suggestions'
 import { without } from 'lodash'
 import { log } from './utils'
+import { sendMessageToTelegramAdminGroup } from './telegramBot'
 
 const app = express()
 const PORT = 8080
@@ -149,6 +150,15 @@ app.post('/api/deleteConversation', async (req, _res) => {
     } else {
         log(`Failed to delete conversation ${req.body.conversationId}`)
     }
+})
+
+app.post('/api/feedback', async (req, res) => {
+    const userAgent = req.get('User-Agent')
+    const ipAddress = req.ip
+    const message = req.body.message
+    log('Feedback message', undefined, { userAgent, ipAddress, message })
+    await sendMessageToTelegramAdminGroup(message)
+    res.json({})
 })
 
 app.get('/healthcheck', (_req, res) => {
