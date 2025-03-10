@@ -157,6 +157,7 @@ a {
 .conversation .message {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 .conversation .message .contentAndThumbs {
     display: flex;
@@ -167,7 +168,9 @@ a {
     padding: 1rem 2rem 1rem 2rem;
     border-radius: 20px;
     font-size: 1.1rem;
+    width: 100%;
 }
+
 .conversation .message.user .content {
     background-color: var(--purple);
     color: var(--white);
