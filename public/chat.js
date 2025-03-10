@@ -147,9 +147,13 @@ const initPage = () => {
             contentAndThumbsDiv.appendChild(thumbsDiv)
         }
         messageDiv.appendChild(contentAndThumbsDiv)
-        const shortcuts = document.createElement('div')
-        shortcuts.classList.add('shortcuts')
-        messageDiv.appendChild(shortcuts)
+
+        if (sender === 'assistant') {
+            const shortcuts = document.createElement('div')
+            shortcuts.classList.add('shortcuts')
+            messageDiv.appendChild(shortcuts)
+        }
+
         conversationContainer.appendChild(messageDiv)
         conversationContainer.scrollTop = conversationContainer.scrollHeight
         return messageDiv
