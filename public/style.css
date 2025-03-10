@@ -493,7 +493,6 @@ a.disabled {
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-    height: 100svh;
 }
 
 @media (min-width: 1024px) and (pointer: fine) {
@@ -557,4 +556,8 @@ a.disabled {
 #aboutPage #feedback button:disabled {
     background-color: gray !important;
     pointer-events: none;
+}
+
+#aboutPage #back-button{
+    margin-bottom: 5rem;
 }
