@@ -241,8 +241,7 @@ a {
     font-size: 0.8rem;
     background-color: var(--white);
     color: var(--black);
-    box-shadow: -3px 3px 3px var(--gray);
-    border: 0.5px solid var(--gray);
+    border: 0.5px solid var(--dark-gray);
     cursor: pointer;
     font-weight: 400;
 }
