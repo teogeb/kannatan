@@ -207,8 +207,8 @@ a {
     .conversation .message .content {
         font-size: 1.2rem;
         font-weight: 300;
+        width: auto;
         max-width: 60%;
-        min-width: 5px;
     }
     .conversation .message.user .contentAndThumbs {
         justify-content: flex-end;
@@ -241,7 +241,7 @@ a {
     font-size: 0.8rem;
     background-color: var(--white);
     color: var(--black);
-    border: 0.5px solid var(--dark-gray);
+    border: 0.5px solid var(--gray);
     cursor: pointer;
     font-weight: 400;
 }
