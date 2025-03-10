@@ -147,17 +147,23 @@ const initPage = () => {
             contentAndThumbsDiv.appendChild(thumbsDiv)
         }
         messageDiv.appendChild(contentAndThumbsDiv)
-        const shortcuts = document.createElement('div')
-        shortcuts.classList.add('shortcuts')
-        messageDiv.appendChild(shortcuts)
+
+        if (sender === 'assistant') {
+            const shortcutsDiv = document.createElement('div')
+            shortcutsDiv.classList.add('shortcutsContainer')
+
+            const shortcuts = document.createElement('div')
+            shortcuts.classList.add('shortcuts')
+            shortcutsDiv.appendChild(shortcuts)
+            messageDiv.appendChild(shortcutsDiv)
+        }
+
         conversationContainer.appendChild(messageDiv)
         conversationContainer.scrollTop = conversationContainer.scrollHeight
         return messageDiv
     }
 
     function createSuggestionButtons(suggestions, areInitialSuggestions) {
-        const btnContainer = document.createElement('div')
-        btnContainer.classList.add('suggestions')
         let items = suggestions.map((s) => (
             {
                 buttonTitle: s,
@@ -191,7 +197,7 @@ const initPage = () => {
     appendChildren(
         createSuggestionButtons(['Vaaliteemat', ...SUGGESTIONS[partyId]], true),
         getChildElement('shortcuts', initialMessageDiv)
-    )    
+    )
 
     const sendMessage = async (text, showQuestion = true) => {
         const isFirstQuestion = (conversationId === undefined)

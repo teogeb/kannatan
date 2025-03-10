@@ -157,17 +157,20 @@ a {
 .conversation .message {
     display: flex;
     flex-direction: column;
-    margin: 3em 0.5rem 0.5rem 0.5rem;
+    width: 100%;
 }
 .conversation .message .contentAndThumbs {
     display: flex;
     flex-direction: row;
+    margin: 1rem;
 }
 .conversation .message .content {
     padding: 1rem 2rem 1rem 2rem;
     border-radius: 20px;
     font-size: 1.1rem;
+    width: 100%;
 }
+
 .conversation .message.user .content {
     background-color: var(--purple);
     color: var(--white);
@@ -196,20 +199,16 @@ a {
 .conversation .message.pending .content {
     opacity: 0.5;
 }
+
 @media (min-width: 1024px) and (pointer: fine) {
     .conversation .message {
-        min-width: 80%;
-        max-width: 80%;
-        margin: 3rem 1.5rem 0.5rem 1.5rem;
+        width: 100%;
     }
     .conversation .message .content {
         font-size: 1.2rem;
         font-weight: 300;
+        width: auto;
         max-width: 60%;
-        min-width: 5px;
-    }
-    .conversation .message.user {
-        justify-content: flex-end;
     }
     .conversation .message.user .contentAndThumbs {
         justify-content: flex-end;
@@ -220,10 +219,13 @@ a {
     }
 }
 
+.shortcutsContainer {
+    margin: 0rem 1.5rem 1.5rem 1.5rem;
+}
+
 .shortcuts {
     display: flex;
     flex-wrap: wrap;
-    margin: 0.5rem 0 0.5rem 0;
     width: 100%;
     gap: 0.5rem;
 }
@@ -239,7 +241,6 @@ a {
     font-size: 0.8rem;
     background-color: var(--white);
     color: var(--black);
-    box-shadow: -3px 3px 3px var(--gray);
     border: 0.5px solid var(--gray);
     cursor: pointer;
     font-weight: 400;
@@ -492,7 +493,6 @@ a.disabled {
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-    height: 100svh;
 }
 
 @media (min-width: 1024px) and (pointer: fine) {
@@ -526,6 +526,11 @@ a.disabled {
     gap: 1rem;
     margin: 2rem;
 }
+
+#aboutPage #feedback > * {
+    margin: 0;
+}
+
 #aboutPage #feedback textarea {
     font-family: 'Ubuntu', Tahoma, Verdana, sans-serif;
     font-weight: 400;
@@ -551,4 +556,8 @@ a.disabled {
 #aboutPage #feedback button:disabled {
     background-color: gray !important;
     pointer-events: none;
+}
+
+#aboutPage #back-button{
+    margin-bottom: 5rem;
 }
