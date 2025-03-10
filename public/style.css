@@ -527,6 +527,11 @@ a.disabled {
     gap: 1rem;
     margin: 2rem;
 }
+
+#aboutPage #feedback > * {
+    margin: 0;
+}
+
 #aboutPage #feedback textarea {
     font-family: 'Ubuntu', Tahoma, Verdana, sans-serif;
     font-weight: 400;
