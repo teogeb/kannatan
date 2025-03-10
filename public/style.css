@@ -157,7 +157,7 @@ a {
 .conversation .message {
     display: flex;
     flex-direction: column;
-    margin: 3em 0.5rem 0.5rem 0.5rem;
+    margin: 1rem 0.5rem 0.5rem 0.5rem;
 }
 .conversation .message .contentAndThumbs {
     display: flex;
@@ -200,7 +200,7 @@ a {
     .conversation .message {
         min-width: 80%;
         max-width: 80%;
-        margin: 3rem 1.5rem 0.5rem 1.5rem;
+        margin: 1rem 1.5rem 0.5rem 1.5rem;
     }
     .conversation .message .content {
         font-size: 1.2rem;
