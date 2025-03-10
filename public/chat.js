@@ -149,9 +149,13 @@ const initPage = () => {
         messageDiv.appendChild(contentAndThumbsDiv)
 
         if (sender === 'assistant') {
+            const shortcutsDiv = document.createElement('div')
+            shortcutsDiv.classList.add('shortcutsContainer')
+
             const shortcuts = document.createElement('div')
             shortcuts.classList.add('shortcuts')
-            messageDiv.appendChild(shortcuts)
+            shortcutsDiv.appendChild(shortcuts)
+            messageDiv.appendChild(shortcutsDiv)
         }
 
         conversationContainer.appendChild(messageDiv)
@@ -160,8 +164,6 @@ const initPage = () => {
     }
 
     function createSuggestionButtons(suggestions, areInitialSuggestions) {
-        const btnContainer = document.createElement('div')
-        btnContainer.classList.add('suggestions')
         let items = suggestions.map((s) => (
             {
                 buttonTitle: s,
@@ -195,7 +197,7 @@ const initPage = () => {
     appendChildren(
         createSuggestionButtons(['Vaaliteemat', ...SUGGESTIONS[partyId]], true),
         getChildElement('shortcuts', initialMessageDiv)
-    )    
+    )
 
     const sendMessage = async (text, showQuestion = true) => {
         const isFirstQuestion = (conversationId === undefined)

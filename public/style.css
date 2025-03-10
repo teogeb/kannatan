@@ -157,11 +157,11 @@ a {
 .conversation .message {
     display: flex;
     flex-direction: column;
-    /* margin: 1rem 0.5rem 0.5rem 0.5rem; */
 }
 .conversation .message .contentAndThumbs {
     display: flex;
     flex-direction: row;
+    margin: 1rem;
 }
 .conversation .message .content {
     padding: 1rem 2rem 1rem 2rem;
@@ -196,12 +196,10 @@ a {
 .conversation .message.pending .content {
     opacity: 0.5;
 }
+
 @media (min-width: 1024px) and (pointer: fine) {
     .conversation .message {
         width: 100%;
-    }
-    .contentAndThumbs {
-        margin: 1rem;
     }
     .conversation .message .content {
         font-size: 1.2rem;
@@ -218,10 +216,13 @@ a {
     }
 }
 
+.shortcutsContainer {
+    margin: 0rem 1.5rem 1.5rem 1.5rem;
+}
+
 .shortcuts {
     display: flex;
     flex-wrap: wrap;
-    margin: 0rem 1.5rem 0.5rem 1.5rem;
     width: 100%;
     gap: 0.5rem;
 }
