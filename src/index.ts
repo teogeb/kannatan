@@ -9,6 +9,7 @@ import { Conversation, createConversation } from './create_conversation'
 import { generateSuggestions } from './generate_suggestions'
 import { sendMessageToTelegramAdminGroup } from './telegramBot'
 import { log } from './utils'
+import crypto from 'crypto'
 
 const app = express()
 const PORT = 8080
@@ -17,7 +18,9 @@ const PORT = 8080
 app.set('trust proxy', true)
 
 app.use(express.json())
-app.use((_req, res, next) => {  // TODO not needed in production
+app.use((_req, res, next) => {
+    res.set('Accept-CH', 'Sec-CH-UA, Sec-CH-UA-Mobile, Sec-CH-UA-Platform')
+    // TODO not needed in production:
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
@@ -92,6 +95,12 @@ const withoutLastParagraph = (text: string): string => {
     }
 }
 
+const createUserHash = (ipAddress?: string, userAgent?: string) => {
+    const hash = crypto.createHash('sha256')
+    hash.update([ipAddress, userAgent, process.env.USER_HASH_SALT].join(''))
+    return hash.digest('hex')
+}
+
 const conversations: Map<string, Conversation> = new Map()
 
 app.post('/api/chat', async (req, res) => {
@@ -99,10 +108,13 @@ app.post('/api/chat', async (req, res) => {
         const existingConversation = (req.body.conversationId !== undefined) ? conversations.get(req.body.conversationId) : undefined
         const conversation = existingConversation ?? createConversation(req.body.partyId)
         if (existingConversation === undefined) {
-            const userAgent = req.get('User-Agent')
-            const url = req.originalUrl
-            const ipAddress = req.ip
-            log('Start conversation', conversation.id, { url, userAgent, ipAddress })
+            const userHash = createUserHash(req.ip, req.get('User-Agent'))
+            const clientHints = {
+                userAgent: req.headers['sec-ch-ua'],
+                mobile: req.headers['sec-ch-ua-mobile'],
+                platform: req.headers['sec-ch-ua-platform']
+            }
+            log('Start conversation', conversation.id, { userHash, clientHints })
             conversations.set(conversation.id, conversation)
         }
         conversation.messages.push({
