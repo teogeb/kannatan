@@ -500,6 +500,10 @@ a.disabled {
     }
 }
 
+#aboutPage a {
+    color: var(--purple);
+}
+
 #aboutPage .sub-header {
     font-size: 1.2rem;
     color: var(--black);
@@ -508,7 +512,6 @@ a.disabled {
 }
 #aboutPage .sub-header a {
     font-size: 1.2rem;
-    color: var(--purple);
 }
 
 @media(hover: hover) and (pointer: fine) {
@@ -556,6 +559,16 @@ a.disabled {
     pointer-events: none;
 }
 
-#aboutPage #back-button{
+#aboutPage #back-button {
+    margin-bottom: 3rem;
+}
+
+#aboutPage #additional-info {
+    align-self: center;
+    max-width: 60vh;
     margin-bottom: 5rem;
+}
+
+#aboutPage #additional-info .details {
+    margin-bottom: 3rem;
 }
