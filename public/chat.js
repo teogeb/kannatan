@@ -50,17 +50,6 @@ const SUGGESTIONS = {
     'vihr': ['Ilmasto', 'Ihmisoikeudet', 'Koulutus', 'Talous']
 }
 
-const PROFILE_IMAGES_URLS = {
-    'kd': '/images/kd-1716250767.png',
-    'kesk': '/images/kesk-1715643393-2.png',
-    'kok': '/images/kok-1715642909.png',
-    'ps': '/images/ps-1716251177.png',
-    'rkp': '/images/rkp-1715642415.png',
-    'sdp': '/images/sdp-1715643055.png',
-    'vas': '/images/vas-1716252125-2.png',
-    'vihr': '/images/vihr-1716252407.png'
-}
-
 function isMobile() {
     const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
     return regex.test(navigator.userAgent);
@@ -78,7 +67,9 @@ const appendChildren = (elements, target) => {
 
 const initPage = () => {
 
-    const partyId = new URLSearchParams(window.location.search).get('partyId')
+    const urlSearchParams = new URLSearchParams(window.location.search)
+    const partyId = urlSearchParams.get('partyId')
+    const profileId = urlSearchParams.get('profileId')
 
     const profileImageElement = getChildElement('profileImage', document)
     const conversationContainer = document.getElementById('conversation')
@@ -191,7 +182,7 @@ const initPage = () => {
         }))
     }
 
-    profileImageElement.src = PROFILE_IMAGES_URLS[partyId]
+    profileImageElement.src = `https://static.kannatan.fi/avatars-2025/${partyId}/${profileId}.png`
 
     const initialMessageDiv = addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'assistant', false) 
     appendChildren(
