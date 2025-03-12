@@ -94,6 +94,7 @@ a {
     padding-right: 0.2rem;
     width: 1.8rem;
     height: 1.8rem;
+    filter: brightness(0) saturate(100%) invert(15%) sepia(94%) saturate(4046%) hue-rotate(285deg) brightness(82%) contrast(129%);
 }
 
 #root {
@@ -194,6 +195,7 @@ a {
 }
 .conversation .message .thumbs .button {
     padding: 0.5rem 0.5rem;
+    box-shadow: -2px 2px 2px var(--gray);
 }
 .conversation .message.pending .content {
     opacity: 0.5;
@@ -208,13 +210,6 @@ a {
         font-weight: 300;
         width: auto;
         max-width: 60%;
-    }
-    .conversation .message.user .contentAndThumbs {
-        justify-content: flex-end;
-    }
-    .conversation .message .thumbs {
-        flex-direction: row;
-        margin-left: 0.5rem;
     }
 }
 

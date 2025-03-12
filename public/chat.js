@@ -133,8 +133,8 @@ const initPage = () => {
                 latestUserAction = 'THUMB'
                 sendMessage(text, false)
             }
-            thumbsDiv.appendChild(createImageButton('face-smile-solid', () => onThumbSelected('Olen samaa mieltä')))
-            thumbsDiv.appendChild(createImageButton('circle-xmark-solid', () => onThumbSelected('En ole samaa mieltä')))
+            thumbsDiv.appendChild(createImageButton('thumb-up', () => onThumbSelected('Olen samaa mieltä')))
+            thumbsDiv.appendChild(createImageButton('thumb-down', () => onThumbSelected('En ole samaa mieltä')))
             contentAndThumbsDiv.appendChild(thumbsDiv)
         }
         messageDiv.appendChild(contentAndThumbsDiv)
