@@ -16,13 +16,13 @@ const setLocalStorageJSON = (key, value) => {
 const initPage = () => {
 
     const PARTY_IDS = ['kd', 'kesk', 'kok', 'ps', 'rkp', 'sdp', 'vas', 'vihr']
-    const PROFILE_IDS = [0, 1, 2, 3, 4, 5, 6, 9, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+    const PROFILE_IDS = [..._.repeat('m', PARTY_IDS.length / 2), ..._.repeat('f', PARTY_IDS.length / 2)]
     const MAX_PARTY_PROFILE_AGE = 86400000
 
     let partyProfiles = getLocalStorageJSON('partyProfiles', MAX_PARTY_PROFILE_AGE)
     if (partyProfiles === undefined) {
         const partyIds = _.shuffle(PARTY_IDS)
-        const profileIds = _.sampleSize(PROFILE_IDS, partyIds.length)
+        const profileIds = _.shuffle(PROFILE_IDS)
         partyProfiles = partyIds.map((partyId, i) => ({
             partyId,
             profileId: profileIds[i]
@@ -38,7 +38,7 @@ const initPage = () => {
         element.innerHTML = `
             <a href="/chat?partyId=${partyProfile.partyId}&profileId=${partyProfile.profileId}">
                 <div class="img-container">
-                    <img src="https://static.kannatan.fi/avatars-2025/${partyProfile.partyId}/${partyProfile.profileId}.png" class="party-character">
+                    <img src="https://static.kannatan.fi/avatars-2025/avatar-${partyProfile.profileId}-${partyProfile.partyId}.png" class="party-character">
                     <img src="/images/${partyProfile.partyId}-logo.png" class="party-logo">
                 </div>
             </a>
