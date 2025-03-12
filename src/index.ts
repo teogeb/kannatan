@@ -64,7 +64,9 @@ const staticFiles = {
     '/images/vas-logo.png': 'images/vas-logo.png',
     '/images/vihr-logo.png': 'images/vihr-logo.png',
     '/images/face-smile-solid.svg': 'images/face-smile-solid.svg',
-    '/images/circle-xmark-solid.svg': 'images/circle-xmark-solid.svg'
+    '/images/circle-xmark-solid.svg': 'images/circle-xmark-solid.svg',
+    '/images/thumb-up.svg': 'images/thumb-up.svg',
+    '/images/thumb-down.svg': 'images/thumb-down.svg'
 }
 for (const [urlPath, fileName] of Object.entries(staticFiles)) {
     app.get(urlPath, (_req, res) => {
