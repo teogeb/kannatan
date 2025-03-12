@@ -26,6 +26,12 @@ const initPage = () => {
     feedbackButton.addEventListener('click', sendFeedback)
     initSubmitButtonStateController(feedbackButton, feedbackInput)
 
+    const additionalInfo = document.getElementById('additional-info')
+    additionalInfo.querySelector('.open-link').addEventListener('click', () => {
+        const details = additionalInfo.querySelector('.details')
+        details.classList.remove('hidden')
+        details.scrollIntoView({ behavior: 'smooth' });
+    })
 }
 
 document.addEventListener('DOMContentLoaded', () => initPage())
