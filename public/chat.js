@@ -162,17 +162,22 @@ const initPage = () => {
             }
         ))
         if (!areInitialSuggestions) {
-            let extraShortcutCandidates  = [
-                { buttonTitle: 'Mitä muuta kannatat?', message: 'Mitä muuta kannatat?' }
-            ]
+            // TODO some better logic than just random sample (maybe on server-side?)
+            let extraShortcutCandidates  = []
             if (latestUserAction !== 'THUMB') {
-                extraShortcutCandidates.push(
+                extraShortcutCandidates.push(_.sample([
                     { buttonTitle: 'Kerro lisää', message: 'Kerro lisää tästä aiheesta' },
-                    { buttonTitle: 'Miksi?', message: 'Miksi?' }
-                )
+                    { buttonTitle: 'Miksi?', message: 'Miksi?' },
+                    { buttonTitle: 'Perustele', message: 'Anna perusteluja tämän mielipiteen tueksi' }
+                ]))
             }
+            extraShortcutCandidates.push(_.sample([
+                { buttonTitle: 'Mitä muuta kannatat?', message: 'Mitä muuta kannatat?' },
+                { buttonTitle: 'Kerro muista tavoitteistasi', message: 'Kerro muista tavoitteista' },
+                { buttonTitle: 'Mitä muuta pidätte tärkeänä?', message: 'Mitä muuta pidätte tärkeänä?' }
+            ]))
             items = [
-                _.sample(extraShortcutCandidates),  // TODO some better logic than just random (maybe on server-side?)
+                ...extraShortcutCandidates,
                 ...items
             ]
         }
