@@ -253,6 +253,10 @@ a {
     color: var(--white);
 }
 
+.button.selected .icon {
+    filter: invert(39%) sepia(46%) saturate(2111%) hue-rotate(260deg) brightness(102%) contrast(91%);
+}
+
 @media (min-width: 1024px) and (pointer: fine) {
     .shortcuts {
         max-width: 75%;
