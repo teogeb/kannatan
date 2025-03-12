@@ -194,6 +194,7 @@ a {
 }
 .conversation .message .thumbs .button {
     padding: 0.5rem 0.5rem;
+    box-shadow: -2px 2px 2px var(--gray);
 }
 .conversation .message.pending .content {
     opacity: 0.5;
