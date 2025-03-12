@@ -97,6 +97,16 @@ a {
     filter: brightness(0) saturate(100%) invert(15%) sepia(94%) saturate(4046%) hue-rotate(285deg) brightness(82%) contrast(129%);
 }
 
+@media (min-width: 1024px) and (pointer: fine) {
+    .icon {
+        padding-top: 0.1rem;
+        padding-left: 0.1rem;
+        padding-right: 0.1rem;
+        width: 1.3rem;
+        height: 1.3rem;
+    }
+}
+
 #root {
     display: flex;
     flex-direction: column;
@@ -213,6 +223,9 @@ a {
     }
     .conversation .message.user .contentAndThumbs {
         justify-content: flex-end;
+    }
+    .conversation .message .thumbs {
+        gap: 0.2rem;
     }
 }
 
