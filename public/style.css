@@ -94,6 +94,7 @@ a {
     padding-right: 0.2rem;
     width: 1.8rem;
     height: 1.8rem;
+    filter: brightness(0) saturate(100%) invert(15%) sepia(94%) saturate(4046%) hue-rotate(285deg) brightness(82%) contrast(129%);
 }
 
 #root {
@@ -207,13 +208,6 @@ a {
         font-weight: 300;
         width: auto;
         max-width: 60%;
-    }
-    .conversation .message.user .contentAndThumbs {
-        justify-content: flex-end;
-    }
-    .conversation .message .thumbs {
-        flex-direction: row;
-        margin-left: 0.5rem;
     }
 }
 
