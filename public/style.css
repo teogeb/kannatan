@@ -130,6 +130,7 @@ a {
     margin-left: 0.5rem;
     width: 12vw;
     height: 12vw;
+    border-radius: 1rem;
 
 }
 @media (min-width: 1024px) and (pointer: fine) {
