@@ -211,6 +211,9 @@ a {
         width: auto;
         max-width: 60%;
     }
+    .conversation .message.user .contentAndThumbs {
+        justify-content: flex-end;
+    }
 }
 
 .shortcutsContainer {
