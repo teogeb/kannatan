@@ -127,7 +127,7 @@ app.post('/api/chat', async (req, res) => {
         const index = await generateDatasource(req.body.partyId)
         const retriever = index.asRetriever()
         const chatEngine = new ContextChatEngine({ retriever })
-        const stream = await chatEngine.chat({ message: req.body.question, stream: true, chatHistory: conversation.messages })
+        const stream = await chatEngine.chat({ message: req.body.question, stream: true, chatHistory: [...conversation.messages] })
         
         log('Question', conversation.id, { question: req.body.question })
         const start = Date.now()
