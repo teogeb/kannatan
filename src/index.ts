@@ -13,6 +13,7 @@ import crypto from 'crypto'
 
 const app = express()
 const PORT = 8080
+const CHAT_HISTORY_MESSAGE_COUNT = 20
 
 // this is needed to get client IP address as deployment is behind a proxy (the AWS Application Load Balancer)
 app.set('trust proxy', true)
@@ -117,7 +118,10 @@ app.post('/api/chat', async (req, res) => {
         const index = await generateDatasource(req.body.partyId)
         const retriever = index.asRetriever()
         const chatEngine = new ContextChatEngine({ retriever })
-        const stream = await chatEngine.chat({ message: req.body.question, stream: true, chatHistory: [...conversation.messages] })
+        const chatHistory = [  // initial prompt and some recent messages (the AI hallucinates less when the conversation is reasonably short)
+            conversation.messages[0],
+            ...conversation.messages.slice(1).slice(-(CHAT_HISTORY_MESSAGE_COUNT - 1))]
+        const stream = await chatEngine.chat({ message: req.body.question, stream: true, chatHistory })
         
         log('Question', conversation.id, { question: req.body.question })
         const start = Date.now()
