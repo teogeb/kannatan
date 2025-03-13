@@ -161,8 +161,12 @@ const initPage = () => {
                 message: s
             }
         ))
-        if (!areInitialSuggestions) {
-            // TODO some better logic than just random sample (maybe on server-side?)
+        if (areInitialSuggestions) {
+            items.unshift({
+                buttonTitle: 'Alue- ja kuntavaalit 2025',
+                message: 'Kerro puolueen keskeisistä aiheista aluevaaliohjelmassa ja kuntavaaliohjelmassa.'
+            })
+        } else {
             let extraShortcutCandidates  = []
             if (latestUserAction !== 'THUMB') {
                 extraShortcutCandidates.push(_.sample([
@@ -191,7 +195,7 @@ const initPage = () => {
 
     const initialMessageDiv = addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'assistant', false) 
     appendChildren(
-        createSuggestionButtons(['Vaaliteemat', ...SUGGESTIONS[partyId]], true),
+        createSuggestionButtons(SUGGESTIONS[partyId], true),
         getChildElement('shortcuts', initialMessageDiv)
     )
 
