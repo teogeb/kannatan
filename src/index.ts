@@ -14,6 +14,7 @@ import crypto from 'crypto'
 const app = express()
 const PORT = 8080
 const CHAT_HISTORY_MESSAGE_COUNT = 20
+const SUGGESTION_DUPLICATION_ANALYSIS_MESSAGE_COUNT = 5
 
 // this is needed to get client IP address as deployment is behind a proxy (the AWS Application Load Balancer)
 app.set('trust proxy', true)
@@ -135,7 +136,10 @@ app.post('/api/chat', async (req, res) => {
         const answer = withoutLastParagraph(answerAndSuggestions)
 
         let suggestions = await generateSuggestions(answerAndSuggestions)
-        const previousSuggestions = conversation.messages.map((m) => m.suggestions ?? []).flat()
+        const previousSuggestions = conversation.messages
+            .filter((m) => m.role === 'assistant')
+            .slice(-SUGGESTION_DUPLICATION_ANALYSIS_MESSAGE_COUNT)
+            .map((m) => m.suggestions ?? []).flat()
         const duplicateSuggestions = suggestions.filter((s) => previousSuggestions.includes(s))
         suggestions = without(suggestions, ...duplicateSuggestions)
         log('Suggestions', conversation.id, { suggestions, duplicates: duplicateSuggestions } )
