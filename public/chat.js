@@ -1,27 +1,3 @@
-const fetchResponse = async (question, metadata) => {
-    const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            question,
-            ...metadata
-        })
-    })
-    return JSON.parse(await response.text())
-}
-
-const deleteThread = async (conversationId) => {
-    await fetch('/api/deleteConversation', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ conversationId })
-    })
-}
-
 const PARTY_NAMES = {
     'kd': 'Kristillisdemokraatteja',
     'kesk': 'Keskustaa',
@@ -44,27 +20,11 @@ const SUGGESTIONS = {
     'vihr': ['Ilmasto', 'Ihmisoikeudet', 'Koulutus', 'Talous']
 }
 
-function isMobile() {
-    const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
-    return regex.test(navigator.userAgent)
-}
-
-const getChildElement = (className, container) => {
-    return container.getElementsByClassName(className)[0]
-}
-
-const appendChildren = (elements, target) => {
-    for (const element of elements) {
-        target.appendChild(element)
-    }
-}
-
 const initPage = () => {
 
     const urlSearchParams = new URLSearchParams(window.location.search)
     const partyId = urlSearchParams.get('partyId')
     const profileId = urlSearchParams.get('profileId')
-
     const profileImageElement = getChildElement('profileImage', document)
     const conversationContainer = document.getElementById('conversation')
     const questionInput = document.getElementById('question')
@@ -102,14 +62,14 @@ const initPage = () => {
         return btn
     }
 
-    function scrollToConversationBottom() {
+    const scrollToConversationBottom = () => {
         conversationContainer.scrollTo({
             top: conversationContainer.scrollHeight,
             behavior: 'smooth'
         })
     }
 
-    function addMessage(text, sender, includeThumbs) {
+    const addMessage = (text, sender, includeThumbs) => {
         const messageDiv = document.createElement('div')
         messageDiv.classList.add('message', sender)
         const contentAndThumbsDiv = document.createElement('div')
@@ -146,7 +106,7 @@ const initPage = () => {
         return messageDiv
     }
 
-    function createSuggestionButtons(suggestions, areInitialSuggestions) {
+    const createSuggestionButtons = (suggestions, areInitialSuggestions) => {
         let items = suggestions.map((s) => (
             {
                 buttonTitle: s,
@@ -183,14 +143,6 @@ const initPage = () => {
         }))
     }
 
-    profileImageElement.src = `https://static.kannatan.fi/avatars-2025/avatar-${profileId}-${partyId}.png`
-
-    const initialMessageDiv = addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'assistant', false) 
-    appendChildren(
-        createSuggestionButtons(SUGGESTIONS[partyId], true),
-        getChildElement('shortcuts', initialMessageDiv)
-    )
-
     const sendMessage = async (text, showQuestion = true) => {
         const isFirstQuestion = (conversationId === undefined)
         if (showQuestion) {
@@ -198,7 +150,11 @@ const initPage = () => {
         }
         const messageDiv = addMessage('...', 'assistant', (latestUserAction !== 'THUMB'))
         messageDiv.classList.add('pending')
-        const response = await fetchResponse(text, isFirstQuestion ? { partyId } : { partyId, conversationId })
+        const response = await sendApiRequest('chat', {
+            question: text,
+            partyId,
+            conversationId
+        })
         messageDiv.getElementsByTagName('p')[0].textContent = response.answer
         messageDiv.classList.remove('pending')
         if (isFirstQuestion) {
@@ -220,6 +176,23 @@ const initPage = () => {
             sendMessage(question)
         }
     }
+
+    const deleteThread = async (conversationId) => {
+        await fetch('/api/deleteConversation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ conversationId })
+        })
+    }    
+
+    profileImageElement.src = `https://static.kannatan.fi/avatars-2025/avatar-${profileId}-${partyId}.png`
+    const initialMessageDiv = addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'assistant', false) 
+    appendChildren(
+        createSuggestionButtons(SUGGESTIONS[partyId], true),
+        getChildElement('shortcuts', initialMessageDiv)
+    )
 
     sendButton.addEventListener('click', () => {
         sendQuestion()
