@@ -1,7 +1,6 @@
-// @ts-nocheck
 // Run the script from terminal with 'npm run generate'
 
-import { storageContextFromDefaults, VectorStoreIndex } from 'llamaindex'
+import { Document, Metadata, storageContextFromDefaults, VectorStoreIndex } from 'llamaindex'
 import { SimpleDirectoryReader } from '@llamaindex/readers/directory'
 import readline from 'readline'
 import fs from 'fs'
@@ -9,7 +8,7 @@ import path from 'path'
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
 
-const getDocuments = async (documentPath) => {
+const getDocuments = async (documentPath: string): Promise<Document<Metadata>[]> => {
     const documents = await new SimpleDirectoryReader().loadData({ directoryPath: documentPath })
     documents.forEach(doc => {
         doc.id_ = path.basename(doc.id_)
@@ -18,7 +17,7 @@ const getDocuments = async (documentPath) => {
     return documents
 }
 
-const generateStore = async (documentPath, partyId) => {
+const generateStore = async (documentPath: string, partyId: string): Promise<void> => {
     const persistDir = `store/${partyId}`
 
     if (fs.existsSync(persistDir)) {
@@ -32,7 +31,7 @@ const generateStore = async (documentPath, partyId) => {
     await VectorStoreIndex.fromDocuments(documents, { storageContext })
 }
 
-const getInput = async (query) => {
+const getInput = async (query: string): Promise<string> => {
     return new Promise((resolve) => rl.question(query, resolve))
 }
 
@@ -48,7 +47,6 @@ const start = async () => {
             const documentPath = await getInput('\nEnter path to the folder containing party documents:\n');
             await generateStore(documentPath, partyId);
         }
-
         console.log('Done');
         process.exit(0);
     } catch (e) {
