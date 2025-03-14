@@ -586,9 +586,9 @@ a.disabled {
 #aboutPage #additional-info {
     align-self: center;
     max-width: 60vh;
-    margin-bottom: 5rem;
+    margin-bottom: 3rem;
 }
 
 #aboutPage #additional-info .details {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 }
