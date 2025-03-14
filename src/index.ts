@@ -40,7 +40,7 @@ app.use((req, res, next) => {
     next()
 })
 
-const staticFiles = {
+const STATIC_FILES = {
     '/': 'index.html',
     '/index.js': 'index.js',
     '/chat': 'chat.html',
@@ -60,7 +60,7 @@ const staticFiles = {
     '/images/thumb-up.svg': 'images/thumb-up.svg',
     '/images/thumb-down.svg': 'images/thumb-down.svg'
 }
-for (const [urlPath, fileName] of Object.entries(staticFiles)) {
+for (const [urlPath, fileName] of Object.entries(STATIC_FILES)) {
     app.get(urlPath, (_req, res) => {
         res.sendFile(path.join(__dirname, '..', 'public', fileName))
     })
