@@ -184,7 +184,7 @@ const initPage = () => {
         })
     }    
 
-    profileImageElement.src = `/images/avatar-${profileId}-${partyId}.png`
+    profileImageElement.src = `/images/avatars/${partyId}-${profileId}.png`
     const initialMessageDiv = addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'assistant', false) 
     appendChildren(
         createSuggestionButtons(INITIAL_SUGGESTIONS[partyId], true),
