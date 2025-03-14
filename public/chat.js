@@ -127,8 +127,6 @@ const initPage = () => {
         if (includeThumbs) {
             const thumbsDiv = document.createElement('div')
             thumbsDiv.classList.add('thumbs')
-            // TODO use e.g. SVG so that we can have a separate hover color?
-            // TODO could tweak the phrasing of the messages these buttons send?
             const onThumbSelected = (text) => {
                 latestUserAction = 'THUMB'
                 sendMessage(text, false)
