@@ -11,6 +11,13 @@ import { createChatResponse, deleteConversation } from './chat'
 const app = express()
 const PORT = 8080
 
+Settings.llm = new OpenAILlama({
+    model: 'gpt-4o-mini',
+    temperature: 0.02,
+    topP: 0.02,
+    apiKey: process.env.OPENAI_API_KEY
+})
+
 // this is needed to get client IP address as deployment is behind a proxy (the AWS Application Load Balancer)
 app.set('trust proxy', true)
 
@@ -60,13 +67,6 @@ for (const [urlPath, fileName] of Object.entries(STATIC_FILES)) {
         res.sendFile(path.join(__dirname, '..', 'public', fileName))
     })
 }
-
-Settings.llm = new OpenAILlama({
-    model: 'gpt-4o-mini',
-    temperature: 0.02,
-    topP: 0.02,
-    apiKey: process.env.OPENAI_API_KEY
-})
 
 app.post('/api/chat', async (req, res) => {
     const response = await createChatResponse(req)
