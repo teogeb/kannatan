@@ -5,7 +5,7 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "dev": "nodemon src/index.ts",
-    "generate": "ts-node generate_vector_store.ts"
+    "generate": "ts-node bin/generateVectorStore.ts"
   },
   "keywords": [],
   "author": "",
