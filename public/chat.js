@@ -112,8 +112,8 @@ const initPage = () => {
         ))
         if (areInitialSuggestions) {
             items.unshift({
-                buttonTitle: 'Alue- ja kuntavaalit 2025',
-                message: 'Kerro aluevaaliohjelmasta ja kerro kuntavaaliohjelmasta.'
+                buttonTitle: 'Kunta- ja aluevaalit 2025',
+                message: 'Kerro kuntavaaliohjelmasta ja kerro aluevaaliohjelmasta.'
             })
         } else {
             let extraShortcutCandidates  = []
