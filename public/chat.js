@@ -78,7 +78,7 @@ const initPage = () => {
         }
     }
 
-    const createButton = (title, onClick) => {
+    const createTextButton = (title, onClick) => {
         const btn = document.createElement('div')
         btn.classList.add('button')
         btn.textContent = title
@@ -177,7 +177,7 @@ const initPage = () => {
                 ...items
             ]
         }
-        return items.map((item) => createButton(item.buttonTitle, () => {
+        return items.map((item) => createTextButton(item.buttonTitle, () => {
             latestUserAction = 'SHORTCUT'
             sendMessage(item.message, false)
         }))
