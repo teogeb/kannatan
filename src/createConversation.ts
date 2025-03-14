@@ -12,7 +12,7 @@ interface Message {
 }
 
 export const createConversation = (partyId: string): Conversation => {
-    const partyGenetives: Record<string, any> = {
+    const PARTY_GENETIVES: Record<string, any> = {
         kd: 'Kristillisdemokraattien',
         kesk: 'Keskustan',
         kok: 'Kokoomuksen',
@@ -29,7 +29,7 @@ export const createConversation = (partyId: string): Conversation => {
             { 
                 role: 'system', 
                 content: `
-                Toimi ${partyGenetives[partyId]} poliittisena asiantuntijana, joka vastaa käyttäjän kysymyksiin. Vastaat käyttäjän kysymyksiin puolueen kantaan ja ohjelmiin liittyen.
+                Toimi ${PARTY_GENETIVES[partyId]} poliittisena asiantuntijana, joka vastaa käyttäjän kysymyksiin. Vastaat käyttäjän kysymyksiin puolueen kantaan ja ohjelmiin liittyen.
                 Käytä lähteenä ainoastaan liitettyjä tiedostoja. Noudata seuraavia periaatteita:
 
                 • Älä hallusinoi -
