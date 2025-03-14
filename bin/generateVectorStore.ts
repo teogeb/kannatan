@@ -1,5 +1,3 @@
-// Run the script from terminal with 'npm run generate'
-
 import { Document, Metadata, storageContextFromDefaults, VectorStoreIndex } from 'llamaindex'
 import { SimpleDirectoryReader } from '@llamaindex/readers/directory'
 import readline from 'readline'
