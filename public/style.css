@@ -408,7 +408,7 @@ h4 {
 @media (min-width: 1024px) and (pointer: fine)  {
     .partySelect  {
         width: 60vw;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(5, 1fr);
     }
     .mobileLineBreak {
         display: none;
