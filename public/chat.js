@@ -1,33 +1,3 @@
-const fetchResponse = async (question, metadata) => {
-    if (new URLSearchParams(window.location.search).get('mockData') === 'true') {  // TODO remove this
-        return {
-            answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere varius mattis. Aliquam erat volutpat. Etiam facilisis consectetur sem, eu pulvinar odio dignissim ut. Cras pulvinar diam magna, eget iaculis neque pretium nec',
-            suggestions: ['Suggestion 1', 'Suggestion 2']
-        }
-    }
-    const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            question,
-            ...metadata
-        })
-    })
-    return JSON.parse(await response.text())
-}
-
-const deleteThread = async (conversationId) => {
-    await fetch('/api/deleteConversation', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ conversationId })
-    })
-}
-
 const PARTY_NAMES = {
     'kd': 'Kristillisdemokraatteja',
     'kesk': 'Keskustaa',
@@ -39,7 +9,7 @@ const PARTY_NAMES = {
     'vihr': 'Vihreitä'
 }
 
-const SUGGESTIONS = {
+const INITIAL_SUGGESTIONS = {
     'kd': ['Perhepolitiikka', 'Talous', 'Sosiaalipalvelut', 'Turvallisuus'],
     'kesk': ['Sosiaalipolitiikka', 'Koulutus', 'Perhepolitiikka', 'Yrittäjyys'],
     'kok': ['Talous', 'Hyvinvointi', 'Kansainvälisyys', 'Yrittäjyys'],
@@ -50,27 +20,11 @@ const SUGGESTIONS = {
     'vihr': ['Ilmasto', 'Ihmisoikeudet', 'Koulutus', 'Talous']
 }
 
-function isMobile() {
-    const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-    return regex.test(navigator.userAgent);
-}
-
-const getChildElement = (className, container) => {
-    return container.getElementsByClassName(className)[0]
-}
-
-const appendChildren = (elements, target) => {
-    for (const element of elements) {
-        target.appendChild(element)
-    }
-}
-
 const initPage = () => {
 
     const urlSearchParams = new URLSearchParams(window.location.search)
     const partyId = urlSearchParams.get('partyId')
     const profileId = urlSearchParams.get('profileId')
-
     const profileImageElement = getChildElement('profileImage', document)
     const conversationContainer = document.getElementById('conversation')
     const questionInput = document.getElementById('question')
@@ -84,7 +38,7 @@ const initPage = () => {
         }
     }
 
-    const createButton = (title, onClick) => {
+    const createTextButton = (title, onClick) => {
         const btn = document.createElement('div')
         btn.classList.add('button')
         btn.textContent = title
@@ -108,14 +62,14 @@ const initPage = () => {
         return btn
     }
 
-    function scrollToConversationBottom() {
+    const scrollToConversationBottom = () => {
         conversationContainer.scrollTo({
             top: conversationContainer.scrollHeight,
             behavior: 'smooth'
-        });
+        })
     }
 
-    function addMessage(text, sender, includeThumbs) {
+    const addMessage = (text, sender, includeThumbs) => {
         const messageDiv = document.createElement('div')
         messageDiv.classList.add('message', sender)
         const contentAndThumbsDiv = document.createElement('div')
@@ -127,8 +81,6 @@ const initPage = () => {
         if (includeThumbs) {
             const thumbsDiv = document.createElement('div')
             thumbsDiv.classList.add('thumbs')
-            // TODO use e.g. SVG so that we can have a separate hover color?
-            // TODO could tweak the phrasing of the messages these buttons send?
             const onThumbSelected = (text) => {
                 latestUserAction = 'THUMB'
                 sendMessage(text, false)
@@ -138,23 +90,20 @@ const initPage = () => {
             contentAndThumbsDiv.appendChild(thumbsDiv)
         }
         messageDiv.appendChild(contentAndThumbsDiv)
-
         if (sender === 'assistant') {
             const shortcutsDiv = document.createElement('div')
             shortcutsDiv.classList.add('shortcutsContainer')
-
             const shortcuts = document.createElement('div')
             shortcuts.classList.add('shortcuts')
             shortcutsDiv.appendChild(shortcuts)
             messageDiv.appendChild(shortcutsDiv)
         }
-
         conversationContainer.appendChild(messageDiv)
         conversationContainer.scrollTop = conversationContainer.scrollHeight
         return messageDiv
     }
 
-    function createSuggestionButtons(suggestions, areInitialSuggestions) {
+    const createSuggestionButtons = (suggestions, areInitialSuggestions) => {
         let items = suggestions.map((s) => (
             {
                 buttonTitle: s,
@@ -185,19 +134,11 @@ const initPage = () => {
                 ...items
             ]
         }
-        return items.map((item) => createButton(item.buttonTitle, () => {
+        return items.map((item) => createTextButton(item.buttonTitle, () => {
             latestUserAction = 'SHORTCUT'
             sendMessage(item.message, false)
         }))
     }
-
-    profileImageElement.src = `https://static.kannatan.fi/avatars-2025/avatar-${profileId}-${partyId}.png`
-
-    const initialMessageDiv = addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'assistant', false) 
-    appendChildren(
-        createSuggestionButtons(SUGGESTIONS[partyId], true),
-        getChildElement('shortcuts', initialMessageDiv)
-    )
 
     const sendMessage = async (text, showQuestion = true) => {
         const isFirstQuestion = (conversationId === undefined)
@@ -206,7 +147,11 @@ const initPage = () => {
         }
         const messageDiv = addMessage('...', 'assistant', (latestUserAction !== 'THUMB'))
         messageDiv.classList.add('pending')
-        const response = await fetchResponse(text, isFirstQuestion ? { partyId } : { partyId, conversationId })
+        const response = await sendApiRequest('chat', {
+            question: text,
+            partyId,
+            conversationId
+        })
         messageDiv.getElementsByTagName('p')[0].textContent = response.answer
         messageDiv.classList.remove('pending')
         if (isFirstQuestion) {
@@ -229,6 +174,23 @@ const initPage = () => {
         }
     }
 
+    const deleteThread = async (conversationId) => {
+        await fetch('/api/deleteConversation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ conversationId })
+        })
+    }    
+
+    profileImageElement.src = `https://static.kannatan.fi/avatars-2025/avatar-${profileId}-${partyId}.png`
+    const initialMessageDiv = addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'assistant', false) 
+    appendChildren(
+        createSuggestionButtons(INITIAL_SUGGESTIONS[partyId], true),
+        getChildElement('shortcuts', initialMessageDiv)
+    )
+
     sendButton.addEventListener('click', () => {
         sendQuestion()
         focusQuestionInput()
@@ -244,8 +206,7 @@ const initPage = () => {
     window.addEventListener('beforeunload', () => {
         if (conversationId !== undefined)
             deleteThread(conversationId)
-     });
+     })
 }
-
 
 document.addEventListener('DOMContentLoaded', () => initPage())

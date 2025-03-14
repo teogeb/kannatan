@@ -12,25 +12,24 @@ interface Message {
 }
 
 export const createConversation = (partyId: string): Conversation => {
-    const partyGenetives: Record<string, any> = {
-    kd: 'Kristillisdemokraattien',
-    kesk: 'Keskustan',
-    kok: 'Kokoomuksen',
-    ps: 'Perussuomalaisten',
-    rkp: 'Ruotsalaisen kansanpuolueen',
-    sdp: 'Suomen sosialidemokraattisen puoleen',
-    vas: 'Vasemmistoliiton',
-    vihr: 'Vihreiden'
-}
+    const PARTY_GENETIVES: Record<string, any> = {
+        kd: 'Kristillisdemokraattien',
+        kesk: 'Keskustan',
+        kok: 'Kokoomuksen',
+        ps: 'Perussuomalaisten',
+        rkp: 'Ruotsalaisen kansanpuolueen',
+        sdp: 'Suomen sosialidemokraattisen puoleen',
+        vas: 'Vasemmistoliiton',
+        vihr: 'Vihreiden'
+    }
     const id = uuidv4()
-
     return {
         id,
         messages: [
             { 
                 role: 'system', 
                 content: `
-                Toimi ${partyGenetives[partyId]} poliittisena asiantuntijana, joka vastaa käyttäjän kysymyksiin. Vastaat käyttäjän kysymyksiin puolueen kantaan ja ohjelmiin liittyen.
+                Toimi ${PARTY_GENETIVES[partyId]} poliittisena asiantuntijana, joka vastaa käyttäjän kysymyksiin. Vastaat käyttäjän kysymyksiin puolueen kantaan ja ohjelmiin liittyen.
                 Käytä lähteenä ainoastaan liitettyjä tiedostoja. Noudata seuraavia periaatteita:
 
                 • Älä hallusinoi -
