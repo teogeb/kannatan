@@ -45,8 +45,8 @@ const SUGGESTIONS = {
 }
 
 function isMobile() {
-    const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-    return regex.test(navigator.userAgent);
+    const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+    return regex.test(navigator.userAgent)
 }
 
 const getChildElement = (className, container) => {
@@ -106,7 +106,7 @@ const initPage = () => {
         conversationContainer.scrollTo({
             top: conversationContainer.scrollHeight,
             behavior: 'smooth'
-        });
+        })
     }
 
     function addMessage(text, sender, includeThumbs) {
@@ -236,7 +236,7 @@ const initPage = () => {
     window.addEventListener('beforeunload', () => {
         if (conversationId !== undefined)
             deleteThread(conversationId)
-     });
+     })
 }
 
 
