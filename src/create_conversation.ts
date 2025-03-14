@@ -13,17 +13,16 @@ interface Message {
 
 export const createConversation = (partyId: string): Conversation => {
     const partyGenetives: Record<string, any> = {
-    kd: 'Kristillisdemokraattien',
-    kesk: 'Keskustan',
-    kok: 'Kokoomuksen',
-    ps: 'Perussuomalaisten',
-    rkp: 'Ruotsalaisen kansanpuolueen',
-    sdp: 'Suomen sosialidemokraattisen puoleen',
-    vas: 'Vasemmistoliiton',
-    vihr: 'Vihreiden'
-}
+        kd: 'Kristillisdemokraattien',
+        kesk: 'Keskustan',
+        kok: 'Kokoomuksen',
+        ps: 'Perussuomalaisten',
+        rkp: 'Ruotsalaisen kansanpuolueen',
+        sdp: 'Suomen sosialidemokraattisen puoleen',
+        vas: 'Vasemmistoliiton',
+        vihr: 'Vihreiden'
+    }
     const id = uuidv4()
-
     return {
         id,
         messages: [

@@ -5,7 +5,6 @@ const openai = new OpenAI()
 
 export const generateSuggestions = async (answer: string): Promise<string[]> => {
     let suggestions = []
-
     const completion: OpenAI.ChatCompletion =  await openai.chat.completions.create({
         model: 'gpt-4o-mini',
         messages: [
@@ -88,12 +87,10 @@ export const generateSuggestions = async (answer: string): Promise<string[]> => 
             content: answer
         }],
     })
-
     try {
         suggestions = JSON.parse(completion.choices[0].message.content!)
     } catch (e: any) {
         console.error(`Could not parse text to list:\n${e.message}`)
     }
-
     return suggestions
 }
