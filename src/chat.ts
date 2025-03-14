@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Request } from 'express'
 import { ContextChatEngine, storageContextFromDefaults, VectorStoreIndex } from 'llamaindex'
 import { without } from 'lodash'
 import { Conversation, createConversation } from './createConversation'
