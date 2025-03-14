@@ -24,6 +24,18 @@ export const createConversation = (partyId: string): Conversation => {
         vas: 'Vasemmistoliiton',
         vihr: 'Vihreiden'
     }
+    const PARTY_ILLATIVES: Record<string, any> = {
+        kd: 'Kristillisdemokraatteihin',
+        kesk: 'Keskustaan',
+        kok: 'Kokoomukseen',
+        lib: 'Liberaalipuolueeseen',
+        nyt: 'Liike Nytiin',
+        ps: 'Perussuomalaisiin',
+        rkp: 'Ruotsalaiseen kansanpuolueeseen',
+        sdp: 'Suomen sosialidemokraattiseen puolueeseen',
+        vas: 'Vasemmistoliittoon',
+        vihr: 'Vihreisiin'
+    };
     const id = uuidv4()
     return {
         id,
@@ -69,6 +81,7 @@ export const createConversation = (partyId: string): Conversation => {
                     Vältä toistamasta samoja kaavarakenteita.
                     Vastaa luonnollisesti ja rennosti, aivan kuin keskustelisit ihmisen kanssa. Voit käyttää ajoittain kevyitä ilmaisutapoja tai vaihdella sävyä tilanteen mukaan.
                     Vastaa vain kokonaisilla lauseilla minä-muodossa.
+                    Jos viittaat ${PARTY_ILLATIVES[partyId]}, voit käyttää me-muotoa. Älä käytä turhaan me-sanaa, jos taivutusmuoto riittää.
                     Älä käytä kursiivia tai lihavoitua tekstiä.
                     Älä listaa asioita.
                     Älä käytä rivinvaihtoja.
