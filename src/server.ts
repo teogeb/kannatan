@@ -5,7 +5,7 @@ import express from 'express'
 import { Settings } from 'llamaindex'
 import path from 'path'
 import { sendMessageToTelegramAdminGroup } from './telegramBot'
-import { log } from './utils'
+import { listDirectoryPaths, log } from './utils'
 import { createChatResponse, deleteConversation } from './chat'
 
 const app = express()
@@ -32,7 +32,7 @@ app.use((_req, res, next) => {
 })
 
 app.use((req, res, next) => {
-    if (req.url.includes('/images/')) {
+    if (req.url.includes('/images/') || req.url.includes('/fonts/') || req.url.includes('lodash.min.js')) {
         res.set('Cache-Control', 'public, max-age=86400')
     } else {
         res.set('Cache-Control', 'no-cache, no-store, must-revalidate')
@@ -42,29 +42,17 @@ app.use((req, res, next) => {
     next()
 })
 
-const STATIC_FILES = {
-    '/': 'index.html',
-    '/index.js': 'index.js',
-    '/chat': 'chat.html',
-    '/chat.js': 'chat.js',
-    '/about': 'about.html',
-    '/about.js': 'about.js',
-    '/utils.js': 'utils.js',
-    '/style.css': 'style.css',
-    '/images/kd-logo.png': 'images/kd-logo.png',
-    '/images/kesk-logo.png': 'images/kesk-logo.png',
-    '/images/kok-logo.png': 'images/kok-logo.png',
-    '/images/ps-logo.png': 'images/ps-logo.png',
-    '/images/rkp-logo.png': 'images/rkp-logo.png',
-    '/images/sdp-logo.png': 'images/sdp-logo.png',
-    '/images/vas-logo.png': 'images/vas-logo.png',
-    '/images/vihr-logo.png': 'images/vihr-logo.png',
-    '/images/thumb-up.svg': 'images/thumb-up.svg',
-    '/images/thumb-down.svg': 'images/thumb-down.svg'
+const STATIC_FILES_ROOT = 'public'
+const staticFiles = {
+    '/': '/index.html',
+    '/chat': '/chat.html',
+    '/about': '/about.html',
+    '/THIRD_PARTY_LICENSES.txt': '../THIRD_PARTY_LICENSES.txt',
+    ...Object.fromEntries(listDirectoryPaths(STATIC_FILES_ROOT).map(item => [`/${item}`, item]))
 }
-for (const [urlPath, fileName] of Object.entries(STATIC_FILES)) {
+for (const [urlPath, fileName] of Object.entries(staticFiles)) {
     app.get(urlPath, (_req, res) => {
-        res.sendFile(path.join(__dirname, '..', 'public', fileName))
+        res.sendFile(path.join(__dirname, '..', STATIC_FILES_ROOT, fileName))
     })
 }
 

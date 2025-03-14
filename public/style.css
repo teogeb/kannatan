@@ -67,21 +67,21 @@ a img {
     font-style: normal;
     font-weight: 900;
     font-display: swap;
-    src: url(https://static.kannatan.fi/KFOlCnqEu92Fr1MmYUtvAw.ttf) format('truetype');
+    src: url(/fonts/roboto-900.ttf) format('truetype');
 }
 @font-face {
     font-family: 'Ubuntu';
     font-style: normal;
     font-weight: 300;
     font-display: swap;
-    src: url(https://static.kannatan.fi/4iCv6KVjbNBYlgoC1CzTtw.ttf) format('truetype');
+    src: url(/fonts/ubuntu-300.ttf) format('truetype');
 }
 @font-face {
     font-family: 'Ubuntu';
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url(https://static.kannatan.fi/4iCs6KVjbNBYlgo6eA.ttf) format('truetype');
+    src: url(/fonts/ubuntu-400.ttf) format('truetype');
 }
 
 a {

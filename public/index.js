@@ -23,8 +23,8 @@ const initPage = () => {
         element.innerHTML = `
             <a href="/chat?partyId=${partyProfile.partyId}&profileId=${partyProfile.profileId}">
                 <div class="img-container">
-                    <img src="https://static.kannatan.fi/avatars-2025/avatar-${partyProfile.profileId}-${partyProfile.partyId}.png" class="party-character">
-                    <img src="/images/${partyProfile.partyId}-logo.png" class="party-logo">
+                    <img src="/images/avatars/${partyProfile.partyId}-${partyProfile.profileId}.png" class="party-character">
+                    <img src="/images/logos/${partyProfile.partyId}.png" class="party-logo">
                 </div>
             </a>
         `
