@@ -51,6 +51,7 @@ const STATIC_FILES = {
     '/about.js': 'about.js',
     '/utils.js': 'utils.js',
     '/style.css': 'style.css',
+    '/THIRD_PARTY_LICENSES.txt': '../THIRD_PARTY_LICENSES.txt',
     '/images/kd-logo.png': 'images/kd-logo.png',
     '/images/kesk-logo.png': 'images/kesk-logo.png',
     '/images/kok-logo.png': 'images/kok-logo.png',
