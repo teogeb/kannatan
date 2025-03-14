@@ -17,12 +17,10 @@ const getDocuments = async (documentPath: string): Promise<Document<Metadata>[]>
 
 const generateStore = async (documentPath: string, partyId: string): Promise<void> => {
     const persistDir = `store/${partyId}`
-
     if (fs.existsSync(persistDir)) {
         console.log(`'${persistDir}' already exists. Deleting it before generating new vector store...`)
         fs.rmSync(persistDir, { recursive: true, force: true })
     }
-
     console.log(`Generating vector store to '${persistDir}'...`)
     const documents = await getDocuments(path.resolve(documentPath))
     const storageContext = await storageContextFromDefaults({ persistDir })
@@ -36,7 +34,6 @@ const getInput = async (query: string): Promise<string> => {
 const start = async () => {
     try {
         const [,, partyIdArg, documentPathArg] = process.argv
-
         if (partyIdArg && documentPathArg) {
             console.log(`Using provided arguments: partyId='${partyIdArg}', documentPath='${documentPathArg}'`)
             await generateStore(documentPathArg, partyIdArg)
