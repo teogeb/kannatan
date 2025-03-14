@@ -13,14 +13,6 @@ const isMobile = () => {
     return regex.test(navigator.userAgent)
 }
 
-const initSubmitButtonStateController = (button, input) => {
-    const updateState = () => {
-        button.disabled = (input.value.trim() === '')
-    }
-    input.addEventListener('input', updateState)
-    updateState()
-}
-
 const sendApiRequest = async (endpoint, body) => {
     const response = await fetch(`/api/${endpoint}`, {
         method: 'POST',
@@ -45,4 +37,12 @@ const getLocalStorageJSON = (key, maxAge) => {
 
 const setLocalStorageJSON = (key, value) => {
     localStorage.setItem(key, JSON.stringify({ data: value, timestamp: Date.now() }))
+}
+
+const initSubmitButtonStateController = (button, input) => {
+    const updateState = () => {
+        button.disabled = (input.value.trim() === '')
+    }
+    input.addEventListener('input', updateState)
+    updateState()
 }
