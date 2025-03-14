@@ -73,7 +73,7 @@ Settings.llm = new OpenAILlama({
     apiKey: process.env.OPENAI_API_KEY
 })
 
-async function generateDatasource(partyId: string): Promise<VectorStoreIndex> {
+const generateDatasource = async (partyId: string): Promise<VectorStoreIndex> => {
     const persistDir = `./store/${partyId}`
     const storageContext = await storageContextFromDefaults({ persistDir })
     const index = await VectorStoreIndex.init({ storageContext })
