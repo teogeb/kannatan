@@ -37,23 +37,23 @@ const getInput = async (query: string): Promise<string> => {
 
 const start = async () => {
     try {
-        const [,, partyIdArg, documentPathArg] = process.argv;
+        const [,, partyIdArg, documentPathArg] = process.argv
 
         if (partyIdArg && documentPathArg) {
-            console.log(`Using provided arguments: partyId='${partyIdArg}', documentPath='${documentPathArg}'`);
-            await generateStore(documentPathArg, partyIdArg);
+            console.log(`Using provided arguments: partyId='${partyIdArg}', documentPath='${documentPathArg}'`)
+            await generateStore(documentPathArg, partyIdArg)
         } else {
-            const partyId = await getInput('\nEnter partyId (kd | kesk | kok | ps | rkp | sdp | vas | vihr):\n');
-            const documentPath = await getInput('\nEnter path to the folder containing party documents:\n');
-            await generateStore(documentPath, partyId);
+            const partyId = await getInput('\nEnter partyId (kd | kesk | kok | ps | rkp | sdp | vas | vihr):\n')
+            const documentPath = await getInput('\nEnter path to the folder containing party documents:\n')
+            await generateStore(documentPath, partyId)
         }
-        console.log('Done');
-        process.exit(0);
+        console.log('Done')
+        process.exit(0)
     } catch (e) {
-        console.error(e);
-        process.exit(1);
+        console.error(e)
+        process.exit(1)
     } finally {
-        rl.close();
+        rl.close()
     }
 }
 
