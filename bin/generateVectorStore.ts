@@ -38,7 +38,7 @@ const start = async () => {
             console.log(`Using provided arguments: partyId='${partyIdArg}', documentPath='${documentPathArg}'`)
             await generateStore(documentPathArg, partyIdArg)
         } else {
-            const partyId = await getInput('\nEnter partyId (kd | kesk | kok | ps | rkp | sdp | vas | vihr):\n')
+            const partyId = await getInput('\nEnter partyId (kd | kesk | kok | lib | nyt | ps | rkp | sdp | vas | vihr):\n')
             const documentPath = await getInput('\nEnter path to the folder containing party documents:\n')
             await generateStore(documentPath, partyId)
         }

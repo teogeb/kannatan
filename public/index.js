@@ -1,6 +1,6 @@
 const initPage = () => {
 
-    const PARTY_IDS = ['kd', 'kesk', 'kok', 'ps', 'rkp', 'sdp', 'vas', 'vihr']
+    const PARTY_IDS = ['kd', 'kesk', 'kok', 'lib', 'nyt', 'ps', 'rkp', 'sdp', 'vas', 'vihr']
     const PROFILE_IDS = [..._.repeat('m', PARTY_IDS.length / 2), ..._.repeat('f', PARTY_IDS.length / 2)]
     const MAX_PARTY_PROFILE_AGE = 86400000
 

@@ -16,6 +16,8 @@ export const createConversation = (partyId: string): Conversation => {
         kd: 'Kristillisdemokraattien',
         kesk: 'Keskustan',
         kok: 'Kokoomuksen',
+        lib: 'Liberaalipuolueen',
+        nyt: 'Liike Nytin',
         ps: 'Perussuomalaisten',
         rkp: 'Ruotsalaisen kansanpuolueen',
         sdp: 'Suomen sosialidemokraattisen puoleen',
