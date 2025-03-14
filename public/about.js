@@ -4,17 +4,10 @@ const initPage = () => {
     const feedbackInput = feedbackContainer.getElementsByTagName('textarea')[0]
     const feedbackButton = feedbackContainer.getElementsByTagName('button')[0]
     const sendFeedback = async () => {
-        const response = await fetch('/api/feedback', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                message: feedbackInput.value
-            })
+        const response = await sendApiRequest('feedback', {
+            message: feedbackInput.value
         })
-        const status = JSON.parse(await response.text()).status
-        if (status === 'success') {
+        if (response.status === 'success') {
             const statusDiv = feedbackContainer.querySelector('#status')
             statusDiv.classList.remove('invisible')
             feedbackInput.value = ''
