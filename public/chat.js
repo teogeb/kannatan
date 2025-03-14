@@ -164,7 +164,7 @@ const initPage = () => {
         if (areInitialSuggestions) {
             items.unshift({
                 buttonTitle: 'Alue- ja kuntavaalit 2025',
-                message: 'Kerro puolueen keskeisistä aiheista aluevaaliohjelmassa ja kuntavaaliohjelmassa.'
+                message: 'Kerro aluevaaliohjelmasta ja kerro kuntavaaliohjelmasta.'
             })
         } else {
             let extraShortcutCandidates  = []
