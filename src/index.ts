@@ -2,19 +2,14 @@ import 'dotenv/config'
 
 import { OpenAI as OpenAILlama } from '@llamaindex/openai'
 import express from 'express'
-import { ContextChatEngine, Settings, storageContextFromDefaults, VectorStoreIndex } from 'llamaindex'
-import { without } from 'lodash'
+import { Settings } from 'llamaindex'
 import path from 'path'
-import { Conversation, createConversation } from './createConversation'
-import { generateSuggestions } from './generateSuggestions'
 import { sendMessageToTelegramAdminGroup } from './telegramBot'
 import { log } from './utils'
-import crypto from 'crypto'
+import { createChatResponse, deleteConversation } from './chat'
 
 const app = express()
 const PORT = 8080
-const CHAT_HISTORY_MESSAGE_COUNT = 20
-const SUGGESTION_DUPLICATION_ANALYSIS_MESSAGE_COUNT = 5
 
 // this is needed to get client IP address as deployment is behind a proxy (the AWS Application Load Balancer)
 app.set('trust proxy', true)
@@ -73,98 +68,13 @@ Settings.llm = new OpenAILlama({
     apiKey: process.env.OPENAI_API_KEY
 })
 
-const generateDatasource = async (partyId: string): Promise<VectorStoreIndex> => {
-    const persistDir = `./store/${partyId}`
-    const storageContext = await storageContextFromDefaults({ persistDir })
-    const index = await VectorStoreIndex.init({ storageContext })
-    return index
-}
-
-const withoutLastParagraph = (text: string): string => {
-    const linefeedPos = text.lastIndexOf('\n')
-    if (linefeedPos !== -1) {
-        return text.slice(0, linefeedPos).trim()
-    } else {
-        return text
-    }
-}
-
-const createUserHash = (ipAddress?: string, userAgent?: string) => {
-    const hash = crypto.createHash('sha256')
-    hash.update([ipAddress, userAgent, process.env.USER_HASH_SALT].join(''))
-    return hash.digest('hex')
-}
-
-const conversations: Map<string, Conversation> = new Map()
-
 app.post('/api/chat', async (req, res) => {
-    try {
-        const existingConversation = (req.body.conversationId !== undefined) ? conversations.get(req.body.conversationId) : undefined
-        const conversation = existingConversation ?? createConversation(req.body.partyId)
-        if (existingConversation === undefined) {
-            const userHash = createUserHash(req.ip, req.get('User-Agent'))
-            const clientHints = {
-                userAgent: req.headers['sec-ch-ua'],
-                mobile: req.headers['sec-ch-ua-mobile'],
-                platform: req.headers['sec-ch-ua-platform']
-            }
-            log('Start conversation', conversation.id, { userHash, clientHints })
-            conversations.set(conversation.id, conversation)
-        }
-        conversation.messages.push({
-            role: 'user',
-            content: req.body.question
-        })
-
-        const index = await generateDatasource(req.body.partyId)
-        const retriever = index.asRetriever()
-        const chatEngine = new ContextChatEngine({ retriever })
-        const chatHistory = [  // initial prompt and some recent messages (the AI hallucinates less when the conversation is reasonably short)
-            conversation.messages[0],
-            ...conversation.messages.slice(1).slice(-(CHAT_HISTORY_MESSAGE_COUNT - 1))]
-        const stream = await chatEngine.chat({ message: req.body.question, stream: true, chatHistory })
-        
-        log('Question', conversation.id, { question: req.body.question })
-        const start = Date.now()
-        let answerAndSuggestions = ''
-        for await (const chunk of stream) {
-            answerAndSuggestions += chunk.message.content.toString()
-        }
-        const end = Date.now()
-        log('Answer', conversation.id, { answerAndSuggestions, elapsedTime: ((end - start) / 1000) })
-
-        const answer = withoutLastParagraph(answerAndSuggestions)
-
-        let suggestions = await generateSuggestions(answerAndSuggestions)
-        const previousSuggestions = conversation.messages
-            .filter((m) => m.role === 'assistant')
-            .slice(-SUGGESTION_DUPLICATION_ANALYSIS_MESSAGE_COUNT)
-            .map((m) => m.suggestions ?? []).flat()
-        const duplicateSuggestions = suggestions.filter((s) => previousSuggestions.includes(s))
-        suggestions = without(suggestions, ...duplicateSuggestions)
-        log('Suggestions', conversation.id, { suggestions, duplicates: duplicateSuggestions } )
-
-        conversation.messages.push({
-            role: 'assistant',
-            content: answer,
-            suggestions
-        })
-
-        res.json({ answer: answer, conversationId: conversation.id, suggestions: suggestions })
-    } catch (error: any) {
-        log(`Error: ${error.message}`, undefined, { error })
-        console.log(error)
-        res.json({ error: 'Error' })
-    }
+    const response = await createChatResponse(req)
+    res.json(response)
 })
 
-app.post('/api/deleteConversation', async (req, _res) => {
-    const success = conversations.delete(req.body.conversationId)
-    if (success) {
-        log(`Succesfully deleted conversation ${req.body.conversationId}`)
-    } else {
-        log(`Failed to delete conversation ${req.body.conversationId}`)
-    }
+app.post('/api/deleteConversation', async (req) => {
+    deleteConversation(req)
 })
 
 app.post('/api/feedback', async (req, res) => {
