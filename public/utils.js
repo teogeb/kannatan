@@ -31,3 +31,18 @@ const sendApiRequest = async (endpoint, body) => {
     })
     return JSON.parse(await response.text())
 }
+
+const getLocalStorageJSON = (key, maxAge) => {
+    const value = localStorage.getItem(key)
+    if (value !== null) {
+        const parsed = JSON.parse(value)
+        if (parsed.timestamp >= Date.now() - maxAge) {
+            return parsed.data
+        }
+    }
+    return undefined
+}
+
+const setLocalStorageJSON = (key, value) => {
+    localStorage.setItem(key, JSON.stringify({ data: value, timestamp: Date.now() }))
+}
