@@ -9,7 +9,7 @@ const PARTY_NAMES = {
     'vihr': 'Vihreitä'
 }
 
-const SUGGESTIONS = {
+const INITIAL_SUGGESTIONS = {
     'kd': ['Perhepolitiikka', 'Talous', 'Sosiaalipalvelut', 'Turvallisuus'],
     'kesk': ['Sosiaalipolitiikka', 'Koulutus', 'Perhepolitiikka', 'Yrittäjyys'],
     'kok': ['Talous', 'Hyvinvointi', 'Kansainvälisyys', 'Yrittäjyys'],
@@ -190,7 +190,7 @@ const initPage = () => {
     profileImageElement.src = `https://static.kannatan.fi/avatars-2025/avatar-${profileId}-${partyId}.png`
     const initialMessageDiv = addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'assistant', false) 
     appendChildren(
-        createSuggestionButtons(SUGGESTIONS[partyId], true),
+        createSuggestionButtons(INITIAL_SUGGESTIONS[partyId], true),
         getChildElement('shortcuts', initialMessageDiv)
     )
 
