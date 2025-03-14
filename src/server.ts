@@ -32,7 +32,7 @@ app.use((_req, res, next) => {
 })
 
 app.use((req, res, next) => {
-    if (req.url.includes('/images/')) {
+    if (req.url.includes('/images/') || req.url.includes('/fonts/')) {
         res.set('Cache-Control', 'public, max-age=86400')
     } else {
         res.set('Cache-Control', 'no-cache, no-store, must-revalidate')
@@ -52,6 +52,9 @@ const STATIC_FILES = {
     '/utils.js': 'utils.js',
     '/style.css': 'style.css',
     '/THIRD_PARTY_LICENSES.txt': '../THIRD_PARTY_LICENSES.txt',
+    '/fonts/ubuntu-400.ttf': '/fonts/ubuntu-400.ttf',
+    '/fonts/ubuntu-300.ttf': '/fonts/ubuntu-300.ttf',
+    '/fonts/roboto-900.ttf': '/fonts/roboto-900.ttf',
     '/images/kd-logo.png': 'images/kd-logo.png',
     '/images/kesk-logo.png': 'images/kesk-logo.png',
     '/images/kok-logo.png': 'images/kok-logo.png',
