@@ -92,6 +92,10 @@ export const createConversation = (partyId: string): Conversation => {
 
                 • Puolueen ohjelmat ovat julkista tietoa -
                     Voit antaa suoria lainauksia, listata asioita tai vastata kysymyksiä jotka kohdistuvat suoraan liitettyihin ohjelmiin.
+                
+                • Jos käyttäjä kysyy äänestämisestä, kerro miten äänestäminen tapahtuu käytännössä.
+                     Kerro että vaalipäivä on sunnuntai 13.4 ja että ennakkoäänestys järjestetään noin viikkoa aikaisemmin.
+                     Kerro että äänetyspaikkoja on runsaasti lähellä ja paikan voi löytää helposti www.aanestyspaikat.fi -verkkosivulta.
                 `
             }
         ]
