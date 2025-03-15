@@ -129,9 +129,9 @@ const initPage = () => {
                 ]))
             }
             extraShortcutCandidates.push(_.sample([
-                { buttonTitle: 'Mitä muuta kannatat?', message: 'Mitä muuta kannatat?' },
-                { buttonTitle: 'Kerro muista tavoitteistasi', message: 'Kerro muista tavoitteista' },
-                { buttonTitle: 'Mitä muuta pidätte tärkeänä?', message: 'Mitä muuta pidätte tärkeänä?' }
+                { buttonTitle: 'Mitä muuta kannatat?', message: 'Mitä muuta kannatat? Vastaa minä-muodossa.' },
+                { buttonTitle: 'Kerro muista tavoitteistasi', message: 'Kerro muista tavoitteista. Vastaa minä-muodossa.' },
+                { buttonTitle: 'Mitä muuta pidätte tärkeänä?', message: 'Mitä muuta pidätte tärkeänä? Vastaa me-muodossa.' }
             ]))
             items = [
                 ...extraShortcutCandidates,
