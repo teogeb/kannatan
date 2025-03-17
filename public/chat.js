@@ -154,6 +154,7 @@ const initPage = () => {
         const response = await sendApiRequest('chat', {
             question: text,
             partyId,
+            profileId,
             conversationId
         })
         messageDiv.getElementsByTagName('p')[0].textContent = response.answer
