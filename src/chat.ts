@@ -53,7 +53,7 @@ export const createChatResponse = async (req: Request): Promise<any> => {
         const end = Date.now()
         log('Answer', conversation.id, { answerAndSuggestions, elapsedTime: ((end - start) / 1000) })
 
-        const answer = withoutLastParagraph(answerAndSuggestions)
+        const answer = withoutLastParagraph(answerAndSuggestions)  // remove the last paragraph as it should only contain suggestions
 
         let suggestions = await generateSuggestions(answerAndSuggestions)
         const previousSuggestions = conversation.messages
