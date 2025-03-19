@@ -6,7 +6,7 @@ import { generateSuggestions } from './generateSuggestions'
 import { createUserHash, log, withoutLastParagraph } from './utils'
 
 const CHAT_HISTORY_MESSAGE_COUNT = 20
-const SUGGESTION_DUPLICATION_ANALYSIS_MESSAGE_COUNT = 5
+const SUGGESTION_DUPLICATION_ANALYSIS_MESSAGE_COUNT = 10
 
 const generateDatasource = async (partyId: string): Promise<VectorStoreIndex> => {
     const persistDir = `./store/${partyId}`
@@ -57,7 +57,6 @@ export const createChatResponse = async (req: Request): Promise<any> => {
 
         let suggestions = await generateSuggestions(answerAndSuggestions)
         const previousSuggestions = conversation.messages
-            .filter((m) => m.role === 'assistant')
             .slice(-SUGGESTION_DUPLICATION_ANALYSIS_MESSAGE_COUNT)
             .map((m) => m.suggestions ?? []).flat()
         const duplicateSuggestions = suggestions.filter((s) => previousSuggestions.includes(s))
