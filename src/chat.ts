@@ -33,14 +33,10 @@ const generateAnswerAndSuggestions = async (question: string, partyId: string, c
         conversation.messages[0],
         ...conversation.messages.slice(1).slice(-(CHAT_HISTORY_MESSAGE_COUNT - 1))]
     const stream = await chatEngine.chat({ message: question, stream: true, chatHistory })
-    log('Question', conversation.id, { question: question })
-    const start = Date.now()
     let answerAndSuggestions = ''
     for await (const chunk of stream) {
         answerAndSuggestions += chunk.message.content.toString()
     }
-    const end = Date.now()
-    log('Answer', conversation.id, { answerAndSuggestions, elapsedTime: ((end - start) / 1000) })
     const answer = withoutLastParagraph(answerAndSuggestions)  // remove the last paragraph as it should only contain suggestions
     let suggestions = await generateSuggestions(answerAndSuggestions)
     const previousSuggestions = conversation.messages
@@ -51,7 +47,6 @@ const generateAnswerAndSuggestions = async (question: string, partyId: string, c
     if ((conversation.messages.at(-1)?.content === THUMBS_UP_SUGGESTION) || (conversation.messages.at(-1)?.content === ELECTION_THEMES_SUGGESTION)) {
         suggestions.push(VOTING_PRACTICALITIES_SUGGESTION)
     }
-    log('Suggestions', conversation.id, { suggestions, duplicates: duplicateSuggestions } )
     return {
         answer,
         suggestions
@@ -62,6 +57,7 @@ const conversations: Map<string, Conversation> = new Map()
 
 export const createChatResponse = async (req: Request): Promise<any> => {
     try {
+        const startTime = Date.now()
         const existingConversation = (req.body.conversationId !== undefined) ? conversations.get(req.body.conversationId) : undefined
         const conversation = existingConversation ?? createConversation(req.body.partyId)
         if (existingConversation === undefined) {
@@ -84,9 +80,10 @@ export const createChatResponse = async (req: Request): Promise<any> => {
             content: answer,
             suggestions
         })
-        return { answer: answer, conversationId: conversation.id, suggestions: suggestions }
+        log('Chat response', conversation.id, { question: req.body.question, answer, suggestions, elapsedTime: (Date.now() - startTime) })
+        return { answer, conversationId: conversation.id, suggestions }
     } catch (error: any) {
-        log(`Error: ${error.message}`, undefined, { error })
+        log(`Error: ${error.message}`, undefined, { error, requestBody: req.body })
         console.log(error)
         return { error: 'Error' }
     }
