@@ -10,7 +10,7 @@ const SUGGESTION_DUPLICATION_ANALYSIS_MESSAGE_COUNT = 10
 const THUMBS_UP_SUGGESTION = 'Olen samaa mieltä'
 const ELECTION_THEMES_SUGGESTION = 'Kerro kuntavaaliohjelmasta ja kerro aluevaaliohjelmasta.'
 const VOTING_PRACTICALITIES_SUGGESTION = 'Äänestäminen'
-const VOTING_PRACTICALITIES_ANSWER = 'Äänestäminen on helppoa!\n\nVoit äänestää sunnuntaina 13. huhtikuuta tai jo ennakkoon 2.–8. huhtikuuta. Tarvitset mukaasi vain voimassa olevan henkilöllisyystodistuksen.\n\nÄänestyspaikkoja on runsaasti, joten löydät varmasti sopivan paikan läheltäsi. Voit tarkistaa oman äänestyspaikkasi aanestyspaikat.fi-sivulta.'
+const VOTING_PRACTICALITIES_ANSWER = 'Äänestäminen on helppoa!\n\nVoit äänestää sunnuntaina 13. huhtikuuta tai jo ennakkoon 2.–8. huhtikuuta. Tarvitset mukaasi vain voimassa olevan henkilöllisyystodistuksen.\n\nVoit tarkistaa oman äänestyspaikkasi aanestyspaikat.fi-sivulta.'
 
 const getChatEngine = async (partyId: string): Promise<ContextChatEngine> => {
     const persistDir = `./store/${partyId}`
