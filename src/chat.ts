@@ -32,11 +32,8 @@ const generateAnswerAndSuggestions = async (question: string, partyId: string, c
     const chatHistory = [  // initial prompt and some recent messages (the AI hallucinates less when the conversation is reasonably short)
         conversation.messages[0],
         ...conversation.messages.slice(1).slice(-(CHAT_HISTORY_MESSAGE_COUNT - 1))]
-    const stream = await chatEngine.chat({ message: question, stream: true, chatHistory })
-    let answerAndSuggestions = ''
-    for await (const chunk of stream) {
-        answerAndSuggestions += chunk.message.content.toString()
-    }
+    const chatResponse = await chatEngine.chat({ message: question, chatHistory })
+    let answerAndSuggestions = chatResponse.message.content.toString()
     const answer = withoutLastParagraph(answerAndSuggestions)  // remove the last paragraph as it should only contain suggestions
     let suggestions = await generateSuggestions(answerAndSuggestions)
     const previousSuggestions = conversation.messages
