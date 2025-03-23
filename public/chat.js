@@ -36,7 +36,8 @@ const ALLOWED_DOMAINS = [
     'sfp.fi',
     'sdp.fi',
     'vasemmisto.fi',
-    'vihreat.fi'
+    'vihreat.fi',
+    'aanestyspaikat.fi'
 ]
 
 const initPage = () => {
