@@ -12,11 +12,12 @@ const ELECTION_THEMES_SUGGESTION = 'Kerro kuntavaaliohjelmasta ja kerro aluevaal
 const VOTING_PRACTICALITIES_SUGGESTION = 'Äänestäminen'
 const VOTING_PRACTICALITIES_ANSWER = 'Äänestäminen on helppoa!\n\nVoit äänestää sunnuntaina 13. huhtikuuta tai jo ennakkoon 2.–8. huhtikuuta. Tarvitset mukaasi vain voimassa olevan henkilöllisyystodistuksen.\n\nÄänestyspaikkoja on runsaasti, joten löydät varmasti sopivan paikan läheltäsi. Voit tarkistaa oman äänestyspaikkasi aanestyspaikat.fi-sivulta.'
 
-const generateDatasource = async (partyId: string): Promise<VectorStoreIndex> => {
+const getChatEngine = async (partyId: string): Promise<ContextChatEngine> => {
     const persistDir = `./store/${partyId}`
     const storageContext = await storageContextFromDefaults({ persistDir })
     const index = await VectorStoreIndex.init({ storageContext })
-    return index
+    const retriever = index.asRetriever()
+    return new ContextChatEngine({ retriever })
 }
 
 const generateAnswerAndSuggestions = async (question: string, partyId: string, conversation: Conversation): Promise<{ answer: string, suggestions: string[] }> => {
@@ -26,9 +27,7 @@ const generateAnswerAndSuggestions = async (question: string, partyId: string, c
             suggestions: []
         }
     }
-    const index = await generateDatasource(partyId)
-    const retriever = index.asRetriever()
-    const chatEngine = new ContextChatEngine({ retriever })
+    const chatEngine = await getChatEngine(partyId)
     const chatHistory = [  // initial prompt and some recent messages (the AI hallucinates less when the conversation is reasonably short)
         conversation.messages[0],
         ...conversation.messages.slice(1).slice(-(CHAT_HISTORY_MESSAGE_COUNT - 1))]
