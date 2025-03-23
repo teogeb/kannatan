@@ -1,0 +1,603 @@
+:root {
+    --dark-purple: #480080;
+    --light-purple: #d654f3;
+    --purple: #9a00bd;
+    --light-gray:  #f7f7f7;
+    --gray: #dddddd;
+    --dark-gray: #bababa;
+    --black: #222222;
+    --black-secondary: #444444;
+    --white: #fcfcfc;
+}
+
+body, html {
+    height: 100svh;
+    margin: 0;
+    color: var(--black);
+    background-color: var(--white);
+    font-family: 'Ubuntu', Tahoma, Verdana, sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+    font-size: 16px;
+}
+
+.no-select {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.no-select:focus {
+    outline: none !important;
+}
+
+a {
+    text-decoration: none;
+    outline: none;
+    box-shadow: none;
+    border: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+a img {
+    display: block;
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src: url(/fonts/roboto-900.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url(/fonts/ubuntu-300.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(/fonts/ubuntu-400.ttf) format('truetype');
+}
+
+a {
+    text-decoration: none;
+}
+
+.icon {
+    padding-top: 0.2rem;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    filter: brightness(0) saturate(100%) invert(15%) sepia(94%) saturate(4046%) hue-rotate(285deg) brightness(82%) contrast(129%);
+}
+
+@media (min-width: 1024px) and (pointer: fine) {
+    .icon {
+        padding-top: 0.1rem;
+        padding-left: 0.1rem;
+        padding-right: 0.1rem;
+        width: 1.3rem;
+        height: 1.3rem;
+    }
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#root.frontPage {
+    justify-content: center;
+    align-items: center;
+}
+
+.chat {
+    width: 100%;
+    margin: 0px auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: var(--light-gray);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100svh;
+    margin-bottom: 0rem;
+}
+
+@media (min-width: 1024px) and (pointer: fine) {
+    .chat {
+        max-width: 60vw;
+    }
+}
+
+.chat .profileImage {
+    margin-left: 0.5rem;
+    width: 12vw;
+    height: 12vw;
+    border-radius: 1rem;
+
+}
+@media (min-width: 1024px) and (pointer: fine) {
+    .chat .profileImage  {
+        margin-left: 1.5rem;
+        width: 8vw;
+        height: 8vw;
+    }
+}
+.conversation {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 1rem;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+.conversation::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge, etc. */
+}
+.conversation .message {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.conversation .message .contentAndThumbs {
+    display: flex;
+    flex-direction: row;
+    margin: 1rem;
+}
+.conversation .message .content {
+    padding: 1rem 2rem 1rem 2rem;
+    border-radius: 20px;
+    font-size: 1.1rem;
+    width: 100%;
+}
+.conversation .message.user .content {
+    background-color: var(--purple);
+    color: var(--white);
+    box-shadow: 3px 3px 3px var(--dark-gray);
+}
+.conversation .message.assistant .content {
+    background-color: var(--white);
+    color: var(--black);
+    box-shadow: -3px 3px 3px var(--gray);
+    outline: 0.5px solid var(--gray);
+}
+.conversation .message .content a {
+    text-decoration: underline;
+}
+.conversation .message.user .content a {
+    color: var(--white);
+}
+.conversation .message.user .content a:hover {
+    color: var(--gray);
+}
+.conversation .message.assistant .content a {
+    color: var(--purple);
+}
+.conversation .message.assistant .content a:hover {
+    color: var(--light-purple);
+}
+.conversation .message .thumbs {
+    display: flex;
+    flex-direction: column;
+    align-self: end;
+    justify-self: end;
+    gap: 0.5rem;
+    margin-left: -1rem;
+}
+.conversation .message.pending .thumbs {
+    display: none;
+}
+.conversation .message .thumbs .button {
+    padding: 0.5rem 0.5rem;
+    box-shadow: -2px 2px 2px var(--gray);
+}
+.conversation .message.pending .content {
+    opacity: 0.5;
+}
+
+@media (min-width: 1024px) and (pointer: fine) {
+    .conversation .message {
+        width: 100%;
+    }
+    .conversation .message .content {
+        font-size: 1.2rem;
+        font-weight: 300;
+        width: auto;
+        max-width: 60%;
+    }
+    .conversation .message.user .contentAndThumbs {
+        justify-content: flex-end;
+    }
+    .conversation .message .thumbs {
+        gap: 0.2rem;
+    }
+}
+
+.shortcutsContainer {
+    margin: 0rem 1.5rem 1.5rem 1.5rem;
+}
+
+.shortcuts {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 0.5rem;
+}
+
+.shortcuts .button {
+    background-color: var(--gray)
+}
+
+.button {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-family: 'Ubuntu', Tahoma, Verdana, sans-serif;
+    font-size: 0.8rem;
+    background-color: var(--white);
+    color: var(--black);
+    border: 0.5px solid var(--gray);
+    cursor: pointer;
+    font-weight: 400;
+}
+
+.button:hover {
+    background-color: var(--light-purple);
+    color: var(--white);
+}
+
+.button.selected {
+    background-color: var(--purple);
+    color: var(--white);
+}
+
+.button.selected .icon {
+    filter: invert(39%) sepia(46%) saturate(2111%) hue-rotate(260deg) brightness(102%) contrast(91%);
+}
+
+@media (min-width: 1024px) and (pointer: fine) {
+    .shortcuts {
+        max-width: 75%;
+    }
+    .button {
+        font-weight: 300;
+    }
+
+}
+.inputContainer {
+    display: flex;
+    padding: 1rem 1rem 0.5rem 0rem;
+    gap: 1.5em;
+}
+.inputContainer input {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    padding: 1rem 2rem;
+    border: 1px solid var(--gray);
+    border-radius: 20px;
+    outline: none;
+    font-size: 1.1rem;
+}
+.inputContainer .backLink {
+    color: var(--black);
+    padding-left: 1rem;
+    font-size: 1.2rem;
+    align-self: center;
+    margin-bottom: 0.2rem;
+}
+.inputContainer .backLink:hover {
+    color: var(--black);
+    font-weight: 900;
+}
+@media (min-width: 1024px) and (pointer: fine) {
+    .inputContainer input {
+        font-family: 'Ubuntu', Tahoma, Verdana, sans-serif;
+        font-size: 1.2rem;
+        font-weight: 300;
+    }
+}
+.inputContainer button {
+    flex-grow: 0;
+    flex-shrink: 0;
+    padding: 1rem 1.5rem;
+    background-color: var(--purple);
+    color: var(--white);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+@media (min-width: 1024px) and (pointer: fine) {
+    .inputContainer button {
+        font-size: 1.2rem;
+    }
+    .inputContainer button:hover {
+        background-color:var(--light-purple);
+    }
+}
+
+h3 {
+    font-size: 2rem;
+    color: var(--purple);
+    font-family: 'Ubuntu', Tahoma, Verdana, sans-serif;
+    font-weight: 900;
+    text-align: center;
+    margin: 1rem;
+    text-shadow: 1px 1px 2px var(--dark-gray);
+}
+
+h4 {
+    font-size: 1rem;
+    color: var(--dark-purple);
+    font-family: 'Ubuntu', Tahoma, Verdana, sans-serif;
+    font-weight: 900;
+    text-align: center;
+    margin: 1rem;
+}
+
+@media (min-width: 1024px) and (pointer: fine) {
+    h3 {
+        font-size: 4rem;
+    }
+    h4 {
+        font-size: 2rem;
+    }
+}
+
+.title-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.title-container div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 0.5rem;
+}
+
+.title-container div * {
+    margin: 0;
+}
+
+.vote-box {
+    width: 4rem;
+    height: 4rem;
+    align-self: center;
+}
+
+@media (min-width: 1024px) and (pointer: fine) {
+    .title-container div {
+        align-items: flex-start; /* Aligns text to the left */
+    }
+
+    .vote-box {
+        width: 5.5rem;
+        height: 5.5rem;
+    }
+}
+
+.mobileLineBreak {
+    display: block;
+}
+
+.partySelect {
+    width: 36svh;
+    height: 72svh;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+}
+@media (min-width: 1024px) and (pointer: fine)  {
+    .partySelect  {
+        width: 60vw;
+        grid-template-columns: repeat(5, 1fr);
+    }
+    .mobileLineBreak {
+        display: none;
+    }
+}
+
+.party {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 1rem;
+    box-shadow: 0 0 20px 0 var(--gray);
+}
+
+.party-character {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 125%;
+    height: 125%;
+    object-fit: cover;
+}
+
+.party-logo {
+    position: absolute;
+    top: 10px;
+    right: 1px;
+    width: 30%;
+    height: 30%;
+    object-fit: contain;
+    opacity: 1.;
+}
+
+@media (min-width: 1024px) and (pointer: fine)  {
+    .img-container img {
+        transition: opacity 0.25s ease-in-out;
+    }
+
+    .party-character {
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .party-logo {
+        width: 100%;
+        height: 100%;
+        bottom: 0;
+        right: 0;
+        opacity: 0;
+        padding: 10px;
+        box-sizing: border-box;
+        background-color: var(--white);
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .img-container:hover .party-character {
+        opacity: 0;
+    }
+    
+    .img-container:hover .party-logo {
+        opacity: 1;
+    }
+}
+
+a.disabled {
+    pointer-events: none;
+    opacity: 0.2;
+}
+
+#profileImage:hover {
+    filter: grayscale(0%) sepia(30%) hue-rotate(200deg) saturate(120%);
+    cursor: pointer;
+}
+
+.about-link img {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 25px;
+    height: 25px;
+    filter: brightness(0) saturate(100%) invert(84%) sepia(0%) saturate(96%) hue-rotate(273deg) brightness(90%) contrast(88%);
+}
+
+@media (min-width: 1024px) and (pointer: fine)  {
+    .about-link img {
+        bottom: 10px;
+        right: 10px;
+        width: 50px;
+        height: 50px;
+    }
+    
+}
+
+#aboutPage {
+    width: 90%;
+    margin: 3rem auto;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 1024px) and (pointer: fine) {
+    #aboutPage {
+        max-width: 60vw;
+        height: 95svh;
+    }
+}
+
+#aboutPage a {
+    color: var(--purple);
+}
+
+#aboutPage .sub-header {
+    font-size: 1.2rem;
+    color: var(--black);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+#aboutPage .sub-header a {
+    font-size: 1.2rem;
+}
+
+@media(hover: hover) and (pointer: fine) {
+    #aboutPage .sub-header a:hover {
+        color: var(--dark-purple);
+    }
+}
+
+#aboutPage #feedback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem;
+}
+
+#aboutPage #feedback > * {
+    margin: 0;
+}
+
+#aboutPage #feedback textarea {
+    font-family: 'Ubuntu', Tahoma, Verdana, sans-serif;
+    font-weight: 400;
+    padding: 1rem 2rem;
+    border: 1px solid var(--gray);
+    border-radius: 20px;
+    width: 50vw;
+    outline: none;
+    font-size: 1.1rem;
+}
+#aboutPage #feedback button {
+    padding: 1rem 1.5rem;
+    background-color: var(--purple);
+    color: var(--white);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+#aboutPage #feedback button:hover {
+    background-color: var(--light-purple);
+}
+#aboutPage #feedback button:disabled {
+    background-color: gray !important;
+    pointer-events: none;
+}
+
+#aboutPage #back-button {
+    margin-bottom: 3rem;
+}
+
+#aboutPage #additional-info {
+    align-self: center;
+    max-width: 60vh;
+    margin-bottom: 3rem;
+}
+
+#aboutPage #additional-info .details {
+    margin-bottom: 2rem;
+}

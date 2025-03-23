@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, interactive-widget=resizes-content">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Helppo vaalikone, kunta- ja aluevaalit 2025">
+    <meta property="og:title" content="Kannatan vaalikone">
+    <meta property="og:image" content="https://kannatan.fi/images/vote-box-border.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="1200">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@kannatan_">
+    <meta name="twitter:title" content="Kannatan vaalikone">
+    <meta name="twitter:image" content="https://kannatan.fi/images/vote-box-border.png">
+    <title>Kannatan vaalikone</title>
+    <link rel="preload" href="/fonts/roboto-900.ttf" as="font" crossorigin>
+    <link rel="preload" href="/fonts/ubuntu-300.ttf" as="font" crossorigin>
+    <link rel="preload" href="/fonts/ubuntu-400.ttf" as="font" crossorigin>
+    <script defer src="/utils.js"></script>
+    <script defer src="/about.js"></script>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" href="/images/favicon.svg">
+    <link rel="canonical" href="https://kannatan.fi/about">
+</head>
+<body>
+    <div id="root">
+        <div id="aboutPage">
+            <img class="vote-box" src="/images/vote-box.svg" alt="">
+            <h3>Kannatan</h3>
+            <div class="sub-header">Kannatan-vaalikoneen avulla voit keskustella kymmenen puolueen ohjelmista. Voit kysyä jokaiselta puolueelta periaate- ja tavoiteohjelmista sekä vuoden 2025 kunta- ja aluevaaliohjelmista.</div>
+            <div class="sub-header">Käyttäjän kysymyksiin vastataan tekoälyn avulla. Tekoäly on rajattu vastaamaan vain kunkin puolueen ohjelmista löytyviin aiheisiin. Satunnaiset virheet ovat kuitenkin mahdollisia.</div>
+            <div class="sub-header">Mukana ovat
+                <a href="https://kd.fi" target="_blank" rel="noopener noreferrer">kristillisdemokraatit</a>,
+                <a href="https://keskusta.fi" target="_blank" rel="noopener noreferrer">keskusta</a>,
+                <a href="https://kokoomus.fi" target="_blank" rel="noopener noreferrer">kokoomus</a>,
+                <a href="https://liberaalipuolue.fi" target="_blank" rel="noopener noreferrer">liberaalipuolue</a>,
+                <a href="https://liikenyt.fi" target="_blank" rel="noopener noreferrer">Liike Nyt</a>,
+                <a href="https://perussuomalaiset.fi" target="_blank" rel="noopener noreferrer">perussuomalaiset</a>,
+                <a href="https://sfp.fi" target="_blank" rel="noopener noreferrer">RKP</a>,
+                <a href="https://sdp.fi" target="_blank" rel="noopener noreferrer">SDP</a>,
+                <a href="https://vasemmisto.fi" target="_blank" rel="noopener noreferrer">vasemmistoliitto</a> ja
+                <a href="https://vihreat.fi" target="_blank" rel="noopener noreferrer">vihreät</a>.
+                Kyseiset puolueet asettivat <a href="https://tulospalvelu.vaalit.fi/KV-2025/fi/ladattavat_tiedostot_ehd.html" target="_blank" rel="noopener noreferrer">eniten ehdokkaita</a> kevään 2025 kunta- ja aluevaaleissa.
+                <p>Vaalikone ei kerää käyttäjistä mitään yksilöiviä tietoja.</p>
+            </div>
+            <div id="feedback">
+                <div class="sub-header">Kuulemme mielellämme palautetta ja kehitysehdotuksia!</div>
+                <textarea placeholder="Palaute"></textarea>
+                <button>Lähetä</button>
+                <div id="status" class="invisible">Kiitos palautteesta!</div>
+            </div>
+            <div id="additional-info">
+                <div class="sub-header"><a class="open-link" href="#">Lisätietoja toteutuksesta</a></div>
+                <div class="details hidden">
+                    <p>Vaalikone käyttää OpenAI:n <a href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">ChatGPT</a>-tekoälyä. Sille on syötetty puolueiden ohjelmatekstejä, joiden perusteella se vastaa kysymyksiin. Vastaukset luodaan reaaliaikaisesti, eikä niitä moderoida. Käytetty aineisto sisältää seuraavat ohjelmat:</p>
+                    <ul>
+                        <li>Keskusta:
+                        <a href="https://keskusta.fi/wp-content/uploads/2025/01/Keskustan-Kuntavaaliohjelma-2025-kokonaan.pdf" target="_blank" rel="noopener noreferrer">kuntavaaliohjelma</a>,
+                        <a href="https://keskusta.fi/wp-content/uploads/2025/01/Keskustan-Aluevaaliohjelma-2025-kokonaan.pdf" target="_blank" rel="noopener noreferrer">aluevaaliohjelma</a>,
+                        <a href="https://keskusta.fi/politiikkamme/ohjelmia-ja-linjauksia/periaateohjelma/#ohjelma" target="_blank" rel="noopener noreferrer">periaateohjelma</a>,
+                        <a href="https://suomenkeskusta-my.sharepoint.com/:b:/g/personal/admin_suomenkeskusta_onmicrosoft_com/ET8UPPalRBRIsWjtByKP2dkB2bb8k_cRyJnZx5GIz9l-CQ" target="_blank" rel="noopener noreferrer">Keskusta 2030 - Uudistusohjelma</a>
+                        </li>
+                        <li>Kokoomus:
+                        <a href="https://www.kokoomus.fi/kokoomuksen-kuntavaaliohjelma-2025/" target="_blank" rel="noopener noreferrer">kuntavaaliohjelma</a>,
+                        <a href="https://www.kokoomus.fi/kokoomuksen-aluevaaliohjelma-2025/" target="_blank" rel="noopener noreferrer">aluevaaliohjelma</a>,
+                        <a href="https://www.kokoomus.fi/periaateohjelma/" target="_blank" rel="noopener noreferrer">periaateohjelma</a>,
+                        <a href="https://www.kokoomus.fi/kokoomus-k62020/" target="_blank" rel="noopener noreferrer">tavoiteohjelma</a>
+                        </li>
+                        <li>Kristillisdemokraatit:
+                        <a href="https://www.kd.fi/files/2025/01/KD_KUNTAVAALIOHJELMA_2025.pdf" target="_blank" rel="noopener noreferrer">kuntavaaliohjelma</a>,
+                        <a href="https://www.kd.fi/files/2025/01/KD_ALUEVAALIOHJELMA_2025.pdf" target="_blank" rel="noopener noreferrer">aluevaaliohjelma</a>,
+                        <a href="https://www.kd.fi/files/2015/01/Periaateohjelma2017_12s_FINAL_low.pdf" target="_blank" rel="noopener noreferrer">periaateohjelma</a>,
+                        <a href="https://www.kdpuolue.fi/kd/files/2024/09/aakkoset.pdf" target="_blank" rel="noopener noreferrer">Kristillisdemokraattiset aakkoset</a>,
+                        <a href="https://www.kdpuolue.fi/kd/files/2024/11/KD-kulttuuripoliittinen-ohjelma.pdf" target="_blank" rel="noopener noreferrer">kulttuuripoliittinen ohjelma</a>,
+                        <a href="https://www.kdpuolue.fi/kd/files/2024/11/Koulutuspoliittinen-ohjelma_8-2024.pdf" target="_blank" rel="noopener noreferrer">koulutuspoliittinen ohjelma</a>
+                        </li>
+                        <li>Liberaalipuolue:
+                        <a href="https://liberaalipuolue.fi/kuntavaaliohjelma-2025/" target="_blank" rel="noopener noreferrer">kuntavaaliohjelma</a>,
+                        <a href="https://liberaalipuolue.fi/aluevaaliohjelma-2025/" target="_blank" rel="noopener noreferrer">aluevaaliohjelma</a>,
+                        <a href="https://liberaalipuolue.fi/puolueohjelma/" target="_blank" rel="noopener noreferrer">puolueohjelma</a>,
+                        <a href="https://liberaalipuolue.fi/yleisohjelma/" target="_blank" rel="noopener noreferrer">yleisohjelma</a>
+                        </li>
+                        <li>Liike Nyt:
+                        <a href="https://www.liikenyt.fi/ajankohtaista/kunta-ja-aluevaaliohjelma-2025" target="_blank" rel="noopener noreferrer">kunta- ja aluevaaliohjelma</a>,
+                        <a href="https://www.liikenyt.fi/ohjelmat" target="_blank" rel="noopener noreferrer">puolueohjelma</a>,
+                        <a href="https://www.liikenyt.fi/ohjelmat" target="_blank" rel="noopener noreferrer">yleisohjelma</a>
+                        </li>
+                        <li>Perussuomalaiset:
+                        <a href="https://www.perussuomalaiset.fi/wp-content/uploads/2025/01/PSkuntavaaliohjelma2025-2025-01-26-15_08_00.pdf" target="_blank" rel="noopener noreferrer">kunta- ja aluevaaliohjelma</a>,
+                        <a href="https://www.perussuomalaiset.fi/wp-content/uploads/2018/10/periaateohjelma.pdf" target="_blank" rel="noopener noreferrer">periaateohjelma</a>,
+                        <a href="https://www.perussuomalaiset.fi/wp-content/uploads/2023/02/Sinivalkoinensiirtyma_2023.pdf" target="_blank" rel="noopener noreferrer">Sinivalkoinen Siirtymä</a>,
+                        <a href="https://www.perussuomalaiset.fi/wp-content/uploads/2023/01/MaahanmuuttopolOhjelmaIso.pdf" target="_blank" rel="noopener noreferrer">maahanmuuttopoliittinen ohjelma</a>,
+                        <a href="https://www.perussuomalaiset.fi/wp-content/uploads/2023/01/TalousOhjelmaIso_final-01_2023.pdf" target="_blank" rel="noopener noreferrer">talouspoliittinen ohjelma</a>
+                        </li>
+                        <li>Ruotsalainen Kansanpuolue:
+                        <a href="https://val.sfp.fi/valfardsomradesval/wp-content/uploads/VOK-Valprogram_finska_lagres.pdf" target="_blank" rel="noopener noreferrer">kunta- ja aluevaaliohjelma</a>,
+                        <a href="https://sfp.fi/fi/politiikka/paatokset-ja-poliittiset-ohjelmat/puolueohjelma/" target="_blank" rel="noopener noreferrer">puolueohjelma</a>,
+                        <a href="https://sfp.fi/wp-content/uploads/2023/12/Aldrepolitiskt-program_FIN.pdf" target="_blank" rel="noopener noreferrer">ikäpoliittinen ohjelma</a>,
+                        <a href="https://sfp.fi/wp-content/uploads/2022/12/Arbetslivsprogrammet_FIN_uppslag.pdf" target="_blank" rel="noopener noreferrer">työelämäohjelma</a>,
+                        <a href="https://sfp.fi/wp-content/uploads/2023/03/Energipolitiskt-program_FIN_LR.pdf" target="_blank" rel="noopener noreferrer">energiapoliittinen ohjelma</a>,
+                        <a href="https://sfp.fi/wp-content/uploads/2021/02/Kaupunkipoliittinenohjelma.pdf" target="_blank" rel="noopener noreferrer">kaupunkipoliittinen ohjelma</a>,
+                        <a href="https://sfp.fi/wp-content/uploads/2022/08/Ostersjoprogrammet_FIN.pdf" target="_blank" rel="noopener noreferrer">Itämeriohjelma</a>
+                        </li>                    
+                        <li>Sosialidemokraattinen Puolue:
+                        <a href="https://www.sdp.fi/uploads/sites/2/2025/02/kunta-ja_aluevaaliohjelma_2025.pdf" target="_blank" rel="noopener noreferrer">kunta- ja aluevaaliohjelma</a>,
+                        <a href="https://www.sdp.fi/uploads/sites/2/2023/09/poliittinen-ohjelma-sdp.pdf" target="_blank" rel="noopener noreferrer">poliittinen ohjelma</a>,
+                        <a href="https://www.sdp.fi/tutustu/tietoa-sdpsta/periaatejulistuksemme/" target="_blank" rel="noopener noreferrer">periaatejulistus</a>
+                        </li>     
+                        <li>Vasemmistoliitto:
+                        <a href="https://vasemmisto.fi/wp-content/uploads/2025/02/Vasemmistoliitto-Alue-ja-kuntavaaliohjelmajulkistus-060225.pdf" target="_blank" rel="noopener noreferrer">alue- ja kuntavaaliohjelma</a>,
+                        <a href="https://vasemmisto.fi/wp-content/uploads/2022/06/tavoiteohjelma_A4.pdf" target="_blank" rel="noopener noreferrer">tavoiteohjelma</a>,
+                        <a href="https://vasemmisto.fi/wp-content/uploads/2023/09/Vasemmistoliiton-tulevaisuusohjelma.pdf" target="_blank" rel="noopener noreferrer">tulevaisuusohjelma</a>,
+                        <a href="https://www.reilusiirtyma.fi/wp-content/uploads/2020/06/reilun-siirtyman-ohjelma.pdf" target="_blank" rel="noopener noreferrer">reilun siirtymän ohjelma</a>
+                        </li>     
+                        <li>Vihreät:
+                        <a href="https://www.vihreat.fi/wp-content/uploads/2025/02/Kuntavaaliohjelma2025.pdf" target="_blank" rel="noopener noreferrer">kuntavaaliohjelma</a>,
+                        <a href="https://www.vihreat.fi/wp-content/uploads/2025/02/Aluevaaliohjelma2025.pdf" target="_blank" rel="noopener noreferrer">aluevaaliohjelma</a>,
+                        <a href="https://www.vihreat.fi/ohjelmat/periaateohjelma-2020-2028/" target="_blank" rel="noopener noreferrer">periaateohjelma</a>,
+                        <a href="https://www.vihreat.fi/wp-content/uploads/2022/08/Vihreiden-poliittinen-tavoiteohjelma-2023%E2%80%932027-2.pdf" target="_blank" rel="noopener noreferrer">poliittinen tavoiteohjelma</a>
+                        </li>     
+                    </ul>
+                    <p>Lisäksi tekoäly hakee tietoa puolueiden <a href="https://fi.wikipedia.org/">Wikipedia</a>-sivuilta.</p>
+                    <p>Vaalikoneen ovat laatineet <a href="https://github.com/teogeb" target="_blank" rel="noopener noreferrer">Teo Gebhard</a> ja <a href="https://juicy-monkey.github.io/homepage/" target="_blank" rel="noopener noreferrer">Jusa Mankki</a>. Teimme vaalikoneen harrastuksena keväällä 2025. Olemme kiinnostuneita politiikasta ja siitä, miten puolueista saisi helpommin lähestyttäviä. Emme ole ehdolla vaaleissa.</p>
+                    <p>Tekemisessä on käytetty pääasiassa avoimen lähdekoodin <a href="/THIRD_PARTY_LICENSES.txt">työkaluja</a>. Myös vaalikoneen lähdekoodi on saatavilla <a href="https://github.com/teogeb/kannatan" target="_blank" rel="noopener noreferrer">GitHubissa</a>.</p>
+                </div>
+            </div>
+            <div id="back-button">
+                <div class="sub-header"><a href="/">Etusivulle</a></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,6 +1,2 @@
 node_modules/
-tools/gif-creator/node_modules/
-tools/gif-creator/output/
-tools/gif-creator/avatars/
-dist/
-deployment.json
+.env
