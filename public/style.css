@@ -34,11 +34,6 @@ body, html {
     outline: none !important;
 }
 
-p {
-    margin: 0;
-    white-space: pre-line;
-}
-
 a {
     text-decoration: none;
     outline: none;
