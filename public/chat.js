@@ -26,6 +26,19 @@ const INITIAL_SUGGESTIONS = {
     'vihr': ['ilmasto', 'ihmisoikeudet', 'koulutus', 'kaupungit']
 }
 
+const ALLOWED_DOMAINS = [
+    'kd.fi',
+    'keskusta.fi',
+    'kokoomus.fi',
+    'liberaalipuolue.fi',
+    'liikenyt.fi',
+    'perussuomalaiset.fi',
+    'sfp.fi',
+    'sdp.fi',
+    'vasemmisto.fi',
+    'vihreat.fi'
+]
+
 const initPage = () => {
 
     const urlSearchParams = new URLSearchParams(window.location.search)
@@ -82,7 +95,7 @@ const initPage = () => {
         contentAndThumbsDiv.classList.add('contentAndThumbs')
         const contentDiv = document.createElement('p')
         contentDiv.classList.add('content')
-        contentDiv.textContent = text
+        contentDiv.innerHTML = withHtmlLinks(_.escape(text), ALLOWED_DOMAINS)
         contentAndThumbsDiv.appendChild(contentDiv)
         if (includeThumbs) {
             const thumbsDiv = document.createElement('div')
@@ -159,7 +172,7 @@ const initPage = () => {
             profileId,
             conversationId
         })
-        messageDiv.getElementsByTagName('p')[0].textContent = response.answer
+        messageDiv.getElementsByTagName('p')[0].innerHTML = withHtmlLinks(_.escape(response.answer), ALLOWED_DOMAINS)
         messageDiv.classList.remove('pending')
         if (isFirstQuestion) {
             conversationId = response.conversationId

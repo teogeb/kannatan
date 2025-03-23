@@ -180,7 +180,6 @@ a {
     font-size: 1.1rem;
     width: 100%;
 }
-
 .conversation .message.user .content {
     background-color: var(--purple);
     color: var(--white);
@@ -191,6 +190,21 @@ a {
     color: var(--black);
     box-shadow: -3px 3px 3px var(--gray);
     outline: 0.5px solid var(--gray);
+}
+.conversation .message .content a {
+    text-decoration: underline;
+}
+.conversation .message.user .content a {
+    color: var(--white);
+}
+.conversation .message.user .content a:hover {
+    color: var(--gray);
+}
+.conversation .message.assistant .content a {
+    color: var(--purple);
+}
+.conversation .message.assistant .content a:hover {
+    color: var(--light-purple);
 }
 .conversation .message .thumbs {
     display: flex;

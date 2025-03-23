@@ -46,3 +46,15 @@ const initSubmitButtonStateController = (button, input) => {
     input.addEventListener('input', updateState)
     updateState()
 }
+
+const withHtmlLinks = (text, allowedDomains) => {
+    let result = text
+    for (const domain of allowedDomains) {
+        const regexp = new RegExp(`(https?:\\/\\/)?(www\\.)?${_.escapeRegExp(domain)}`, 'gi')
+        result = result.replace(regexp, (match) => {
+            const url = match.includes('://') ? match : `https://${match}`
+            return `<a href="${url}" target="_blank" rel="noopener noreferrer">${domain}</a>`
+        })
+    }
+    return result
+}
