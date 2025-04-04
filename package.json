@@ -1,16 +1,33 @@
 {
-  "name": "simple-chatgtp-chat",
+  "name": "kannatan",
   "version": "1.0.0",
+  "description": "A chat-based political alignment tool for exploring Finnish parties via natural conversation",
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/server.ts",
     "dev": "nodemon src/server.ts",
     "generate": "ts-node bin/generateVectorStore.ts"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "voter advice",
+    "chatbot",
+    "elections",
+    "politics",
+    "Finland",
+    "natural language",
+    "openai",
+    "llamaindex"
+  ],
+  "author": "Teo Gebhard",
+  "contributors": [
+    "Jusa Mankki"
+  ],
   "license": "MIT",
-  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teogeb/kannatan"
+  },
+  "homepage": "https://kannatan.fi",
   "dependencies": {
     "@llamaindex/openai": "^0.1.54",
     "@llamaindex/readers": "^2.0.2",

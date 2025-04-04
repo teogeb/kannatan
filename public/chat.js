@@ -40,6 +40,14 @@ const ALLOWED_DOMAINS = [
     'aanestyspaikat.fi'
 ]
 
+const getInitialPhrase = (partyId) => _.sample([
+    `Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme kantoihin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!`,
+    `Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Valitse alta teema tai kysy mitä haluat - vastaan parhaani mukaan!`,
+    `Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Tässä aiheita, joita edistämme. Valitse jokin niistä tai kysy vapaasti - vastaan mahdollisimman hyvin!`,
+    `Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Tässä teemoja, jotka ovat puolueemme keskeisiä tavoitteita. Valitse jokin niistä tai kysy mitä vain!`,
+    `Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Kysy mitä haluat tai valitse alta jokin meidän vaaliteemoistamme!`
+])
+
 const initPage = () => {
 
     const urlSearchParams = new URLSearchParams(window.location.search)
@@ -51,6 +59,7 @@ const initPage = () => {
     const sendButton = document.getElementById('sendButton')
     let conversationId = undefined
     let latestUserAction = undefined
+    const initialPhrase = getInitialPhrase(partyId)
 
     const focusQuestionInput = () => {
         if (!isMobile()) {
@@ -171,7 +180,8 @@ const initPage = () => {
             question: text,
             partyId,
             profileId,
-            conversationId
+            conversationId,
+            initialPhrase: isFirstQuestion ? initialPhrase : undefined
         })
         messageDiv.getElementsByTagName('p')[0].innerHTML = withHtmlLinks(_.escape(response.answer), ALLOWED_DOMAINS)
         messageDiv.classList.remove('pending')
@@ -206,7 +216,7 @@ const initPage = () => {
     }    
 
     profileImageElement.src = `/images/avatars/${partyId}-${profileId}.png`
-    const initialMessageDiv = addMessage(`Hei! Olen tekoälyn luoma virtuaaliehdokas ja edustan ${PARTY_NAMES[partyId]}. Voit valita alta puolueemme ohjelmiin liittyvän teeman tai kysyä vapaasti - vastaan parhaani mukaan!` , 'assistant', false) 
+    const initialMessageDiv = addMessage(initialPhrase, 'assistant', false) 
     appendChildren(
         createSuggestionButtons(INITIAL_SUGGESTIONS[partyId], true),
         getChildElement('shortcuts', initialMessageDiv)
