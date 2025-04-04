@@ -72,7 +72,7 @@ export const createChatResponse = async (req: Request): Promise<any> => {
                 mobile: req.headers['sec-ch-ua-mobile'],
                 platform: req.headers['sec-ch-ua-platform']
             }
-            log('Start conversation', conversation.id, { partyId: req.body.partyId, profileId: req.body.profileId, userHash, clientHints })
+            log('Start conversation', conversation.id, { partyId: req.body.partyId, profileId: req.body.profileId, initialPhrase: req.body.initialPhrase, userHash, clientHints })
             conversations.set(conversation.id, conversation)
         }
         conversation.messages.push({
