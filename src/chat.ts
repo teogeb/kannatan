@@ -4,6 +4,7 @@ import { without } from 'lodash'
 import { Conversation, createConversation } from './createConversation'
 import { generateSuggestions } from './generateSuggestions'
 import { createUserHash, log, withoutLastParagraph } from './utils'
+import { createNudgeSnippet, NUDGE_MIN_THUMBS_COUNT } from './nudge'
 
 const CHAT_HISTORY_MESSAGE_COUNT = 20
 const SUGGESTION_DUPLICATION_ANALYSIS_MESSAGE_COUNT = 10
@@ -20,6 +21,10 @@ const getChatEngine = async (partyId: string): Promise<ContextChatEngine> => {
     return new ContextChatEngine({ retriever })
 }
 
+const getUserMessageCount = (content: string, conversation: Conversation): number => {
+    return conversation.messages.filter((m) => (m.role === 'user') && (m.content === content)).length
+}
+
 const generateAnswerAndSuggestions = async (question: string, partyId: string, conversation: Conversation): Promise<{ answer: string, suggestions: string[] }> => {
     if (question === VOTING_PRACTICALITIES_SUGGESTION) {
         return {
@@ -33,15 +38,19 @@ const generateAnswerAndSuggestions = async (question: string, partyId: string, c
         ...conversation.messages.slice(1).slice(-(CHAT_HISTORY_MESSAGE_COUNT - 1))]
     const chatResponse = await chatEngine.chat({ message: question, chatHistory })
     let answerAndSuggestions = chatResponse.message.content.toString()
-    const answer = withoutLastParagraph(answerAndSuggestions)  // remove the last paragraph as it should only contain suggestions
+    let answer = withoutLastParagraph(answerAndSuggestions)  // remove the last paragraph as it should only contain suggestions
     let suggestions = await generateSuggestions(answerAndSuggestions)
     const previousSuggestions = conversation.messages
         .slice(-SUGGESTION_DUPLICATION_ANALYSIS_MESSAGE_COUNT)
         .map((m) => m.suggestions ?? []).flat()
     const duplicateSuggestions = suggestions.filter((s) => previousSuggestions.includes(s))
     suggestions = without(suggestions, ...duplicateSuggestions)
-    if ((conversation.messages.at(-1)?.content === THUMBS_UP_SUGGESTION) || (conversation.messages.at(-1)?.content === ELECTION_THEMES_SUGGESTION)) {
+    const lastMessageContent = conversation.messages.at(-1)?.content
+    if ((lastMessageContent === THUMBS_UP_SUGGESTION) || (lastMessageContent === ELECTION_THEMES_SUGGESTION)) {
         suggestions.push(VOTING_PRACTICALITIES_SUGGESTION)
+    }
+    if (((lastMessageContent === THUMBS_UP_SUGGESTION)) && (getUserMessageCount(THUMBS_UP_SUGGESTION, conversation) >= NUDGE_MIN_THUMBS_COUNT)) {
+        answer += `\n\n${createNudgeSnippet(partyId)}`
     }
     return {
         answer,
