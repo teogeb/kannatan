@@ -19,22 +19,33 @@
     <link rel="preload" href="/fonts/ubuntu-300.ttf" as="font" crossorigin>
     <link rel="preload" href="/fonts/ubuntu-400.ttf" as="font" crossorigin>
     <script defer src="/lodash.min.js"></script>
+    <script defer src="/swiper-bundle.min.js"></script>
     <script defer src="/utils.js"></script>
     <script defer src="/index.js"></script>
     <link rel="stylesheet" href="/style.css">
     <link rel="icon" href="/images/favicon.svg">
     <link rel="canonical" href="https://kannatan.fi/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 <body>
-    <div id="root" class="frontPage">
-        <div class="title-container">
-            <img class="vote-box" src="/images/vote-box.svg" alt="">
-            <div>
-                <h3>Kannatan</h3>
-                <h4>Tutustu puolueisiin</h4>
+    <div id="root">
+        <div id="frontPage">
+            <div class="title-container">
+                <img class="vote-box" src="/images/vote-box.svg" alt="">
+                <div>
+                    <h3>Kannatan</h3>
+                    <h4>Tutustu puolueisiin</h4>
+                </div>
             </div>
+            <p class="instructions">Valitse virtuaaliehdokas, jonka kanssa haluat jutella</p>
+            <div class="swiper">
+                <div class="swiper-wrapper"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <a class="about-link" href="/about"><img src="/images/question-mark.svg" alt="Vaalikoneen toiminta"></a>
         </div>
-        <div class="partySelect"></div>
     </div>
-    <a class="about-link" href="/about"><img src="/images/question-mark.svg" alt="Vaalikoneen toiminta"></a>
 </body>
+</html>
