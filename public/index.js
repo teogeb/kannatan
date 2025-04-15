@@ -36,8 +36,13 @@ const initPage = () => {
         swiperWrapper.appendChild(slide)
     })
 
+    const onPartySelected = (party) => {
+        const gender = partyGenders[swiper.realIndex]
+        window.location.href = `/chat?partyId=${party.id}&profileId=${gender}`
+    }
+
     const initialSlide = _.random(0, PARTIES.length - 1, false)
-    new Swiper('.swiper', {
+    const swiper = new Swiper('.swiper', {
         loop: true,
         effect: 'slide',
         slidesPerView: 1,
@@ -60,20 +65,19 @@ const initPage = () => {
         },
         initialSlide,
         on: {
-            init: function () {
+            init: function() {
                 document.querySelector('.swiper-button-next')?.classList.add('no-select')
                 document.querySelector('.swiper-button-prev')?.classList.add('no-select')
             },
-            click: function (_swiper, event) {
-                const partyItem = event.target.closest('.party-item')
-                if (partyItem) {
-                    const partyId = partyItem.dataset.party
-                    const partyIndex = _.findIndex(PARTIES, (p) => p.id ===partyId)
-                    const gender = partyGenders[partyIndex]
-                    window.location.href = `/chat?partyId=${partyId}&profileId=${gender}`
-                }
+            click: function() {
+                const party = PARTIES[swiper.realIndex]
+                onPartySelected(party)
             }
         }
+    })
+    document.getElementById('start-button').addEventListener('click', () => {
+        const party = PARTIES[swiper.realIndex]
+        onPartySelected(party)
     })
 }
 
